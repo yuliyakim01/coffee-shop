@@ -1,10 +1,23 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.js", // Your main entry file
+  entry: "./src/index.ts", // Change to .ts or .tsx if using React
   output: {
-    filename: "main.js", // Output bundle name
-    path: path.resolve(__dirname, "dist"), // Output directory
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
   },
-  mode: "development", // Or 'production' for optimized build
+  mode: "development",
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+  },
+  devtool: "inline-source-map", // Helps with debugging TypeScript
 };
