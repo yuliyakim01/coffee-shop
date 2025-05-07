@@ -1,0 +1,23 @@
+{
+  "name": "coffee-shop",
+  "version": "1.0.0",
+  "description": "RS School Final Task – eCommerce Application",
+  "homepage": "https://github.com/yuliyakim01/coffee-shop#readme",
+  "bugs": {
+    "url": "https://github.com/yuliyakim01/coffee-shop/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuliyakim01/coffee-shop.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --ext .ts,.js --env browser,node --rule 'quotes: [\"error\", \"single\"]' --rule 'semi: [\"error\", \"always\"]'",
+    "lint:fix": "eslint . --ext .ts,.js --fix --env browser,node --rule 'quotes: [\"error\", \"single\"]' --rule 'semi: [\"error\", \"always\"]'",
+    "format": "prettier . --check --single-quote --trailing-comma es5 --print-width 80 --tab-width 2 --arrow-parens avoid",
+    "format:fix": "prettier . --write --single-quote --trailing-comma es5 --print-width 80 --tab-width 2 --arrow-parens avoid"
+  }
+}
