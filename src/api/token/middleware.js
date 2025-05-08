@@ -1,4 +1,8 @@
+/*
+this code is for future use:
+
 import { createClient } from '@commercetools/sdk-client';
+
 import { createAuthMiddlewareForClientCredentialsFlow } from '@commercetools/sdk-middleware-auth';
 import { createHttpMiddleware } from '@commercetools/sdk-middleware-http';
 import { AuthData as AUTH } from '@/api/token/auth-data.js';
@@ -20,3 +24,4 @@ const httpMiddleware = createHttpMiddleware({
 const client = createClient({
   middlewares: [authMiddleware, httpMiddleware],
 });
+ */

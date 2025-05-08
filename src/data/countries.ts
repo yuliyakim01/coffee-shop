@@ -1,11 +1,11 @@
 export interface Country {
-    code: string;
-    name: string;
+  code: string;
+  name: string;
 }
 
 export const countries: Country[] = [
-    {
-        code: "GE",
-        name: "Georgia",
-    },
+  {
+    code: 'GE',
+    name: 'Georgia',
+  },
 ];
