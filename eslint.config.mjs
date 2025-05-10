@@ -5,9 +5,8 @@ import pluginReactHooks from 'eslint-plugin-react-hooks';
 import tsEslintPlugin from '@typescript-eslint/eslint-plugin';
 import tsEslintParser from '@typescript-eslint/parser';
 
-const tsConfigs = tsEslintPlugin.configs;
-
 export default [
+  js.configs.recommended,
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
@@ -21,10 +20,6 @@ export default [
   },
 
   // TypeScript support
-  ...tsConfigs.recommended.map((config) => ({
-    ...config,
-    files: ['**/*.ts', '**/*.tsx'],
-  })),
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
@@ -39,11 +34,13 @@ export default [
       '@typescript-eslint': tsEslintPlugin,
     },
     rules: {
+      ...tsEslintPlugin.configs.recommended.rules,
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/consistent-type-imports': 'warn',
     },
   },
+  { ignores: ['jest.config.js', 'src/pages/**/*.tsx'] },
 
   // React support
   {

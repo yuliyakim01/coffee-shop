@@ -1,4 +1,2 @@
-#!/bin/sh
 npx lint-staged
-
-
+# Remove the "npm test" line if it exists

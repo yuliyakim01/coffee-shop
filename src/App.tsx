@@ -1,11 +1,17 @@
 import React from 'react';
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
+import ProductPage from '@/pages/ProductPage';
+import HomePage from '@/pages/Home';
 
 const App = () => {
   return (
-    <div className="app">
-      <h1>Hello React with TypeScript!</h1>
-      <p>Your React app is now set up with Webpack and TypeScript.</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/products" element={<ProductPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 };
 
