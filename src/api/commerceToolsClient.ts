@@ -1,4 +1,4 @@
-import { AuthData as AUTH } from '@/api/token/auth-data.js';
+import { AuthData as AUTH } from '@/api/token/auth-data';
 import { ClientBuilder, type AuthMiddlewareOptions, type HttpMiddlewareOptions } from '@commercetools/sdk-client-v2';
 
 const fetchApi = fetch;
