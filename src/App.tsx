@@ -1,18 +1,58 @@
 import React from 'react';
-import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import ProductPage from '@/pages/ProductPage';
 import HomePage from '@/pages/Home';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Layout from './layout/Layout';
+import About from './pages/About';
+import Menu from './pages/Menu';
+import Location from './pages/Location';
+import Login from './pages/login';
+import Register from './pages/Registration';
+import ForgotPassword from './pages/ForgotPassword';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        path: '/',
+        element: <HomePage />,
+      },
+      {
+        path: '/products',
+        element: <ProductPage />,
+      },
+      {
+        path: '/about',
+        element: <About />,
+      },
+      {
+        path: '/menu',
+        element: <Menu />,
+      },
+      {
+        path: '/locations',
+        element: <Location />,
+      },
+    ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPassword />,
+  },
+]);
 
 const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products" element={<ProductPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;
