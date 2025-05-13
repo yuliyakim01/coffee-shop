@@ -9,6 +9,7 @@ export const ROUTES = {
   forgotPassword: '/forgot-password',
   cart: '/cart',
   profile: '/profile',
+  contact: '/contact',
 };
 
 export const LABELS = {
@@ -19,4 +20,5 @@ export const LABELS = {
   locations: 'Locations',
   login: 'Login',
   register: 'Register',
+  contact: 'CONTACT',
 };

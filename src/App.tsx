@@ -11,6 +11,7 @@ import Register from './pages/Registration';
 import ForgotPassword from './pages/ForgotPassword';
 import { ROUTES } from '@/data/routes';
 import Cart from '@/pages/Cart';
+import Contact from './pages/Contact';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,11 @@ const router = createBrowserRouter([
         path: ROUTES.cart,
         element: <Cart />,
       },
+      {
+        path: ROUTES.contact,
+        element: <Contact />,
+      },
+
       {
         path: ROUTES.login,
         element: <Login />,
