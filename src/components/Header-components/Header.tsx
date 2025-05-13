@@ -3,6 +3,8 @@ import logo from '../../assets/logo.png';
 import cart from '../../assets/cart.png';
 import burger from '../../assets/burger.png';
 import close from '../../assets/close.png';
+import { LABELS, ROUTES } from '@/data/routes';
+import { Link } from 'react-router-dom';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,29 +23,47 @@ function Header() {
         <nav>
           <ul className="flex flex-col items-center gap-8 text-white text-lg">
             <li>
-              <a href="/">HOME</a>
+              <Link to={ROUTES.main} className="uppercase">
+                {LABELS.home}
+              </Link>
             </li>
             <li>
-              <a href="/about">ABOUT</a>
+              <Link to={ROUTES.about} className="uppercase">
+                {LABELS.about}
+              </Link>
             </li>
             <li>
-              <a href="/menu">MENU</a>
+              <Link to={ROUTES.menu} className="uppercase">
+                {LABELS.menu}
+              </Link>
             </li>
             <li>
-              <a href="/products">PRODUCTS</a>
+              <Link to={ROUTES.products} className="uppercase">
+                {LABELS.products}
+              </Link>
             </li>
             <li>
-              <a href="/locations">LOCATIONS</a>
+              <Link to={ROUTES.locations} className="uppercase">
+                {LABELS.locations}
+              </Link>
             </li>
           </ul>
         </nav>
         <div className="mt-8">
-          <a
-            href="/login"
-            className="bg-white text-black px-6 py-2 rounded-md text-lg font-medium hover:bg-gray-200 transition"
+          <Link
+            to={ROUTES.login}
+            className="block w-fit mx-auto uppercase bg-white text-black px-6 py-2 rounded-md text-lg font-medium hover:bg-gray-200 transition"
           >
-            LOGIN
-          </a>
+            {LABELS.login}
+          </Link>
+        </div>
+        <div className="mt-8">
+          <Link
+            to={ROUTES.register}
+            className="block w-fit mx-auto uppercase bg-white text-black px-6 py-2 rounded-md text-lg font-medium hover:bg-gray-200 transition"
+          >
+            {LABELS.register}
+          </Link>
         </div>
       </div>
     );
@@ -52,45 +72,71 @@ function Header() {
   return (
     <div className="bg-red-600 w-full flex justify-between items-center pt-2">
       <div>
-        <a href="/">
+        <Link to={ROUTES.main}>
           <img src={logo} alt="logo" />
-        </a>
+        </Link>
       </div>
 
       {/* Desktop navigation */}
       <nav className="max-[900px]:hidden">
         <ul className="flex justify-center items-center gap-8 text-white text-lg">
           <li>
-            <a href="/">HOME</a>
+            <Link to={ROUTES.main} className="uppercase">
+              {LABELS.home}
+            </Link>
           </li>
           <li>
-            <a href="/about">ABOUT</a>
+            <Link to={ROUTES.about} className="uppercase">
+              {LABELS.about}
+            </Link>
           </li>
           <li>
-            <a href="/menu">MENU</a>
+            <Link to={ROUTES.menu} className="uppercase">
+              {LABELS.menu}
+            </Link>
           </li>
           <li>
-            <a href="/products">PRODUCTS</a>
+            <Link to={ROUTES.products} className="uppercase">
+              {LABELS.products}
+            </Link>
           </li>
           <li>
-            <a href="/locations">LOCATIONS</a>
+            <Link to={ROUTES.locations} className="uppercase">
+              {LABELS.locations}
+            </Link>
           </li>
         </ul>
       </nav>
 
       <div className="flex justify-center items-center">
         <div>
-          <a href="/cart">
+          <Link to={ROUTES.cart}>
             <img src={cart} alt="cart" className="w-8 mr-8" />
-          </a>
+          </Link>
         </div>
         <div>
-          <a href="/login" className="bg-LightTaupe px-4 py-2 rounded text-lg text-white max-[900px]:hidden">
-            LOGIN
-          </a>
+          <Link
+            to={ROUTES.login}
+            className="uppercase bg-LightTaupe px-4 py-2 rounded text-lg text-white max-[900px]:hidden"
+          >
+            {LABELS.login}
+          </Link>
+        </div>
+        <div>
+          <Link
+            to={ROUTES.register}
+            className="uppercase bg-LightTaupe px-4 py-2 ml-2 rounded text-lg text-white max-[900px]:hidden"
+          >
+            {LABELS.register}
+          </Link>
         </div>
         <div className="flex justify-center items-center">
-          <img src={burger} onClick={toggleMenu} alt="Burger-icon" className="hidden w-8 max-[900px]:flex" />
+          <img
+            src={burger}
+            onClick={toggleMenu}
+            alt="Burger-icon"
+            className="hidden w-8 max-[900px]:flex cursor-pointer"
+          />
         </div>
       </div>
 
