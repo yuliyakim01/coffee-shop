@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
 
       <section className="features">
         <div className="feature-card">
-          <h3>Fresh Beans</h3>
+          <h3 className="text-green-500">Fresh Beans</h3>
           <p>Sourced responsibly from around the globe.</p>
         </div>
         <div className="feature-card">

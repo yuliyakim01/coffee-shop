@@ -42,7 +42,7 @@ export default {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.css$/i,
+        test: /\.css$/,
         use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
       {
