@@ -6,9 +6,10 @@ import Layout from './layout/Layout';
 import About from './pages/About';
 import Menu from './pages/Menu';
 import Location from './pages/Location';
-import Login from './pages/login';
+import Login from './pages/Login';
 import Register from './pages/Registration';
 import ForgotPassword from './pages/ForgotPassword';
+import Cart from './pages/Cart';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: '/locations',
         element: <Location />,
+      },
+      {
+        path: '/cart',
+        element: <Cart />,
       },
     ],
   },
