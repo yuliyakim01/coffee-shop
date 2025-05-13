@@ -4,10 +4,10 @@ import hero from '@/assets/home-hero.png';
 function HomePageHero() {
   return (
     <div
-      className="w-full h-[786px] max-lg:h-[700px] max-sm:h-[600px] bg-cover bg-center flex items-center justify-start max-lg:justify-center absolute top-0 left-0"
+      className="w-full h-[786px] max-lg:h-[700px] max-sm:h-[600px] bg-cover bg-center flex items-center justify-start max-lg:justify-center relative top-[-100px] left-0"
       style={{ backgroundImage: `url(${hero})` }}
     >
-      <div className="text-left text-white max-w-[643px] max-sm:max-w-full flex flex-col justify-center items-start max-lg:items-center max-lg:text-center px-8 max-sm:px-4">
+      <div className=" pl-[100px] text-left text-white max-w-[643px] max-sm:max-w-full flex flex-col justify-center items-start max-lg:items-center max-lg:text-center  max-sm:px-4">
         <h1 className="text-[64px] max-lg:text-5xl max-sm:text-4xl font-bold leading-tight max-sm:leading-snug">
           FRESH COFFEE IN THE MORNING
         </h1>
