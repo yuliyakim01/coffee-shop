@@ -6,48 +6,54 @@ import Layout from './layout/Layout';
 import About from './pages/About';
 import Menu from './pages/Menu';
 import Location from './pages/Location';
-import Login from './pages/login';
+import Login from './pages/Login';
 import Register from './pages/Registration';
 import ForgotPassword from './pages/ForgotPassword';
+import { ROUTES } from '@/data/routes';
+import Cart from '@/pages/Cart';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: ROUTES.main,
     element: <Layout />,
     children: [
       {
-        path: '/',
+        path: ROUTES.main,
         element: <HomePage />,
       },
       {
-        path: '/products',
+        path: ROUTES.products,
         element: <ProductPage />,
       },
       {
-        path: '/about',
+        path: ROUTES.about,
         element: <About />,
       },
       {
-        path: '/menu',
+        path: ROUTES.menu,
         element: <Menu />,
       },
       {
-        path: '/locations',
+        path: ROUTES.locations,
         element: <Location />,
       },
+      {
+        path: ROUTES.cart,
+        element: <Cart />,
+      },
+      {
+        path: ROUTES.login,
+        element: <Login />,
+      },
+      {
+        path: ROUTES.register,
+        element: <Register />,
+      },
+      {
+        path: ROUTES.forgotPassword,
+        element: <ForgotPassword />,
+      },
     ],
-  },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/register',
-    element: <Register />,
-  },
-  {
-    path: '/forgot-password',
-    element: <ForgotPassword />,
   },
 ]);
 
