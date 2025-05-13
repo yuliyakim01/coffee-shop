@@ -5,9 +5,12 @@ export default {
     extend: {
       colors: {
         LightTaupe: '#B77E66',
+        Temptress: '#471E22',
+        bg: 'rgba(34, 27, 24, 0.60)',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        secondary: ['Inter', 'sans-serif'],
+        third: ['Irish Grover', 'system-ui'],
       },
     },
   },
