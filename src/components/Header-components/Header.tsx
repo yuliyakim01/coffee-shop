@@ -70,7 +70,7 @@ function Header() {
   };
 
   return (
-    <div className="bg-red-600 w-full flex justify-between items-center pt-2">
+    <div className="z-10 w-full flex justify-between items-center pt-2">
       <div>
         <Link to={ROUTES.main}>
           <img src={logo} alt="logo" />
@@ -122,15 +122,15 @@ function Header() {
             {LABELS.login}
           </Link>
         </div>
-        <div>
+        <div className="">
           <Link
             to={ROUTES.register}
-            className="uppercase bg-LightTaupe px-4 py-2 ml-2 rounded text-lg text-white max-[900px]:hidden"
+            className="uppercase bg-LightTaupe px-4 py-2  ml-2 rounded text-lg text-white max-[900px]:hidden"
           >
             {LABELS.register}
           </Link>
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center pr-5">
           <img
             src={burger}
             onClick={toggleMenu}
