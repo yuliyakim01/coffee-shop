@@ -70,7 +70,7 @@ function Header() {
   };
 
   return (
-    <div className="bg-red-600 w-full flex justify-between items-center pt-2">
+    <div className="z-10 w-full flex justify-between items-center pt-2">
       <div>
         <Link to={ROUTES.main}>
           <img src={logo} alt="logo" />

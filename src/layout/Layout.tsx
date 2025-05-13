@@ -5,12 +5,9 @@ import Footer from '@/components/Footer-components/Footer';
 
 function Layout() {
   return (
-    <div
-      className="max-w-[1440px] w-full flex flex-col items-center px-5 
-    "
-    >
+    <div className="min-h-screen max-w-[1440px] mx-auto flex flex-col items-center w-full px-5 relative">
       <Header />
-      <div className="w-full flex-1 ">
+      <div className="flex-1 w-full">
         <Outlet />
       </div>
       <Footer />
