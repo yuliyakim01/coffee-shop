@@ -8,6 +8,30 @@ export const countries: Country[] = [
     code: 'GE',
     name: 'Georgia',
   },
+  {
+    code: 'UZ',
+    name: 'Uzbekistan',
+  },
+  {
+    code: 'KG',
+    name: 'Kyrgyzstan',
+  },
+  {
+    code: 'AU',
+    name: 'Australia',
+  },
+  {
+    code: 'UK',
+    name: 'United Kingdom',
+  },
+  {
+    code: 'CA',
+    name: 'Canada',
+  },
+  {
+    code: 'US',
+    name: 'United States',
+  },
 ];
 export interface Currency {
   code: string;

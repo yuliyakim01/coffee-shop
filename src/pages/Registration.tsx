@@ -12,10 +12,18 @@ import {
   validatePostalCode,
   validateCountry,
 } from '@/utils/validation';
+import ErrorPopup from '@/components/Popup-components/ErrorPopup';
+import SuccessPopup from '@/components/Popup-components/SuccessPopup';
 
 import eyeOnIcon from '../assets/eye.png';
 import eyeOffIcon from '../assets/eye-off.png';
 import BackButton from '@/components/BackButton';
+import DefaultAddressCheckbox from '@/components/Profile-components/DefaultAddressCheckbox';
+import { useRegistration } from '@/utils/useRegistration';
+import { createCustomerDraft } from '@/utils/customerUtils';
+import { CustomerDraft } from '@commercetools/platform-sdk';
+import handleApiError from '@/utils/handleApiError';
+import NotificationBanners from '@/components/Popup-components/NotificationBanners';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -47,9 +55,17 @@ const Register: React.FC = () => {
   const [cityError, setCityError] = useState('');
   const [postalCodeError, setPostalCodeError] = useState('');
   const [countryError, setCountryError] = useState('');
+  const [useAsDefaultAddress, setUseAsDefaultAddress] = useState(true);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [loading, setLoading] = useState(false);
+  const [apiErrorMessage, setApiErrorMessage] = useState<string | null>(null);
+  const [showSuccess, setShowSuccess] = useState<string | null>(null);
+  const { register } = useRegistration();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setApiErrorMessage(null);
+    setShowSuccess(null);
 
     const firstNameValidationError = validateName(firstName);
     const lastNameValidationError = validateName(lastName);
@@ -95,7 +111,31 @@ const Register: React.FC = () => {
       country,
       email,
       password,
+      useAsDefaultAddress,
     });
+
+    const draft: CustomerDraft = createCustomerDraft(
+      firstName,
+      lastName,
+      dob,
+      street,
+      city,
+      postalCode,
+      country,
+      email,
+      password,
+      useAsDefaultAddress
+    );
+
+    try {
+      setLoading(true);
+      await register(draft);
+      setShowSuccess('Registration successful');
+    } catch (error: unknown) {
+      setApiErrorMessage(handleApiError(error));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -240,6 +280,7 @@ const Register: React.FC = () => {
           </div>
         </div>
 
+        <DefaultAddressCheckbox checked={useAsDefaultAddress} onChange={setUseAsDefaultAddress} />
         <div className="form-group">
           <label>Email</label>
           <input
@@ -319,6 +360,13 @@ const Register: React.FC = () => {
           Already Have An Account? <Link to="/login">Login</Link>
         </p>
       </form>
+      <NotificationBanners
+        errorMessage={apiErrorMessage}
+        onClearError={() => setApiErrorMessage(null)}
+        successMessage={showSuccess}
+        onClearSuccess={() => setShowSuccess(null)}
+        autoDismissMs={5000}
+      />
     </div>
   );
 };

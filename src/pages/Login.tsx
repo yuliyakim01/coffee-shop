@@ -10,6 +10,7 @@ import handleApiError from '@/utils/handleApiError';
 import ErrorPopup from '@/components/Popup-components/ErrorPopup';
 import SuccessPopup from '@/components/Popup-components/SuccessPopup';
 import { useAuth } from '@/utils/useAuth';
+import NotificationBanners from '@/components/Popup-components/NotificationBanners';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -136,10 +137,13 @@ const LoginPage: React.FC = () => {
         </p>
       </form>
 
-      {apiErrorMessage && (
-        <ErrorPopup message={apiErrorMessage} onClose={() => setApiErrorMessage(null)} autoDismissMs={5000} />
-      )}
-      {showSuccess && <SuccessPopup message={showSuccess} onClose={() => setShowSuccess(null)} />}
+      <NotificationBanners
+        errorMessage={apiErrorMessage}
+        onClearError={() => setApiErrorMessage(null)}
+        successMessage={showSuccess}
+        onClearSuccess={() => setShowSuccess(null)}
+        autoDismissMs={5000}
+      />
     </div>
   );
 };

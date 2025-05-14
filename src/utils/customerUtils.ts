@@ -1,5 +1,7 @@
 import type { Customer, CustomerDraft } from '@commercetools/platform-sdk';
 import { customerId, customerVersion } from '@/data/constants';
+import type { Country } from '@/data/interfaces';
+import { countries } from '@/data/interfaces';
 
 export function createCustomerDraft(
   firstName: string,
@@ -8,11 +10,12 @@ export function createCustomerDraft(
   street: string,
   city: string,
   postalCode: string,
-  country: string,
+  countryName: string,
   email: string,
   password: string,
   useAsDefaultAddress: boolean
 ): CustomerDraft {
+  const country: string = normalizeCountryInput(countryName);
   return {
     email,
     password,
@@ -31,6 +34,12 @@ export function createCustomerDraft(
     defaultBillingAddress: useAsDefaultAddress ? 0 : undefined,
     isEmailVerified: true,
   };
+}
+export function normalizeCountryInput(countryName: string): string {
+  const match: Country | undefined = countries.find(
+    (country: Country): boolean => country.name.toLowerCase() === countryName.trim().toLowerCase()
+  );
+  return match ? match.code : 'GE';
 }
 export function normalizeInput(userInput: string): string {
   return userInput.trim();

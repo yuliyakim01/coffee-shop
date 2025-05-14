@@ -29,6 +29,7 @@ export function useRegistration(): {
               navigate(ROUTES.main);
             }, 2000);
           }
+          console.log(response.customer);
         } else {
           throw new Error('Registration failed: No customer returned.');
         }
