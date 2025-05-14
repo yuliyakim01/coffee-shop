@@ -2,7 +2,7 @@ import type { NavigateFunction } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
 import { loginCustomer } from '@/api/customers';
-import { normalizeInput } from '@/utils/customerUtils';
+import { normalizeInput, saveLoggedInUserToSessionStorage } from '@/utils/customerUtils';
 import type { CustomerSignInResult } from '@commercetools/platform-sdk';
 import { ROUTES } from '@/data/routes';
 
@@ -18,8 +18,7 @@ export function useAuth(): { login: (email: string, password: string) => Promise
           navigate(ROUTES.main);
         }, 2000);
 
-        saveToSessionStorage('customerId', response.customer.id);
-        saveToSessionStorage('customerVersion', `${response.customer.version}`);
+        saveLoggedInUserToSessionStorage(response.customer);
       } else {
         throw new Error('login failed');
       }
@@ -28,8 +27,4 @@ export function useAuth(): { login: (email: string, password: string) => Promise
   );
 
   return { login };
-}
-
-function saveToSessionStorage(key: string, value: string): void {
-  localStorage.setItem(key, value);
 }
