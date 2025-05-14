@@ -16,6 +16,6 @@ export function createCustomerDraft(user: User, useAsDefaultAddress: boolean): C
     isEmailVerified: true,
   };
 }
-export function normalizeInput(userInput: string) {
+export function normalizeInput(userInput: string): string {
   return userInput.trim();
 }

@@ -1,8 +1,9 @@
 import BasePopup from '@/components/Popup-components/Popup';
 import type { PopupProps } from '@/data/interfaces';
+import type { ReactElement } from 'react';
 import React from 'react';
 
-const SuccessPopup: React.FC<PopupProps> = ({ message, onClose, autoDismissMs }: PopupProps) => {
+const SuccessPopup: React.FC<PopupProps> = ({ message, onClose, autoDismissMs }: PopupProps): ReactElement => {
   return (
     <BasePopup
       message={message}
