@@ -10,23 +10,21 @@ import {
   validatePostalCode,
   validateCountry,
 } from '@/utils/validation';
-import ErrorPopup from '@/components/Popup-components/ErrorPopup';
-import SuccessPopup from '@/components/Popup-components/SuccessPopup';
-
-import eyeOnIcon from '../assets/eye.png';
-import eyeOffIcon from '../assets/eye-off.png';
-import DefaultAddressCheckbox from '@/components/Profile-components/DefaultAddressCheckbox';
-import { useRegistration } from '@/utils/useRegistration';
-import { createCustomerDraft } from '@/utils/customerUtils';
-import { CustomerDraft } from '@commercetools/platform-sdk';
-import handleApiError from '@/utils/handleApiError';
-import NotificationBanners from '@/components/Popup-components/NotificationBanners';
 import BackButton from '@/components/Login-registration-components/BackButton';
 import Input from '@/components/Login-registration-components/Input';
 import PasswordInput from '@/components/Login-registration-components/PasswordInput';
 import Button from '@/components/Login-registration-components/Button';
 import { ROUTES } from '@/data/routes';
 import AuthRedirectMessage from '@/components/Login-registration-components/AuthRedirectMessage';
+import ErrorPopup from '@/components/Popup-components/ErrorPopup';
+import SuccessPopup from '@/components/Popup-components/SuccessPopup';
+
+import DefaultAddressCheckbox from '@/components/Profile-components/DefaultAddressCheckbox';
+import { useRegistration } from '@/utils/useRegistration';
+import { createCustomerDraft } from '@/utils/customerUtils';
+import { CustomerDraft } from '@commercetools/platform-sdk';
+import handleApiError from '@/utils/handleApiError';
+import NotificationBanners from '@/components/Popup-components/NotificationBanners';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
