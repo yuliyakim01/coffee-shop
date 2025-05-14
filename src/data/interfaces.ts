@@ -1,3 +1,44 @@
+export interface Country {
+  code: string;
+  name: string;
+}
+
+export const countries: Country[] = [
+  {
+    code: 'GE',
+    name: 'Georgia',
+  },
+];
+export interface Currency {
+  code: string;
+  name: string;
+  symbol: string;
+}
+
+export const currencies: Currency[] = [
+  {
+    code: 'USD',
+    name: 'US Dollar',
+    symbol: '$',
+  },
+];
+export interface Language {
+  code: string;
+  name: string;
+  locale: string;
+}
+
+export const languages: Language[] = [
+  {
+    code: 'en',
+    name: 'English (United States)',
+    locale: 'en-US',
+  },
+];
+export type ProductType = 'Coffee' | 'Tea' | 'Smoothies';
+
+export const productTypes: ProductType[] = ['Coffee', 'Tea', 'Smoothies'];
+
 export interface Address {
   streetName: string;
   streetNumber: string;
