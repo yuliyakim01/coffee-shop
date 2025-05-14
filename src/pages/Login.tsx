@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Auth.css';
 import '../styles/index.css';
@@ -6,6 +6,10 @@ import { validateEmail, validatePassword } from '@/utils/validation';
 import eyeOnIcon from '../assets/eye.png';
 import eyeOffIcon from '../assets/eye-off.png';
 import BackButton from '@/components/BackButton';
+import handleApiError from '@/utils/handleApiError';
+import ErrorPopup from '@/components/Popup-components/ErrorPopup';
+import SuccessPopup from '@/components/Popup-components/SuccessPopup';
+import { useAuth } from '@/utils/useAuth';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -13,9 +17,15 @@ const LoginPage: React.FC = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [apiErrorMessage, setApiErrorMessage] = useState<string | null>(null);
+  const [showSuccess, setShowSuccess] = useState<string | null>(null);
+  const { login } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setApiErrorMessage(null);
+    setShowSuccess(null);
 
     const emailValidationError = validateEmail(email);
     const passwordValidationError = validatePassword(password);
@@ -28,6 +38,16 @@ const LoginPage: React.FC = () => {
     }
 
     console.log('Logging in with:', { email, password });
+
+    try {
+      setLoading(true);
+      await login(email, password);
+      setShowSuccess('Login successful');
+    } catch (error: unknown) {
+      setApiErrorMessage(handleApiError(error));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -115,6 +135,11 @@ const LoginPage: React.FC = () => {
           Don't Have An Account? <Link to="/register">Sign Up</Link>
         </p>
       </form>
+
+      {apiErrorMessage && (
+        <ErrorPopup message={apiErrorMessage} onClose={() => setApiErrorMessage(null)} autoDismissMs={5000} />
+      )}
+      {showSuccess && <SuccessPopup message={showSuccess} onClose={() => setShowSuccess(null)} />}
     </div>
   );
 };

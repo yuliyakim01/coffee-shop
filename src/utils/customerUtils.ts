@@ -13,5 +13,9 @@ export function createCustomerDraft(user: User, useAsDefaultAddress: boolean): C
       defaultShippingAddress: useAsDefaultAddress ? 0 : undefined,
       defaultBillingAddress: useAsDefaultAddress ? 0 : undefined,
     }),
+    isEmailVerified: true,
   };
+}
+export function normalizeInput(userInput: string) {
+  return userInput.trim();
 }
