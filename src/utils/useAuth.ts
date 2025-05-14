@@ -17,6 +17,9 @@ export function useAuth(): { login: (email: string, password: string) => Promise
         setTimeout((): void => {
           navigate(ROUTES.main);
         }, 2000);
+
+        saveToSessionStorage('customerId', response.customer.id);
+        saveToSessionStorage('customerVersion', `${response.customer.version}`);
       } else {
         throw new Error('login failed');
       }
@@ -25,4 +28,8 @@ export function useAuth(): { login: (email: string, password: string) => Promise
   );
 
   return { login };
+}
+
+function saveToSessionStorage(key: string, value: string): void {
+  localStorage.setItem(key, value);
 }
