@@ -7,6 +7,8 @@ export default {
         LightTaupe: '#B77E66',
         Temptress: '#471E22',
         bg: 'rgba(34, 27, 24, 0.60)',
+        cream: '#e6d7c2',
+        brown: '#6f4e37',
       },
       fontFamily: {
         secondary: ['Inter', 'sans-serif'],

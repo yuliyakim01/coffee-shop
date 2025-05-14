@@ -5,6 +5,7 @@ import '../styles/index.css';
 import { validateEmail, validatePassword } from '@/utils/validation';
 import eyeOnIcon from '../assets/eye.png';
 import eyeOffIcon from '../assets/eye-off.png';
+import BackButton from '@/components/BackButton';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -31,6 +32,9 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="login-container">
+      <div className="back-button">
+        <BackButton />
+      </div>
       <h1 className="main-h1">Login to your account</h1>
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-group">
@@ -41,8 +45,9 @@ const LoginPage: React.FC = () => {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => {
-              setEmail(e.target.value);
-              setEmailError('');
+              const value = e.target.value.trim();
+              setEmail(value);
+              setEmailError(validateEmail(value) || '');
             }}
             required
           />
@@ -70,20 +75,28 @@ const LoginPage: React.FC = () => {
             style={{
               position: 'absolute',
               right: '12px',
-              top: '46px',
-              width: '24px',
-              height: '24px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '30px',
+              height: '30px',
               background: 'transparent',
               border: 'none',
               padding: '0',
               cursor: 'pointer',
               opacity: 0.7,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <img
               src={showPassword ? eyeOffIcon : eyeOnIcon}
               alt={showPassword ? 'Hide password' : 'Show password'}
-              style={{ width: '100%', height: '100%' }}
+              style={{
+                width: '20px',
+                height: '20px',
+                objectFit: 'contain',
+              }}
             />
           </button>
 
