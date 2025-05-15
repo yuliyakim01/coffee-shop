@@ -13,6 +13,7 @@ import {
 import BackButton from '@/components/Login-registration-components/BackButton';
 import Input from '@/components/Login-registration-components/Input';
 import PasswordInput from '@/components/Login-registration-components/PasswordInput';
+import Button from '@/components/Login-registration-components/Button';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -190,12 +191,7 @@ const Register: React.FC = () => {
             showForgotPassword={false}
           />
 
-          <button
-            type="submit"
-            className="w-full h-[52px] flex justify-center items-center bg-[#6f4e37] text-white font-semibold text-lg rounded-lg mt-5"
-          >
-            Create account
-          </button>
+          <Button type="submit" label="Create account" className="mt-5" />
 
           <p className="w-full text-center text-sm mt-5">
             Already Have An Account?
