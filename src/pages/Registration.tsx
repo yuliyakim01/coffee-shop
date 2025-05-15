@@ -23,6 +23,7 @@ import handleApiError from '@/utils/handleApiError';
 import NotificationBanners from '@/components/Popup-components/NotificationBanners';
 import BackButton from '@/components/Login-registration-components/BackButton';
 import Input from '@/components/Login-registration-components/Input';
+import TogglePasswordVisibleButton from '@/components/Login-registration-components/TogglePasswordVisibleButton';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -247,17 +248,7 @@ const Register: React.FC = () => {
               }}
               required
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-[30px] h-[30px] bg-transparent p-0 cursor-pointer opacity-70 flex justify-center items-center"
-            >
-              <img
-                src={showPassword ? eyeOffIcon : eyeOnIcon}
-                alt={showPassword ? 'Hide password' : 'Show password'}
-                className="w-[20px] h-[20px] object-contain"
-              />
-            </button>
+            <TogglePasswordVisibleButton showPassword={showPassword} onToggle={() => setShowPassword(!showPassword)} />
             {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
 
             <div className="flex justify-end w-full mt-1">
