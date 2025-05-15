@@ -93,31 +93,12 @@ const LoginPage: React.FC = () => {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            style={{
-              position: 'absolute',
-              right: '12px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '30px',
-              height: '30px',
-              background: 'transparent',
-              border: 'none',
-              padding: '0',
-              cursor: 'pointer',
-              opacity: 0.7,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-[30px] h-[30px] bg-transparent border-none p-0 cursor-pointer opacity-70 flex justify-center items-center"
           >
             <img
               src={showPassword ? eyeOffIcon : eyeOnIcon}
               alt={showPassword ? 'Hide password' : 'Show password'}
-              style={{
-                width: '20px',
-                height: '20px',
-                objectFit: 'contain',
-              }}
+              className="w-[20px] h-[20px] object-contain"
             />
           </button>
 
