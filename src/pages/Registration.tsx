@@ -146,7 +146,6 @@ const Register: React.FC = () => {
         <h1 className="font-semibold text-4xl mb-8">Create an account</h1>
 
         <form className="flex flex-col items-start gap-5 w-full" onSubmit={handleSubmit}>
-          {/* Full Name */}
           <div className="flex gap-4 w-full">
             <Input
               label="First Name"
@@ -168,7 +167,6 @@ const Register: React.FC = () => {
             />
           </div>
 
-          {/* Date of Birth */}
           <Input
             label="Date of Birth"
             type="date"
@@ -179,11 +177,9 @@ const Register: React.FC = () => {
             error={dobError}
           />
 
-          {/* Address */}
           <div className="flex flex-col w-full">
             <label className="font-semibold text-base mb-1">Address</label>
 
-            {/* Street and City */}
             <div className="flex gap-4 mt-2">
               <Input
                 label=""
@@ -205,7 +201,6 @@ const Register: React.FC = () => {
               />
             </div>
 
-            {/* Postal Code and Country */}
             <div className="flex gap-4 mt-4">
               <Input
                 label=""
@@ -228,7 +223,6 @@ const Register: React.FC = () => {
             </div>
           </div>
 
-          {/* Email */}
           <Input
             label="Email"
             type="email"
@@ -240,7 +234,6 @@ const Register: React.FC = () => {
             error={emailError}
           />
 
-          {/* Password Field */}
           <div className="flex flex-col w-full relative">
             <label className="font-semibold text-base mb-1">Password</label>
             <input
@@ -267,21 +260,28 @@ const Register: React.FC = () => {
             </button>
             {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
 
-          {passwordError && <p style={{ color: 'red', fontSize: '14px' }}>{passwordError}</p>}
-
-          <div className="forgot-password">
-            <Link to="/forgot-password">Forgot password?</Link>
+            <div className="flex justify-end w-full mt-1">
+              <Link to="/forgot-password" className="text-blue-500 text-sm underline">
+                Forgot password?
+              </Link>
+            </div>
           </div>
-        </div>
 
-        <button type="submit" className="login-button">
-          Create account
-        </button>
+          <button
+            type="submit"
+            className="w-full h-[52px] flex justify-center items-center bg-[#6f4e37] text-white font-semibold text-lg rounded-lg mt-5"
+          >
+            Create account
+          </button>
 
-        <p className="signup-link">
-          Already Have An Account? <Link to="/login">Login</Link>
-        </p>
-      </form>
+          <p className="w-full text-center text-sm mt-5">
+            Already Have An Account?
+            <Link to="/login" className="text-blue-500 font-medium underline ml-1">
+              Login
+            </Link>
+          </p>
+        </form>
+
       <NotificationBanners
         errorMessage={apiErrorMessage}
         onClearError={() => setApiErrorMessage(null)}
