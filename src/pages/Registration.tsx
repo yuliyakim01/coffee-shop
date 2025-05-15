@@ -23,12 +23,11 @@ import handleApiError from '@/utils/handleApiError';
 import NotificationBanners from '@/components/Popup-components/NotificationBanners';
 import BackButton from '@/components/Login-registration-components/BackButton';
 import Input from '@/components/Login-registration-components/Input';
-import TogglePasswordVisibleButton from '@/components/Login-registration-components/TogglePasswordVisibleButton';
+import PasswordInput from '@/components/Login-registration-components/PasswordInput';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dob, setDob] = useState('');
@@ -235,28 +234,13 @@ const Register: React.FC = () => {
             error={emailError}
           />
 
-          <div className="flex flex-col w-full relative">
-            <label className="font-semibold text-base mb-1">Password</label>
-            <input
-              className="w-full h-12 px-3 pr-12 border border-gray-300 rounded-lg bg-white font-poppins text-base"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setPasswordError('');
-              }}
-              required
-            />
-            <TogglePasswordVisibleButton showPassword={showPassword} onToggle={() => setShowPassword(!showPassword)} />
-            {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
-
-            <div className="flex justify-end w-full mt-1">
-              <Link to="/forgot-password" className="text-blue-500 text-sm underline">
-                Forgot password?
-              </Link>
-            </div>
-          </div>
+          <PasswordInput
+            password={password}
+            setPassword={setPassword}
+            passwordError={passwordError}
+            setPasswordError={setPasswordError}
+            showForgotPassword={false}
+          />
 
           <button
             type="submit"
