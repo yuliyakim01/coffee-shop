@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { validateEmail, validatePassword } from '@/utils/validation';
@@ -12,6 +13,8 @@ import BackButton from '@/components/Login-registration-components/BackButton';
 import Input from '@/components/Login-registration-components/Input';
 import PasswordInput from '@/components/Login-registration-components/PasswordInput';
 import Button from '@/components/Login-registration-components/Button';
+import { ROUTES } from '@/data/routes';
+import AuthRedirectMessage from '@/components/Login-registration-components/AuthRedirectMessage';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -81,18 +84,16 @@ const LoginPage: React.FC = () => {
 
           <Button type="submit" label="Login now" className="mt-5" />
 
-        <p className="signup-link">
-          Don't Have An Account? <Link to="/register">Sign Up</Link>
-        </p>
-      </form>
-
-      <NotificationBanners
-        errorMessage={apiErrorMessage}
-        onClearError={() => setApiErrorMessage(null)}
-        successMessage={showSuccess}
-        onClearSuccess={() => setShowSuccess(null)}
-        autoDismissMs={5000}
-      />
+          <AuthRedirectMessage message="Don't have an account?" linkText="Sign Up" linkTo={ROUTES.register} />
+          <NotificationBanners
+            errorMessage={apiErrorMessage}
+            onClearError={() => setApiErrorMessage(null)}
+            successMessage={showSuccess}
+            onClearSuccess={() => setShowSuccess(null)}
+            autoDismissMs={5000}
+          />
+        </form>
+      </div>
     </div>
   );
 };

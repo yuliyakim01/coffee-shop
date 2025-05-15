@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+
 import {
   validateEmail,
   validatePassword,
@@ -25,6 +25,8 @@ import BackButton from '@/components/Login-registration-components/BackButton';
 import Input from '@/components/Login-registration-components/Input';
 import PasswordInput from '@/components/Login-registration-components/PasswordInput';
 import Button from '@/components/Login-registration-components/Button';
+import { ROUTES } from '@/data/routes';
+import AuthRedirectMessage from '@/components/Login-registration-components/AuthRedirectMessage';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -245,12 +247,7 @@ const Register: React.FC = () => {
 
           <Button type="submit" label="Create account" className="mt-5" />
 
-          <p className="w-full text-center text-sm mt-5">
-            Already Have An Account?
-            <Link to="/login" className="text-blue-500 font-medium underline ml-1">
-              Login
-            </Link>
-          </p>
+          <AuthRedirectMessage message="Already Have An Account?" linkText="Login" linkTo={ROUTES.login} />
         </form>
 
       <NotificationBanners
