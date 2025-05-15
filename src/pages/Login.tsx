@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { validateEmail, validatePassword } from '@/utils/validation';
 import BackButton from '@/components/Login-registration-components/BackButton';
 import Input from '@/components/Login-registration-components/Input';
 import PasswordInput from '@/components/Login-registration-components/PasswordInput';
 import Button from '@/components/Login-registration-components/Button';
+import { ROUTES } from '@/data/routes';
+import AuthRedirectMessage from '@/components/Login-registration-components/AuthRedirectMessage';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -57,12 +58,7 @@ const LoginPage: React.FC = () => {
 
           <Button type="submit" label="Login now" className="mt-5" />
 
-          <p className="w-full text-center text-sm mt-5">
-            Don't Have An Account?
-            <Link to="/register" className="text-blue-500 font-medium underline ml-1">
-              Sign Up
-            </Link>
-          </p>
+          <AuthRedirectMessage message="Don't have an account?" linkText="Sign Up" linkTo={ROUTES.register} />
         </form>
       </div>
     </div>
