@@ -11,6 +11,7 @@ import NotificationBanners from '@/components/Popup-components/NotificationBanne
 import BackButton from '@/components/Login-registration-components/BackButton';
 import Input from '@/components/Login-registration-components/Input';
 import PasswordInput from '@/components/Login-registration-components/PasswordInput';
+import Button from '@/components/Login-registration-components/Button';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -78,12 +79,7 @@ const LoginPage: React.FC = () => {
             setPasswordError={setPasswordError}
           />
 
-          <button
-            type="submit"
-            className="w-full h-[52px] flex justify-center items-center bg-[#6f4e37] text-white font-semibold text-lg rounded-lg mt-5"
-          >
-            Login now
-          </button>
+          <Button type="submit" label="Login now" className="mt-5" />
 
         <p className="signup-link">
           Don't Have An Account? <Link to="/register">Sign Up</Link>
