@@ -6,6 +6,7 @@ import { normalizeInput, saveLoggedInUserToSessionStorage } from '@/utils/custom
 import type { CustomerSignInResult } from '@commercetools/platform-sdk';
 import { ROUTES } from '@/data/routes';
 
+export function useAuth(): { login: (email: string, password: string) => Promise<void> } {
   const navigate: NavigateFunction = useNavigate();
 
   const login: (email: string, password: string) => Promise<void> = useCallback(

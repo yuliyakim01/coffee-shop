@@ -1,12 +1,5 @@
-import React, { useState } from 'react';
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { validateEmail, validatePassword } from '@/utils/validation';
-import eyeOnIcon from '../assets/eye.png';
-import eyeOffIcon from '../assets/eye-off.png';
-import handleApiError from '@/utils/handleApiError';
-import ErrorPopup from '@/components/Popup-components/ErrorPopup';
-import SuccessPopup from '@/components/Popup-components/SuccessPopup';
 import { useAuth } from '@/utils/useAuth';
 import NotificationBanners from '@/components/Popup-components/NotificationBanners';
 import BackButton from '@/components/Login-registration-components/BackButton';
@@ -22,7 +15,6 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [apiErrorMessage, setApiErrorMessage] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState<string | null>(null);
@@ -87,6 +79,7 @@ const LoginPage: React.FC = () => {
 
           <AuthRedirectMessage message="Don't have an account?" linkText="Sign Up" linkTo={ROUTES.register} />
         </form>
+
         <NotificationBanners
           errorMessage={apiErrorMessage}
           onClearError={() => setApiErrorMessage(null)}

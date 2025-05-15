@@ -16,15 +16,12 @@ import PasswordInput from '@/components/Login-registration-components/PasswordIn
 import Button from '@/components/Login-registration-components/Button';
 import { ROUTES } from '@/data/routes';
 import AuthRedirectMessage from '@/components/Login-registration-components/AuthRedirectMessage';
-import ErrorPopup from '@/components/Popup-components/ErrorPopup';
-import SuccessPopup from '@/components/Popup-components/SuccessPopup';
-
-import DefaultAddressCheckbox from '@/components/Profile-components/DefaultAddressCheckbox';
 import { useRegistration } from '@/utils/useRegistration';
 import { createCustomerDraft } from '@/utils/customerUtils';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import handleApiError from '@/utils/handleApiError';
 import NotificationBanners from '@/components/Popup-components/NotificationBanners';
+import DefaultAddressCheckbox from '@/components/Profile-components/DefaultAddressCheckbox';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -36,15 +33,6 @@ const Register: React.FC = () => {
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [country, setCountry] = useState('');
-  const allowedCountries = [
-    'United States',
-    'Canada',
-    'United Kingdom',
-    'Australia',
-    'Georgia',
-    'Uzbekistan',
-    'Kyrgyzstan',
-  ];
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -223,6 +211,7 @@ const Register: React.FC = () => {
               />
             </div>
           </div>
+          <DefaultAddressCheckbox checked={useAsDefaultAddress} onChange={setUseAsDefaultAddress} />
 
           <Input
             label="Email"
@@ -248,13 +237,14 @@ const Register: React.FC = () => {
           <AuthRedirectMessage message="Already Have An Account?" linkText="Login" linkTo={ROUTES.login} />
         </form>
 
-      <NotificationBanners
-        errorMessage={apiErrorMessage}
-        onClearError={() => setApiErrorMessage(null)}
-        successMessage={showSuccess}
-        onClearSuccess={() => setShowSuccess(null)}
-        autoDismissMs={5000}
-      />
+        <NotificationBanners
+          errorMessage={apiErrorMessage}
+          onClearError={() => setApiErrorMessage(null)}
+          successMessage={showSuccess}
+          onClearSuccess={() => setShowSuccess(null)}
+          autoDismissMs={5000}
+        />
+      </div>
     </div>
   );
 };
