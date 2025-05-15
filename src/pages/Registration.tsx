@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/Auth.css';
-import '../styles/index.css';
 import {
   validateEmail,
   validatePassword,
@@ -12,10 +10,10 @@ import {
   validatePostalCode,
   validateCountry,
 } from '@/utils/validation';
-
 import eyeOnIcon from '../assets/eye.png';
 import eyeOffIcon from '../assets/eye-off.png';
-import BackButton from '@/components/BackButton';
+import BackButton from '@/components/Login-registration-components/BackButton';
+import Input from '@/components/Login-registration-components/Input';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -28,15 +26,6 @@ const Register: React.FC = () => {
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [country, setCountry] = useState('');
-  const allowedCountries = [
-    'United States',
-    'Canada',
-    'United Kingdom',
-    'Australia',
-    'Georgia',
-    'Uzbekistan',
-    'Kyrgyzstan',
-  ];
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -99,226 +88,160 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="register-container">
-      <div className="back-button">
-        <BackButton />
-      </div>
-      <h1 className="main-h1">Create an account</h1>
-      <form className="login-form" onSubmit={handleSubmit}>
-        <div className="full-name-container">
-          <div className="form-group">
-            <label>First name</label>
-            <input
-              className="form-input"
-              type="text"
+    <div className="min-h-screen flex items-center justify-center bg-[#f0e6d7]">
+      <div className="flex flex-col items-center w-[40rem] p-12 bg-[#e6d7c2] rounded-2xl shadow-xl mt-10">
+        <div className="fixed top-8 left-8 z-50">
+          <BackButton />
+        </div>
+        <h1 className="font-semibold text-4xl mb-8">Create an account</h1>
+
+        <form className="flex flex-col items-start gap-5 w-full" onSubmit={handleSubmit}>
+          {/* Full Name */}
+          <div className="flex gap-4 w-full">
+            <Input
+              label="First Name"
               placeholder="e.g. Jane"
               value={firstName}
-              onChange={(e) => {
-                const value = e.target.value;
-                setFirstName(value);
-                setFirstNameError(validateName(value) || '');
-              }}
-              required
+              setValue={setFirstName}
+              validate={validateName}
+              setError={setFirstNameError}
+              error={firstNameError}
             />
-            {firstNameError && <p style={{ color: 'red', fontSize: '14px' }}>{firstNameError}</p>}
-          </div>
-
-          <div className="form-group">
-            <label>Last name</label>
-            <input
-              className="form-input"
-              type="text"
+            <Input
+              label="Last Name"
               placeholder="e.g. Doe"
               value={lastName}
-              onChange={(e) => {
-                const value = e.target.value;
-                setLastName(value);
-                setLastNameError(validateName(value) || '');
-              }}
-              required
+              setValue={setLastName}
+              validate={validateName}
+              setError={setLastNameError}
+              error={lastNameError}
             />
-            {lastNameError && <p style={{ color: 'red', fontSize: '14px' }}>{lastNameError}</p>}
           </div>
-        </div>
 
-        <div className="form-group">
-          <label>Date of Birth</label>
-          <input
-            className="form-input"
+          {/* Date of Birth */}
+          <Input
+            label="Date of Birth"
             type="date"
             value={dob}
-            onChange={(e) => {
-              const value = e.target.value;
-              setDob(value);
-              setDobError(validateDOB(value) || '');
-            }}
-            required
+            setValue={setDob}
+            validate={validateDOB}
+            setError={setDobError}
+            error={dobError}
           />
-          {dobError && <p style={{ color: 'red', fontSize: '14px' }}>{dobError}</p>}
-        </div>
 
-        <div className="form-group">
-          <label>Address</label>
+          {/* Address */}
+          <div className="flex flex-col w-full">
+            <label className="font-semibold text-base mb-1">Address</label>
 
-          {/* First Row: Street and City */}
-          <div className="flex gap-4 mt-2">
-            {/* Street */}
-            <div className="flex flex-col w-1/2">
-              <input
-                className="form-input"
-                type="text"
+            {/* Street and City */}
+            <div className="flex gap-4 mt-2">
+              <Input
+                label=""
                 placeholder="Street"
                 value={street}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setStreet(value);
-                  setStreetError(validateStreet(value) || '');
-                }}
-                required
+                setValue={setStreet}
+                validate={validateStreet}
+                setError={setStreetError}
+                error={streetError}
               />
-              {streetError && <p style={{ color: 'red', fontSize: '14px' }}>{streetError}</p>}
-            </div>
-
-            {/* City */}
-            <div className="flex flex-col w-1/2">
-              <input
-                className="form-input"
-                type="text"
+              <Input
+                label=""
                 placeholder="City"
                 value={city}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setCity(value);
-                  setCityError(validateCity(value) || '');
-                }}
-                required
+                setValue={setCity}
+                validate={validateCity}
+                setError={setCityError}
+                error={cityError}
               />
-              {cityError && <p style={{ color: 'red', fontSize: '14px' }}>{cityError}</p>}
             </div>
-          </div>
 
-          {/* Second Row: Postal Code and Country */}
-          <div className="flex gap-4 mt-4">
-            {/* Postal Code */}
-            <div className="flex flex-col w-1/2">
-              <input
-                className="form-input"
-                type="text"
+            {/* Postal Code and Country */}
+            <div className="flex gap-4 mt-4">
+              <Input
+                label=""
                 placeholder="Postal Code"
                 value={postalCode}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setPostalCode(value);
-                  setPostalCodeError(validatePostalCode(value, country) || '');
-                }}
-                required
+                setValue={setPostalCode}
+                validate={(val) => validatePostalCode(val, country)}
+                setError={setPostalCodeError}
+                error={postalCodeError}
               />
-              {postalCodeError && <p style={{ color: 'red', fontSize: '14px' }}>{postalCodeError}</p>}
-            </div>
-
-            {/* Country */}
-            <div className="flex flex-col w-1/2">
-              <select
-                className="form-input"
+              <Input
+                label=""
+                placeholder="Country"
                 value={country}
-                onChange={(e) => {
-                  const selectedCountry = e.target.value;
-                  setCountry(selectedCountry);
-                  setCountryError(validateCountry(selectedCountry) || '');
-                }}
-                required
-              >
-                <option value="">Select a country</option>
-                {allowedCountries.map((countryName) => (
-                  <option key={countryName} value={countryName}>
-                    {countryName}
-                  </option>
-                ))}
-              </select>
-              {countryError && <p style={{ color: 'red', fontSize: '14px' }}>{countryError}</p>}
+                setValue={setCountry}
+                validate={validateCountry}
+                setError={setCountryError}
+                error={countryError}
+              />
             </div>
           </div>
-        </div>
 
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            className="form-input"
+          {/* Email */}
+          <Input
+            label="Email"
             type="email"
             placeholder="Enter your email"
             value={email}
-            onChange={(e) => {
-              const value = e.target.value.trim();
-              setEmail(value);
-              setEmailError(validateEmail(value) || '');
-            }}
-            required
-          />
-          {emailError && <p style={{ color: 'red', fontSize: '14px' }}>{emailError}</p>}
-        </div>
-
-        <div className="form-group" style={{ position: 'relative' }}>
-          <label>Password</label>
-          <input
-            className="form-input"
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => {
-              const value = e.target.value.trim();
-              setPassword(value);
-              setPasswordError(validatePassword(value) || '');
-            }}
-            required
-            style={{ paddingRight: '40px' }}
+            setValue={setEmail}
+            validate={validateEmail}
+            setError={setEmailError}
+            error={emailError}
           />
 
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            style={{
-              position: 'absolute',
-              right: '12px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '30px',
-              height: '30px',
-              background: 'transparent',
-              border: 'none',
-              padding: '0',
-              cursor: 'pointer',
-              opacity: 0.7,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <img
-              src={showPassword ? eyeOffIcon : eyeOnIcon}
-              alt={showPassword ? 'Hide password' : 'Show password'}
-              style={{
-                width: '20px',
-                height: '20px',
-                objectFit: 'contain',
+          {/* Password Field */}
+          <div className="flex flex-col w-full relative">
+            <label className="font-semibold text-base mb-1">Password</label>
+            <input
+              className="w-full h-12 px-3 pr-12 border border-gray-300 rounded-lg bg-white font-poppins text-base"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError('');
               }}
+              required
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-[30px] h-[30px] bg-transparent p-0 cursor-pointer opacity-70 flex justify-center items-center"
+            >
+              <img
+                src={showPassword ? eyeOffIcon : eyeOnIcon}
+                alt={showPassword ? 'Hide password' : 'Show password'}
+                className="w-[20px] h-[20px] object-contain"
+              />
+            </button>
+            {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
+
+            {/* Forgot Password */}
+            <div className="flex justify-end w-full mt-1">
+              <Link to="/forgot-password" className="text-blue-500 text-sm underline">
+                Forgot password?
+              </Link>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full h-[52px] flex justify-center items-center bg-[#6f4e37] text-white font-semibold text-lg rounded-lg mt-5"
+          >
+            Create account
           </button>
 
-          {passwordError && <p style={{ color: 'red', fontSize: '14px' }}>{passwordError}</p>}
-
-          <div className="forgot-password">
-            <Link to="/forgot-password">Forgot password?</Link>
-          </div>
-        </div>
-
-        <button type="submit" className="login-button">
-          Create account
-        </button>
-
-        <p className="signup-link">
-          Already Have An Account? <Link to="/login">Login</Link>
-        </p>
-      </form>
+          {/* Already Have Account */}
+          <p className="w-full text-center text-sm mt-5">
+            Already Have An Account?
+            <Link to="/login" className="text-blue-500 font-medium underline ml-1">
+              Login
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
