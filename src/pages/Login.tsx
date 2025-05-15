@@ -1,16 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/Auth.css';
-import '../styles/index.css';
 import { validateEmail, validatePassword } from '@/utils/validation';
 import eyeOnIcon from '../assets/eye.png';
 import eyeOffIcon from '../assets/eye-off.png';
-import BackButton from '@/components/BackButton';
 import handleApiError from '@/utils/handleApiError';
 import ErrorPopup from '@/components/Popup-components/ErrorPopup';
 import SuccessPopup from '@/components/Popup-components/SuccessPopup';
 import { useAuth } from '@/utils/useAuth';
 import NotificationBanners from '@/components/Popup-components/NotificationBanners';
+import BackButton from '@/components/Login-registration-components/BackButton';
+import Input from '@/components/Login-registration-components/Input';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -52,28 +51,24 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="back-button">
-        <BackButton />
-      </div>
-      <h1 className="main-h1">Login to your account</h1>
-      <form className="login-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Email:</label>
-          <input
-            className="form-input"
+    <div className="min-h-screen flex items-center justify-center bg-[#f0e6d7]">
+      <div className="flex flex-col items-center w-[40rem] p-12 bg-[#e6d7c2] rounded-2xl shadow-xl mt-24">
+        <div className="fixed top-8 left-8 z-50">
+          <BackButton />
+        </div>
+        <h1 className="font-semibold text-4xl mb-8">Login to your account</h1>
+
+        <form className="flex flex-col items-start gap-5 w-full" onSubmit={handleSubmit}>
+          <Input
+            label="Email"
             type="email"
             placeholder="Enter your email"
             value={email}
-            onChange={(e) => {
-              const value = e.target.value.trim();
-              setEmail(value);
-              setEmailError(validateEmail(value) || '');
-            }}
-            required
+            setValue={setEmail}
+            validate={validateEmail}
+            setError={setEmailError}
+            error={emailError}
           />
-          {emailError && <p style={{ color: 'red', fontSize: '14px' }}>{emailError}</p>}
-        </div>
 
         <div className="form-group" style={{ position: 'relative' }}>
           <label>Password:</label>
