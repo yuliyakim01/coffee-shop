@@ -45,7 +45,7 @@ export function normalizeInput(userInput: string): string {
   return userInput.trim();
 }
 export function saveToSessionStorage(key: string, value: string): void {
-  localStorage.setItem(key, value);
+  sessionStorage.setItem(key, value);
 }
 export function saveLoggedInUserToSessionStorage(customer: Customer): void {
   saveToSessionStorage(customerId, customer.id);
