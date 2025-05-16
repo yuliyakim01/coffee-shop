@@ -14,6 +14,8 @@ export default {
         ReviewCardBg: 'rgba(88, 49, 21, 0.57)',
         revieWCardDesc: '#D3CECE',
         semiGreen: '#54DD8B',
+        WhiteCoffee: '#E3D9D5',
+        Mud: '#795341',
       },
       fontFamily: {
         secondary: ['Inter', 'sans-serif'],

@@ -1,5 +1,6 @@
 import Bartons from '@/components/homePage-components/Bartons';
 import HomePageHero from '@/components/homePage-components/HomePageHero';
+import LocationSection from '@/components/homePage-components/LocationSection';
 import OpeningHours from '@/components/homePage-components/OpeningHours';
 import OurMenu from '@/components/homePage-components/OurMenu';
 import Review from '@/components/homePage-components/Review';
@@ -13,6 +14,7 @@ function HomePage() {
       <OpeningHours />
       <OurMenu />
       <Review />
+      <LocationSection />
     </div>
   );
 }

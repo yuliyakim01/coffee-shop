@@ -16,7 +16,7 @@ function OurMenu() {
   const sliderRef = useRef<Slider>(null);
   const totalSlides = 7;
 
-  const NextArrow: React.FC<React.HTMLProps<HTMLDivElement>> = ({ className, style, onClick }) => {
+  const NextArrow: React.FC<React.HTMLProps<HTMLDivElement>> = ({ style, onClick }) => {
     const isDisabled = currentSlide >= totalSlides - 4;
     return (
       <div
@@ -36,7 +36,7 @@ function OurMenu() {
     );
   };
 
-  const PrevArrow: React.FC<React.HTMLProps<HTMLDivElement>> = ({ className, style, onClick }) => {
+  const PrevArrow: React.FC<React.HTMLProps<HTMLDivElement>> = ({ style, onClick }) => {
     const isDisabled = currentSlide === 0;
     return (
       <div
