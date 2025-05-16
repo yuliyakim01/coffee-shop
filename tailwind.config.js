@@ -11,10 +11,16 @@ export default {
         Coconut: '#9E5A3D',
         CoffeeCardBg: 'rgba(115, 74, 57, 0.88)',
         Cornsilk: '#FFFADA',
+        ReviewCardBg: 'rgba(88, 49, 21, 0.57)',
+        revieWCardDesc: '#D3CECE',
+        semiGreen: '#54DD8B',
       },
       fontFamily: {
         secondary: ['Inter', 'sans-serif'],
         third: ['Irish Grover', 'system-ui'],
+      },
+      dropShadow: {
+        ReviewCardShadow: '0px 10px 20px rgba(0, 0, 0, 0.25)',
       },
     },
   },

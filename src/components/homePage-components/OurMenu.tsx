@@ -80,7 +80,7 @@ function OurMenu() {
       },
       {
         breakpoint: 480,
-        settings: { slidesToShow: 1, centerMode: true },
+        settings: { slidesToShow: 1, variableWidth: true, adaptiveHeight: true },
       },
     ],
   };
