@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 export type BasePopupProps = {
   message: string;
   onClose?: () => void;
@@ -20,17 +20,17 @@ const BasePopup: React.FC<BasePopupProps> = ({
 }: BasePopupProps) => {
   const [visible, setVisible] = useState(true);
 
-  const closePopup = () => {
+  const closePopup = useCallback(() => {
     if (visible) {
       setVisible(false);
       onClose?.();
     }
-  };
+  }, [visible, onClose]);
 
   useEffect(() => {
     const timer: ReturnType<typeof setTimeout> = setTimeout(closePopup, autoDismissMs);
     return () => clearTimeout(timer);
-  }, [autoDismissMs]);
+  }, [autoDismissMs, closePopup]);
 
   useEffect(() => {
     const close = () => setVisible(false);
