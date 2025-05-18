@@ -1,3 +1,8 @@
+import type { Cart } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/cart';
+import type { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
+import type { ChangeEvent, ForwardRefExoticComponent, PropsWithoutRef, RefAttributes, RefObject } from 'react';
+import type React from 'react';
+
 export interface Country {
   code: string;
   name: string;
@@ -33,6 +38,7 @@ export const countries: Country[] = [
     name: 'United States',
   },
 ];
+
 export interface Currency {
   code: string;
   name: string;
@@ -46,6 +52,7 @@ export const currencies: Currency[] = [
     symbol: '$',
   },
 ];
+
 export interface Language {
   code: string;
   name: string;
@@ -71,6 +78,7 @@ export interface Address {
   country: string; // ISO 3166-1 alpha-2 code (e.g., 'GE')
   useAsDefault?: boolean; // Optional: true = use for shipping/billing
 }
+
 export interface User {
   email: string;
   password: string;
@@ -79,13 +87,90 @@ export interface User {
   dateOfBirth?: string; // Format: YYYY-MM-DD
   address?: Address;
 }
+
 export interface ApiError {
   statusCode?: number;
   message?: string;
   errors?: { code: string; message: string }[];
 }
+
 export interface PopupProps {
   message: string;
   onClose?: () => void;
   autoDismissMs?: number;
+}
+
+export interface SignInResponse {
+  customer: Customer;
+  cart?: Cart;
+}
+
+export type VoidFunction = () => void;
+export type VoidFunctionOrUndefined = VoidFunction | undefined;
+export type StringOrNull = string | null;
+export type StringOrUndefined = string | undefined;
+export type StringFunction = () => string;
+
+export type ErrorNotificationType = ({
+  errorMessage,
+  onClear,
+  autoDismissMs,
+}: {
+  errorMessage: StringOrNull;
+  onClear: VoidFunctionOrUndefined;
+  autoDismissMs?: number;
+}) => React.ReactElement | null;
+
+export type SuccessNotificationType = ({
+  successMessage,
+  onClear,
+}: {
+  successMessage: StringOrNull;
+  onClear: VoidFunctionOrUndefined;
+}) => React.ReactElement | null;
+
+export interface InputHandle {
+  getValue: StringFunction;
+  getError: StringFunction;
+  setValueExternally: (value: string) => void;
+}
+export interface InputProps {
+  label: string;
+  type?: string;
+  placeholder?: string;
+  validate: (value: string) => string | null;
+}
+export type RefInputType = ForwardRefExoticComponent<PropsWithoutRef<InputProps> & RefAttributes<InputHandle>>;
+export type HandleInputType = (e: ChangeEvent<HTMLInputElement>) => void;
+export type RefPropType = ((instance: InputHandle | null) => void) | RefObject<InputHandle | null> | null;
+export type PasswordInputProps = {
+  showForgotPassword?: boolean;
+};
+export type RefPasswordInputType = ForwardRefExoticComponent<
+  PropsWithoutRef<PasswordInputProps> & RefAttributes<InputHandle>
+>;
+export type FormRefItem = RefObject<InputHandle | null>;
+export interface RegistrationFormOutputItems {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  countryName: string;
+  email: string;
+  password: string;
+  useAsDefaultAddress: boolean;
+}
+export interface RegistrationFormRefs {
+  emailRef: RefObject<{ value: string }>;
+  passwordRef: RefObject<{ value: string }>;
+  firstNameRef: RefObject<{ value: string }>;
+  lastNameRef: RefObject<{ value: string }>;
+  dobRef: RefObject<{ value: string }>;
+  streetRef: RefObject<{ value: string }>;
+  cityRef: RefObject<{ value: string }>;
+  postalCodeRef: RefObject<{ value: string }>;
+  countryRef: RefObject<{ value: string }>;
+  useAsDefaultAddress: boolean;
 }

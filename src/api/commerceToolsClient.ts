@@ -1,6 +1,10 @@
 import { AuthData as AUTH } from '@/api/token/authData';
-import type { Client } from '@commercetools/sdk-client-v2';
-import { ClientBuilder, type AuthMiddlewareOptions, type HttpMiddlewareOptions } from '@commercetools/sdk-client-v2';
+import {
+  ClientBuilder,
+  type Client,
+  type AuthMiddlewareOptions,
+  type HttpMiddlewareOptions,
+} from '@commercetools/sdk-client-v2';
 
 const fetchApi: typeof fetch = fetch;
 
