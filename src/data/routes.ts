@@ -10,6 +10,7 @@ export const ROUTES = {
   cart: '/cart',
   profile: '/profile',
   contact: '/contact',
+  notFound: '*',
 };
 
 export const LABELS = {

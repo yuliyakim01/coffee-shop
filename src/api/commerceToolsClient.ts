@@ -1,7 +1,12 @@
-import { AuthData as AUTH } from '@/api/token/auth-data';
-import { ClientBuilder, type AuthMiddlewareOptions, type HttpMiddlewareOptions } from '@commercetools/sdk-client-v2';
+import { AuthData as AUTH } from '@/api/token/authData';
+import {
+  ClientBuilder,
+  type Client,
+  type AuthMiddlewareOptions,
+  type HttpMiddlewareOptions,
+} from '@commercetools/sdk-client-v2';
 
-const fetchApi = fetch;
+const fetchApi: typeof fetch = fetch;
 
 const projectKey: string = AUTH.projectKey;
 
@@ -21,7 +26,7 @@ const httpMiddlewareOptions: HttpMiddlewareOptions = {
   fetch: fetchApi,
 };
 
-export const ctpClient = new ClientBuilder()
+export const ctpClient: Client = new ClientBuilder()
   .withClientCredentialsFlow(authMiddlewareOptions)
   .withHttpMiddleware(httpMiddlewareOptions)
   .withLoggerMiddleware()

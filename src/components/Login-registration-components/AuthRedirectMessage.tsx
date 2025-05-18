@@ -3,20 +3,20 @@ import { Link } from 'react-router-dom';
 
 interface AuthRedirectMessageProps {
   message: string;
-  linkText: string;
-  linkTo: string;
+  label: string;
+  to: string;
 }
 
 const AuthRedirectMessage: React.FC<AuthRedirectMessageProps> = ({
   message,
-  linkText,
-  linkTo,
+  label,
+  to,
 }: AuthRedirectMessageProps): ReactElement => {
   return (
     <p className="w-full text-center text-sm mt-5">
       {message}
-      <Link to={linkTo} className="text-blue-500 font-medium underline ml-1">
-        {linkText}
+      <Link to={to} className="text-blue-500 font-medium underline ml-1">
+        {label}
       </Link>
     </p>
   );
