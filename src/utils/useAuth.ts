@@ -3,15 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
 import { loginCustomer } from '@/api/customers';
 import { normalizeInput, saveLoggedInUserToSessionStorage } from '@/utils/customerUtils';
-import type { CustomerSignInResult } from '@commercetools/platform-sdk';
 import { ROUTES } from '@/data/routes';
+import type { FormRefItem, SignInResponse } from '@/data/interfaces';
 
-export function useAuth(): { login: (email: string, password: string) => Promise<void> } {
+export function useAuth(): { loginWithRefs: (emailRef: FormRefItem, passwordRef: FormRefItem) => Promise<void> } {
   const navigate: NavigateFunction = useNavigate();
 
-  const login: (email: string, password: string) => Promise<void> = useCallback(
-    async (email: string, password: string): Promise<void> => {
-      const response: CustomerSignInResult = await loginCustomer(normalizeInput(email), normalizeInput(password));
+  const loginWithRefs: (emailRef: FormRefItem, passwordRef: FormRefItem) => Promise<void> = useCallback(
+    async (emailRef: FormRefItem, passwordRef: FormRefItem): Promise<void> => {
+      const email: string = normalizeInput(emailRef.current?.getValue?.() ?? '');
+      const password: string = normalizeInput(passwordRef.current?.getValue?.() ?? '');
+
+      const response: SignInResponse = await loginCustomer(email, password);
 
       if (response.customer) {
         setTimeout((): void => {
@@ -20,11 +23,11 @@ export function useAuth(): { login: (email: string, password: string) => Promise
 
         saveLoggedInUserToSessionStorage(response.customer);
       } else {
-        throw new Error('login failed');
+        throw new Error('Login failed');
       }
     },
     [navigate]
   );
 
-  return { login };
+  return { loginWithRefs };
 }

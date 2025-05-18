@@ -1,5 +1,5 @@
 import React from 'react';
-import { defaultAddressCheckboxMessage } from '@/data/messages';
+import { FormElements, defaultAddressCheckboxMessage } from '@/data/constants';
 
 interface DefaultAddressCheckboxProps {
   checked: boolean;
@@ -17,7 +17,7 @@ const DefaultAddressCheckbox: React.FC<DefaultAddressCheckboxProps> = ({ checked
             onChange={(e) => onChange(e.target.checked)}
             className="w-6 h-6 accent-[#6f4e37] cursor-pointer"
           />
-          <span className="text-sm">Use as default address</span>
+          <span className="text-sm">{FormElements.defaultAddress.label}</span>
         </label>
 
         {/* Info icon + tooltip */}

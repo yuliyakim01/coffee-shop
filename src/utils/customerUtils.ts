@@ -1,37 +1,53 @@
 import type { Customer, CustomerDraft } from '@commercetools/platform-sdk';
+import type { RegistrationFormItems } from '@/data/constants';
 import { customerId, customerVersion } from '@/data/constants';
-import type { Country } from '@/data/interfaces';
+import type { Country, FormRefItem } from '@/data/interfaces';
 import { countries } from '@/data/interfaces';
 
-export function createCustomerDraft(
-  firstName: string,
-  lastName: string,
-  dateOfBirth: string,
-  street: string,
-  city: string,
-  postalCode: string,
-  countryName: string,
-  email: string,
-  password: string,
+export function processCustomerDraftProps(
+  firstNameRef: FormRefItem,
+  lastNameRef: FormRefItem,
+  dobRef: FormRefItem,
+  streetRef: FormRefItem,
+  cityRef: FormRefItem,
+  postalCodeRef: FormRefItem,
+  countryRef: FormRefItem,
+  emailRef: FormRefItem,
+  passwordRef: FormRefItem,
   useAsDefaultAddress: boolean
-): CustomerDraft {
-  const country: string = normalizeCountryInput(countryName);
+): RegistrationFormItems {
   return {
-    email,
-    password,
-    firstName,
-    lastName,
-    dateOfBirth,
+    firstName: firstNameRef.current?.getValue() ?? '',
+    lastName: lastNameRef.current?.getValue() ?? '',
+    dateOfBirth: dobRef.current?.getValue() ?? '',
+    street: streetRef.current?.getValue() ?? '',
+    city: cityRef.current?.getValue() ?? '',
+    postalCode: postalCodeRef.current?.getValue() ?? '',
+    countryName: countryRef.current?.getValue() ?? '',
+    email: emailRef.current?.getValue() ?? '',
+    password: passwordRef.current?.getValue() ?? '',
+    useAsDefaultAddress,
+  };
+}
+
+export function createCustomerDraft(prop: RegistrationFormItems): CustomerDraft {
+  const country: string = normalizeCountryInput(prop.countryName);
+  return {
+    email: prop.email,
+    password: prop.password,
+    firstName: prop.firstName,
+    lastName: prop.lastName,
+    dateOfBirth: prop.dateOfBirth,
     addresses: [
       {
-        streetName: street,
-        city,
-        postalCode,
-        country,
+        streetName: prop.street,
+        city: prop.city,
+        postalCode: prop.postalCode,
+        country: country,
       },
     ],
-    defaultShippingAddress: useAsDefaultAddress ? 0 : undefined,
-    defaultBillingAddress: useAsDefaultAddress ? 0 : undefined,
+    defaultShippingAddress: prop.useAsDefaultAddress ? 0 : undefined,
+    defaultBillingAddress: prop.useAsDefaultAddress ? 0 : undefined,
     isEmailVerified: true,
   };
 }

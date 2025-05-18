@@ -56,7 +56,6 @@ export function validateCity(city: string): string | null {
   return /^[A-Za-z\s]+$/.test(city.trim()) ? null : 'City must only contain letters.';
 }
 
-// Validate Postal Code based on Country
 export function validatePostalCode(postalCode: string, country: string): string | null {
   const trimmedPostal = postalCode.trim();
   const trimmedCountry = country.trim();

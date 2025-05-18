@@ -1,13 +1,14 @@
-import type { ApiRoot, ClientResponse, CustomerDraft, CustomerSignInResult } from '@commercetools/platform-sdk';
+import type { ApiRoot, ClientResponse, CustomerDraft } from '@commercetools/platform-sdk';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { ctpClient } from '@/api/commerceToolsClient';
 import { AuthData as AUTH } from '@/api/token/authData';
+import type { SignInResponse } from '@/data/interfaces';
 
 const apiRoot: ApiRoot = createApiBuilderFromCtpClient(ctpClient);
 
-export async function registerCustomer(customerDraft: CustomerDraft): Promise<CustomerSignInResult> {
+export async function registerCustomer(customerDraft: CustomerDraft): Promise<SignInResponse> {
   try {
-    const response: ClientResponse<CustomerSignInResult> = await apiRoot
+    const response: ClientResponse<SignInResponse> = await apiRoot
       .withProjectKey({ projectKey: AUTH.projectKey })
       .customers()
       .post({ body: customerDraft })
@@ -19,12 +20,12 @@ export async function registerCustomer(customerDraft: CustomerDraft): Promise<Cu
   }
 }
 
-export const loginCustomer: (email: string, password: string) => Promise<CustomerSignInResult> = async (
+export const loginCustomer: (email: string, password: string) => Promise<SignInResponse> = async (
   email: string,
   password: string
-): Promise<CustomerSignInResult> => {
+): Promise<SignInResponse> => {
   try {
-    const response: ClientResponse<CustomerSignInResult> = await apiRoot
+    const response: ClientResponse<SignInResponse> = await apiRoot
       .withProjectKey({ projectKey: AUTH.projectKey })
       .login()
       .post({
