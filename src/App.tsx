@@ -12,6 +12,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import { ROUTES } from '@/data/routes';
 import Cart from '@/pages/Cart';
 import Contact from './pages/Contact';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,14 @@ const router = createBrowserRouter([
       {
         path: ROUTES.cart,
         element: <Cart />,
+      },
+      {
+        path: ROUTES.notFound,
+        element: <NotFoundPage />,
+      },
+      {
+        path: ROUTES.contact,
+        element: <Contact />,
       },
     ],
   },
