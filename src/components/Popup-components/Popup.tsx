@@ -20,33 +20,30 @@ const BasePopup: React.FC<BasePopupProps> = ({
 }: BasePopupProps) => {
   const [visible, setVisible] = useState(true);
 
-  useEffect((): (() => void) => {
-    const timer: ReturnType<typeof setTimeout> = setTimeout(() => setVisible(false), autoDismissMs);
-    return (): void => clearTimeout(timer);
+  const closePopup = () => {
+    if (visible) {
+      setVisible(false);
+      onClose?.();
+    }
+  };
+
+  useEffect(() => {
+    const timer: ReturnType<typeof setTimeout> = setTimeout(closePopup, autoDismissMs);
+    return () => clearTimeout(timer);
   }, [autoDismissMs]);
 
-  useEffect((): (() => void) => {
-    const close: () => void = (): void => setVisible(false);
-    const handleClick: () => void = (): void => close();
-    const handleKeyPress: () => void = (): void => close();
+  useEffect(() => {
+    const close = () => setVisible(false);
 
-    document.addEventListener('click', handleClick);
-    document.addEventListener('keydown', handleKeyPress);
+    document.addEventListener('click', close);
+    document.addEventListener('keydown', close);
 
-    return (): void => {
-      document.removeEventListener('click', handleClick);
-      document.removeEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('click', close);
+      document.removeEventListener('keydown', close);
     };
   }, []);
-
-  useEffect((): (() => void) | undefined => {
-    if (!visible) {
-      const timer: ReturnType<typeof setTimeout> = setTimeout((): void => {
-        onClose?.();
-      }, 300);
-      return (): void => clearTimeout(timer);
-    }
-  }, [visible, onClose]);
+  if (!visible) return null;
 
   return (
     <div className={`fixed z-50 ${positionClassName}`}>
@@ -59,7 +56,7 @@ const BasePopup: React.FC<BasePopupProps> = ({
         <div className="text-sm">{message}</div>
         {onClose && (
           <button
-            onClick={(): void => setVisible(false)}
+            onClick={closePopup}
             className={`ml-4 text-lg font-bold focus:outline-none ${closeButtonClassName}`}
             aria-label="Close popup"
           >
