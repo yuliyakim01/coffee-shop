@@ -9,31 +9,34 @@ import Location from './pages/Location';
 import Login from './pages/Login';
 import Register from './pages/Registration';
 import ForgotPassword from './pages/ForgotPassword';
-import Cart from './pages/Cart';
+import { ROUTES } from '@/data/routes';
+import Cart from '@/pages/Cart';
+import Contact from './pages/Contact';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: ROUTES.main,
     element: <Layout />,
     children: [
       {
-        path: '/',
+        path: ROUTES.main,
         element: <HomePage />,
       },
       {
-        path: '/products',
+        path: ROUTES.products,
         element: <ProductPage />,
       },
       {
-        path: '/about',
+        path: ROUTES.about,
         element: <About />,
       },
       {
-        path: '/menu',
+        path: ROUTES.menu,
         element: <Menu />,
       },
       {
-        path: '/locations',
+        path: ROUTES.locations,
         element: <Location />,
       },
       {
@@ -42,16 +45,17 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   {
-    path: '/login',
+    path: ROUTES.login,
     element: <Login />,
   },
   {
-    path: '/register',
+    path: ROUTES.register,
     element: <Register />,
   },
   {
-    path: '/forgot-password',
+    path: ROUTES.forgotPassword,
     element: <ForgotPassword />,
   },
 ]);

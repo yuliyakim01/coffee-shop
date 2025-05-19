@@ -14,6 +14,7 @@ const ProductPage: React.FC = () => {
         setProducts(data.results);
       } catch (err) {
         setError('Could not load products');
+        console.error(err);
       } finally {
         setLoading(false);
       }
