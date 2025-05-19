@@ -1,5 +1,5 @@
 import type { Customer, CustomerDraft } from '@commercetools/platform-sdk';
-import type { RegistrationFormItems } from '@/data/constants';
+import type { RegistrationFormItems, SessionUser } from '@/data/constants';
 import { customerId, customerVersion } from '@/data/constants';
 import type { Country, FormRefItem } from '@/data/interfaces';
 import { countries } from '@/data/interfaces';
@@ -51,19 +51,37 @@ export function createCustomerDraft(prop: RegistrationFormItems): CustomerDraft 
     isEmailVerified: true,
   };
 }
+
 export function normalizeCountryInput(countryName: string): string {
   const match: Country | undefined = countries.find(
     (country: Country): boolean => country.name.toLowerCase() === countryName.trim().toLowerCase()
   );
   return match ? match.code : 'GE';
 }
+
 export function normalizeInput(userInput: string): string {
   return userInput.trim();
 }
+
 export function saveToSessionStorage(key: string, value: string): void {
   sessionStorage.setItem(key, value);
 }
+
 export function saveLoggedInUserToSessionStorage(customer: Customer): void {
   saveToSessionStorage(customerId, customer.id);
   saveToSessionStorage(customerVersion, `${customer.version}`);
 }
+
+export const getLoggedInUserFromSessionStorage = (): SessionUser | null => {
+  const customerIdFromStorage = sessionStorage.getItem(customerId);
+  const customerVersionFromStorage = sessionStorage.getItem(customerVersion);
+
+  if (customerIdFromStorage && customerVersionFromStorage) {
+    return {
+      customerId: customerIdFromStorage,
+      customerVersion: customerVersionFromStorage,
+    };
+  }
+
+  return null;
+};

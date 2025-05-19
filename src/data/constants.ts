@@ -1,5 +1,11 @@
 export const customerId = 'customerId';
 export const customerVersion = 'customerVersion';
+
+export interface SessionUser {
+  customerId: string;
+  customerVersion: string;
+}
+
 export const FormElements = {
   email: {
     label: 'Email',
@@ -51,6 +57,7 @@ export const AuthRedicrect = {
     label: 'Sign Up',
   },
 };
+
 export interface RegistrationFormItems {
   firstName: string;
   lastName: string;
