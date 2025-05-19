@@ -1,7 +1,7 @@
 import React from 'react';
 import footerImage from '@/assets/footer.png';
 import { Link } from 'react-router-dom';
-import { LABELS, ROUTES } from '@/data/routes';
+import { footerNavList, LABELS, ROUTES } from '@/data/routes';
 import logo from '@/assets/logo.png';
 
 function Footer() {
@@ -11,31 +11,13 @@ function Footer() {
         {/* Navigation Links */}
         <nav>
           <ul className="flex flex-col gap-4 text-white text-base sm:text-lg md:text-[20px]">
-            <li>
-              <Link to={ROUTES.main} className="uppercase">
-                {LABELS.home}
-              </Link>
-            </li>
-            <li>
-              <Link to={ROUTES.about} className="uppercase">
-                {LABELS.about}
-              </Link>
-            </li>
-            <li>
-              <Link to={ROUTES.menu} className="uppercase">
-                {LABELS.menu}
-              </Link>
-            </li>
-            <li>
-              <Link to={ROUTES.products} className="uppercase">
-                {LABELS.products}
-              </Link>
-            </li>
-            <li>
-              <Link to={ROUTES.locations} className="uppercase">
-                {LABELS.locations}
-              </Link>
-            </li>
+            {footerNavList.map((item) => (
+              <li key={item.route}>
+                <Link to={item.route} className="uppercase">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
 

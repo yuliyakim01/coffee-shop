@@ -1,5 +1,5 @@
 import type { Customer, CustomerDraft } from '@commercetools/platform-sdk';
-import type { RegistrationFormItems } from '@/data/interfaces';
+
 import { customerId, customerVersion } from '@/data/constants';
 import type { Country, FormRefItem } from '@/data/interfaces';
 import { countries } from '@/data/interfaces';
@@ -92,3 +92,17 @@ export function saveLoggedInUserToSessionStorage(customer: Customer): void {
   saveToSessionStorage(customerId, customer.id);
   saveToSessionStorage(customerVersion, `${customer.version}`);
 }
+
+export const getLoggedInUserFromSessionStorage = (): SessionUser | null => {
+  const customerIdFromStorage = sessionStorage.getItem(customerId);
+  const customerVersionFromStorage = sessionStorage.getItem(customerVersion);
+
+  if (customerIdFromStorage && customerVersionFromStorage) {
+    return {
+      customerId: customerIdFromStorage,
+      customerVersion: customerVersionFromStorage,
+    };
+  }
+
+  return null;
+};
