@@ -23,3 +23,10 @@ export const LABELS = {
   register: 'Register',
   contact: 'CONTACT',
 };
+export const footerNavList = [
+  { route: ROUTES.main, label: LABELS.home },
+  { route: ROUTES.about, label: LABELS.about },
+  { route: ROUTES.menu, label: LABELS.menu },
+  { route: ROUTES.products, label: LABELS.products },
+  { route: ROUTES.locations, label: LABELS.locations },
+];
