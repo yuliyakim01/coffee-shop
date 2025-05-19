@@ -15,6 +15,7 @@ export default {
         coffeeBrown: 'rgba(115, 74, 57, 0.88)',
         rustBrown: '#A0583C',
         creamLight: '#FFFADA',
+        whiteCoffee: '#E3D9D5',
       },
       fontFamily: {
         secondary: ['Inter', 'sans-serif'],
@@ -22,6 +23,7 @@ export default {
       },
       dropShadow: {
         ReviewCardShadow: '0px 10px 20px rgba(0, 0, 0, 0.25)',
+        locationSectionShadow: '20px 20px 10px 0px rgba(62, 47, 25, 0.20)',
       },
     },
   },
