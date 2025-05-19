@@ -3,6 +3,8 @@ import logo from '../../assets/logo.png';
 import cart from '../../assets/cart.png';
 import burger from '../../assets/burger.png';
 import close from '../../assets/close.png';
+import loginIcon from '../../assets/login-icon.svg';
+import registerIcon from '../../assets/register-icon.svg';
 import { LABELS, ROUTES } from '@/data/routes';
 import { Link } from 'react-router-dom';
 
@@ -52,16 +54,18 @@ function Header() {
         <div className="mt-8">
           <Link
             to={ROUTES.login}
-            className="block w-fit mx-auto uppercase bg-white text-black px-6 py-2 rounded-md text-lg font-medium hover:bg-gray-200 transition"
+            className="flex items-center justify-center gap-2 w-fit mx-auto uppercase bg-white text-black px-6 py-2 rounded-md text-lg font-medium hover:bg-gray-200 transition"
           >
+            <img src={loginIcon} alt="Login icon" className="w-5 h-5" />
             {LABELS.login}
           </Link>
         </div>
         <div className="mt-8">
           <Link
             to={ROUTES.register}
-            className="block w-fit mx-auto uppercase bg-white text-black px-6 py-2 rounded-md text-lg font-medium hover:bg-gray-200 transition"
+            className="flex items-center justify-center gap-2 w-fit mx-auto uppercase bg-white text-black px-6 py-2 rounded-md text-lg font-medium hover:bg-gray-200 transition"
           >
+            <img src={registerIcon} alt="Register icon" className="w-5 h-5" />
             {LABELS.register}
           </Link>
         </div>
@@ -117,19 +121,22 @@ function Header() {
         <div>
           <Link
             to={ROUTES.login}
-            className="uppercase bg-LightTaupe px-4 py-2 rounded text-lg text-white max-[900px]:hidden"
+            className="uppercase bg-LightTaupe px-4 py-2 rounded text-lg text-white max-[900px]:hidden flex items-center gap-2"
           >
+            <img src={loginIcon} alt="Login icon" className="w-5 h-5" />
             {LABELS.login}
           </Link>
         </div>
-        <div className="">
+        <div className="ml-2">
           <Link
             to={ROUTES.register}
-            className="uppercase bg-LightTaupe px-4 py-2  ml-2 rounded text-lg text-white max-[900px]:hidden"
+            className="uppercase bg-LightTaupe px-4 py-2 rounded text-lg text-white max-[900px]:hidden flex items-center gap-2"
           >
+            <img src={registerIcon} alt="Register icon" className="w-5 h-5" />
             {LABELS.register}
           </Link>
         </div>
+
         <div className="flex justify-center items-center pr-5">
           <img
             src={burger}
