@@ -1,5 +1,6 @@
 import React from 'react';
 import hoursBg from '@/assets/openingHours.png';
+import OppeningHoursCards from './OppeningHoursCards';
 
 function OpeningHours() {
   return (
@@ -15,41 +16,15 @@ function OpeningHours() {
 
       <div className="flex justify-center items-center gap-[80px] max-xl:gap-[60px] max-lg:gap-[40px] max-md:gap-[30px] max-sm:flex-col max-sm:gap-[40px]">
         <div className="flex flex-col gap-[30px] max-lg:gap-[15px] max-sm:items-center max-sm:text-center">
-          <div>
-            <p className="text-white text-4xl max-xl:text-[34px] max-lg:text-[30px] max-md:text-[26px] max-sm:text-[24px] font-third">
-              Mon-Thu
-            </p>
-            <p className="text-white text-4xl max-xl:text-[34px] max-lg:text-[30px] max-md:text-[26px] max-sm:text-[24px] font-third">
-              08:00-18:00
-            </p>
-          </div>
-          <div>
-            <p className="text-white text-4xl max-xl:text-[34px] max-lg:text-[30px] max-md:text-[26px] max-sm:text-[24px] font-third">
-              Fri
-            </p>
-            <p className="text-white text-4xl max-xl:text-[34px] max-lg:text-[30px] max-md:text-[26px] max-sm:text-[24px] font-third">
-              08:00-19:00
-            </p>
-          </div>
+          <OppeningHoursCards day="Mon-Thu" date="Mon-Thu" />
+
+          <OppeningHoursCards day="Fri" date="08:00-19:00" />
         </div>
 
         <div className="flex flex-col gap-[30px] max-lg:gap-[20px] max-sm:items-center max-sm:text-center">
-          <div>
-            <p className="text-white text-4xl max-xl:text-[34px] max-lg:text-[30px] max-md:text-[26px] max-sm:text-[24px] font-third">
-              Sun
-            </p>
-            <p className="text-white text-4xl max-xl:text-[34px] max-lg:text-[30px] max-md:text-[26px] max-sm:text-[24px] font-third">
-              9:00-18:00
-            </p>
-          </div>
-          <div>
-            <p className="text-white text-4xl max-xl:text-[34px] max-lg:text-[30px] max-md:text-[26px] max-sm:text-[24px] font-third">
-              Sat
-            </p>
-            <p className="text-white text-4xl max-xl:text-[34px] max-lg:text-[30px] max-md:text-[26px] max-sm:text-[24px] font-third">
-              9:00-18:00
-            </p>
-          </div>
+          <OppeningHoursCards day="Sun" date="9:00-18:00" />
+
+          <OppeningHoursCards day="Sat" date="9:00-18:00" />
         </div>
       </div>
     </div>

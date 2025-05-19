@@ -85,7 +85,6 @@ function OurMenu() {
     ],
   };
 
-  // Sample data for your coffee cards
   const coffeeItems = [
     {
       img: cappucina,

@@ -9,6 +9,12 @@ export default {
         bg: 'rgba(34, 27, 24, 0.60)',
         cream: '#e6d7c2',
         brown: '#6f4e37',
+        brownTransparent: 'rgba(88, 49, 21, 0.57)',
+        americanSilver: '#D3CECE',
+        semiGreen: '#44E183',
+        coffeeBrown: 'rgba(115, 74, 57, 0.88)',
+        rustBrown: '#A0583C',
+        creamLight: '#FFFADA',
       },
       fontFamily: {
         secondary: ['Inter', 'sans-serif'],
