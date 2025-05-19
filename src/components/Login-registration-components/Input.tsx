@@ -12,16 +12,19 @@ const Input: RefInputType = forwardRef<InputHandle, InputProps>(
       setValue(newValue);
       setError(validate(newValue) ?? '');
     };
-    useImperativeHandle(ref, (): InputHandle => {
-      return {
+
+    useImperativeHandle(
+      ref,
+      (): InputHandle => ({
         getValue: (): string => value,
         getError: (): string => error,
         setValueExternally: (valueExternal: string): void => {
           setValue(valueExternal);
           setError(validate(valueExternal) ?? '');
         },
-      };
-    });
+      })
+    );
+
     return (
       <div className="flex flex-col w-full">
         {label && <label className="font-semibold text-base mb-1">{label}</label>}
