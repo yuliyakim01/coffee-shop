@@ -1,5 +1,6 @@
 export const customerId = 'customerId';
 export const customerVersion = 'customerVersion';
+
 export const FormElements = {
   email: {
     label: 'Email',
@@ -35,12 +36,13 @@ export const FormElements = {
     label: '',
     placeholder: 'Country',
   },
-  defaultAddress: {
-    label: 'Use as default address',
+  sameAddress: {
+    label: 'Use same address for shipping',
   },
 };
-export const defaultAddressCheckboxMessage =
-  'Use as default for shipping and billing address. You can change it later in your profile.';
+
+export const sameAddressCheckboxMessage = 'Check this if you want to use your billing address for shipping as well.';
+
 export const AuthRedirect = {
   registerPage: {
     question: 'Already Have An Account?',
@@ -51,15 +53,3 @@ export const AuthRedirect = {
     label: 'Sign Up',
   },
 };
-export interface RegistrationFormItems {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  street: string;
-  city: string;
-  postalCode: string;
-  countryName: string;
-  email: string;
-  password: string;
-  useAsDefaultAddress: boolean;
-}

@@ -1,5 +1,5 @@
 import type { Customer, CustomerDraft } from '@commercetools/platform-sdk';
-import type { RegistrationFormItems } from '@/data/constants';
+import type { RegistrationFormItems } from '@/data/interfaces';
 import { customerId, customerVersion } from '@/data/constants';
 import type { Country, FormRefItem } from '@/data/interfaces';
 import { countries } from '@/data/interfaces';
@@ -14,7 +14,11 @@ export function processCustomerDraftProps(
   countryRef: FormRefItem,
   emailRef: FormRefItem,
   passwordRef: FormRefItem,
-  useAsDefaultAddress: boolean
+  useSameAddress: boolean,
+  shippingStreetRef: FormRefItem,
+  shippingCityRef: FormRefItem,
+  shippingPostalCodeRef: FormRefItem,
+  shippingCountryRef: FormRefItem
 ): RegistrationFormItems {
   return {
     firstName: firstNameRef.current?.getValue() ?? '',
@@ -26,43 +30,64 @@ export function processCustomerDraftProps(
     countryName: countryRef.current?.getValue() ?? '',
     email: emailRef.current?.getValue() ?? '',
     password: passwordRef.current?.getValue() ?? '',
-    useAsDefaultAddress,
+    useSameAddress,
+    shippingStreet: shippingStreetRef?.current?.getValue() ?? '',
+    shippingCity: shippingCityRef?.current?.getValue() ?? '',
+    shippingPostalCode: shippingPostalCodeRef?.current?.getValue() ?? '',
+    shippingCountry: shippingCountryRef?.current?.getValue() ?? '',
   };
 }
 
 export function createCustomerDraft(prop: RegistrationFormItems): CustomerDraft {
   const country: string = normalizeCountryInput(prop.countryName);
+  const shippingCountry: string = normalizeCountryInput(prop.shippingCountry ?? '');
+
+  const addresses = [
+    {
+      streetName: prop.street,
+      city: prop.city,
+      postalCode: prop.postalCode,
+      country,
+    },
+  ];
+
+  if (!prop.useSameAddress) {
+    addresses.push({
+      streetName: prop.shippingStreet ?? '',
+      city: prop.shippingCity ?? '',
+      postalCode: prop.shippingPostalCode ?? '',
+      country: shippingCountry,
+    });
+  }
+
   return {
     email: prop.email,
     password: prop.password,
     firstName: prop.firstName,
     lastName: prop.lastName,
     dateOfBirth: prop.dateOfBirth,
-    addresses: [
-      {
-        streetName: prop.street,
-        city: prop.city,
-        postalCode: prop.postalCode,
-        country: country,
-      },
-    ],
-    defaultShippingAddress: prop.useAsDefaultAddress ? 0 : undefined,
-    defaultBillingAddress: prop.useAsDefaultAddress ? 0 : undefined,
+    addresses,
+    defaultBillingAddress: 0,
+    defaultShippingAddress: prop.useSameAddress ? 0 : 1,
     isEmailVerified: true,
   };
 }
+
 export function normalizeCountryInput(countryName: string): string {
   const match: Country | undefined = countries.find(
     (country: Country): boolean => country.name.toLowerCase() === countryName.trim().toLowerCase()
   );
   return match ? match.code : 'GE';
 }
+
 export function normalizeInput(userInput: string): string {
   return userInput.trim();
 }
+
 export function saveToSessionStorage(key: string, value: string): void {
   sessionStorage.setItem(key, value);
 }
+
 export function saveLoggedInUserToSessionStorage(customer: Customer): void {
   saveToSessionStorage(customerId, customer.id);
   saveToSessionStorage(customerVersion, `${customer.version}`);
