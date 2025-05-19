@@ -10,7 +10,7 @@ import { ROUTES } from '@/data/routes';
 import handleApiError from '@/utils/handleApiError';
 import type { FormRefItem, InputHandle } from '@/data/interfaces';
 import { isErrorFree } from '@/utils/formUtils';
-import { AuthRedicrect, FormElements } from '@/data/constants';
+import { AuthRedirect, FormElements } from '@/data/constants';
 
 const LoginFormComponent: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -54,8 +54,8 @@ const LoginFormComponent: React.FC = () => {
       <PasswordInput ref={passwordRef} />
       <Button type="submit" label={loading ? 'Logging in...' : 'Login now'} className="mt-5" />
       <AuthRedirectMessage
-        message={AuthRedicrect.loginPage.question}
-        label={AuthRedicrect.loginPage.label}
+        message={AuthRedirect.loginPage.question}
+        label={AuthRedirect.loginPage.label}
         to={ROUTES.register}
       />
 

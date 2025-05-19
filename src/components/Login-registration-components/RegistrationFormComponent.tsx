@@ -19,7 +19,7 @@ import Button from '@/components/Login-registration-components/Button';
 import AuthRedirectMessage from '@/components/Login-registration-components/AuthRedirectMessage';
 import { ROUTES } from '@/data/routes';
 import { ErrorNotification, SuccessNotification } from '@/components/Popup-components/NotificationBanners';
-import { AuthRedicrect, FormElements } from '@/data/constants';
+import { AuthRedirect, FormElements } from '@/data/constants';
 import { createCustomerDraft, processCustomerDraftProps } from '@/utils/customerUtils';
 import type { CustomerDraft } from '@commercetools/platform-sdk';
 
@@ -157,8 +157,8 @@ const RegistrationFormComponent = () => {
       />
 
       <AuthRedirectMessage
-        message={AuthRedicrect.registerPage.question}
-        label={AuthRedicrect.registerPage.label}
+        message={AuthRedirect.registerPage.question}
+        label={AuthRedirect.registerPage.label}
         to={ROUTES.login}
       />
 

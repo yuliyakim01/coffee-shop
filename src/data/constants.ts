@@ -41,7 +41,7 @@ export const FormElements = {
 };
 export const defaultAddressCheckboxMessage =
   'Use as default for shipping and billing address. You can change it later in your profile.';
-export const AuthRedicrect = {
+export const AuthRedirect = {
   registerPage: {
     question: 'Already Have An Account?',
     label: 'Login',
