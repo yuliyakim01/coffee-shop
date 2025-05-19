@@ -132,7 +132,7 @@ function Review() {
       <h2 className="pt-[80px] mb-[30px] text-white text-[40px] font-bold leading-[150%] text-center">
         What our Customers
       </h2>
-      <div className="[&_.slick-dots>li>button::before]:text-[#FFFFFF] [&_.slick-dots>li.slick-active>button::before]:text-[#8C8C8C] pb-[50px]">
+      <div className="  [&_.slick-dots>li>button::before]:text-[#FFFFFF ] [&_.slick-dots>li.slick-active>button::before]:text-[#8C8C8C] pb-[50px]">
         <Slider {...settings}>
           {reviews.map((review, index) => (
             <div key={index} className="py-6">
