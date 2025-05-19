@@ -1,6 +1,9 @@
 import Bartons from '@/components/homePage-components/Bartons';
 import HomePageHero from '@/components/homePage-components/HomePageHero';
+import LocationSection from '@/components/homePage-components/LocationSection';
 import OpeningHours from '@/components/homePage-components/OpeningHours';
+import OurMenu from '@/components/homePage-components/OurMenu';
+import Review from '@/components/homePage-components/Review';
 import React from 'react';
 
 function HomePage() {
@@ -9,6 +12,9 @@ function HomePage() {
       <HomePageHero />
       <Bartons />
       <OpeningHours />
+      <OurMenu />
+      <Review />
+      <LocationSection />
     </div>
   );
 }
