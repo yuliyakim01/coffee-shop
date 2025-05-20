@@ -4,8 +4,8 @@ import logo from '@/assets/logo.svg';
 import cart from '@/assets/cart.png';
 import burger from '@/assets/burger.png';
 import close from '@/assets/close.png';
-import userIcon from '@/assets/user-icon.svg';
-import loginIcon from '@/assets/login-icon.svg';
+import userIcon from '@/assets/user-Prifile-icon.png';
+import loginIcon from '@/assets/login.png';
 import { LABELS, ROUTES } from '@/data/routes';
 import { Link, useLocation } from 'react-router-dom';
 import { getIsAuthorizedFromSessionStorage } from '@/utils/customerUtils';
@@ -55,16 +55,16 @@ function Header() {
         <Nav />
       </div>
 
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center ">
         <div>
           <Link to={ROUTES.cart}>
-            <img src={cart} alt="cart" className="w-8 mr-8" />
+            <img src={cart} alt="cart" className="w-8 mr-5" />
           </Link>
         </div>
 
         {isAuthorized ? (
           <div ref={userIconRef} onClick={toggleProfile} className="relative cursor-pointer">
-            <img src={userIcon} alt="userIcon" className="w-8 h-8" />
+            <img src={userIcon} alt="userIcon" className="w-10 h-10" />
             {isProfileOpen && (
               <div ref={profileRef} className="absolute top-[70px] right-[-20px]">
                 <ProfileModal />
