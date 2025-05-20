@@ -178,3 +178,8 @@ export interface RegistrationFormItems {
   shippingPostalCode: string;
   shippingCountry: string;
 }
+
+export interface SessionUser {
+  customerId: string;
+  customerVersion: number;
+}

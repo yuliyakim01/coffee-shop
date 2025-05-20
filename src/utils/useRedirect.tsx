@@ -4,7 +4,7 @@ import InfoPopup from '@/components/Popup-components/InfoPopup';
 import { ROUTES } from '@/data/routes';
 import React from 'react';
 import { getLoggedInUserFromSessionStorage } from '@/utils/customerUtils';
-import type { SessionUser } from '@/data/constants';
+import type { SessionUser } from '@/data/interfaces';
 
 const UserRedirect: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);

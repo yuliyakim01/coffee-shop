@@ -81,7 +81,6 @@ function Header() {
         </Link>
       </div>
 
-      {/* Desktop navigation */}
       <nav className="max-[900px]:hidden">
         <ul className="flex justify-center items-center gap-8 text-white text-lg">
           <li>
@@ -118,21 +117,28 @@ function Header() {
             <img src={cart} alt="cart" className="w-8 mr-8" />
           </Link>
         </div>
-        <div>
+        <div className="flex gap-2 max-[900px]:hidden">
           <Link
             to={ROUTES.login}
-            className="uppercase bg-LightTaupe px-4 py-2 rounded text-lg text-white max-[900px]:hidden flex items-center gap-2"
+            className="group uppercase bg-LightTaupe px-3 py-1.5 rounded-md text-base text-white flex items-center gap-1.5 transition-all duration-500 ease-in-out hover:scale-[1.03] hover:bg-[#bc8f7a]"
           >
-            <img src={loginIcon} alt="Login icon" className="w-5 h-5" />
+            <img
+              src={loginIcon}
+              alt="Login icon"
+              className="w-4 h-4 transition-opacity duration-500 group-hover:opacity-90"
+            />
             {LABELS.login}
           </Link>
-        </div>
-        <div className="ml-2">
+
           <Link
             to={ROUTES.register}
-            className="uppercase bg-LightTaupe px-4 py-2 rounded text-lg text-white max-[900px]:hidden flex items-center gap-2"
+            className="group uppercase bg-LightTaupe px-3 py-1.5 rounded-md text-base text-white flex items-center gap-1.5 transition-all duration-500 ease-in-out hover:scale-[1.03] hover:bg-[#bc8f7a]"
           >
-            <img src={registerIcon} alt="Register icon" className="w-5 h-5" />
+            <img
+              src={registerIcon}
+              alt="Register icon"
+              className="w-4 h-4 transition-opacity duration-500 group-hover:opacity-90"
+            />
             {LABELS.register}
           </Link>
         </div>
