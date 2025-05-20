@@ -13,8 +13,103 @@ import registerIcon from '../../assets/register-icon.svg';
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const closeMenu = () => setIsOpen(false);
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
+  const modal = () => {
+    return (
+      <div>
+        <nav>
+          <ul className="flex flex-col items-center gap-8 text-white text-lg">
+            <li>
+              <Link
+                to={ROUTES.main}
+                onClick={closeMenu}
+                className="group uppercase transition-transform duration-500 ease-in-out"
+              >
+                <span className="inline-block transition-transform duration-500 ease-in-out group-hover:scale-110">
+                  {LABELS.home}
+                </span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={ROUTES.about}
+                onClick={closeMenu}
+                className="group uppercase transition-transform duration-500 ease-in-out"
+              >
+                <span className="inline-block transition-transform duration-500 ease-in-out group-hover:scale-110">
+                  {LABELS.about}
+                </span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={ROUTES.menu}
+                onClick={closeMenu}
+                className="group uppercase transition-transform duration-500 ease-in-out"
+              >
+                <span className="inline-block transition-transform duration-500 ease-in-out group-hover:scale-110">
+                  {LABELS.menu}
+                </span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={ROUTES.products}
+                onClick={closeMenu}
+                className="group uppercase transition-transform duration-500 ease-in-out"
+              >
+                <span className="inline-block transition-transform duration-500 ease-in-out group-hover:scale-110">
+                  {LABELS.products}
+                </span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={ROUTES.locations}
+                onClick={closeMenu}
+                className="group uppercase transition-transform duration-500 ease-in-out"
+              >
+                <span className="inline-block transition-transform duration-500 ease-in-out group-hover:scale-110">
+                  {LABELS.locations}
+                </span>
+              </Link>
+            </li>
+          </ul>
+        </nav>
+
+        <div className="mt-8">
+          <Link
+            to={ROUTES.login}
+            onClick={closeMenu}
+            className="group flex items-center justify-center gap-2 w-fit mx-auto uppercase bg-LightTaupe text-white px-6 py-2 rounded-md text-lg font-medium transition-transform duration-500 ease-in-out"
+          >
+            <img src={loginIcon} alt="Login icon" className="w-5 h-5" />
+            <span className="transition-transform duration-500 ease-in-out group-hover:scale-110">{LABELS.login}</span>
+          </Link>
+        </div>
+
+        <div className="mt-4">
+          <Link
+            to={ROUTES.register}
+            onClick={closeMenu}
+            className="group flex items-center justify-center gap-2 w-fit mx-auto uppercase bg-LightTaupe text-white px-6 py-2 rounded-md text-lg font-medium transition-transform duration-500 ease-in-out"
+          >
+            <img src={registerIcon} alt="Register icon" className="w-5 h-5" />
+            <span className="transition-transform duration-500 ease-in-out group-hover:scale-110">
+              {LABELS.register}
+            </span>
+          </Link>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="z-10 w-full flex justify-between items-center pt-2">
