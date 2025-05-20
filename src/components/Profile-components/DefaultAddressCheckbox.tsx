@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormElements, defaultAddressCheckboxMessage } from '@/data/constants';
+import { FormElements, sameAddressCheckboxMessage } from '@/data/constants';
 
 interface DefaultAddressCheckboxProps {
   checked: boolean;
@@ -17,7 +17,7 @@ const DefaultAddressCheckbox: React.FC<DefaultAddressCheckboxProps> = ({ checked
             onChange={(e) => onChange(e.target.checked)}
             className="w-6 h-6 accent-[#6f4e37] cursor-pointer"
           />
-          <span className="text-sm">{FormElements.defaultAddress.label}</span>
+          <span className="text-sm">{FormElements.sameAddress.label}</span>
         </label>
 
         {/* Info icon + tooltip */}
@@ -26,7 +26,7 @@ const DefaultAddressCheckbox: React.FC<DefaultAddressCheckboxProps> = ({ checked
             ℹ️
           </span>
           <div className="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 hidden group-hover:block bg-brown text-white text-xs p-2 rounded shadow-lg w-60 z-10">
-            {defaultAddressCheckboxMessage}
+            {sameAddressCheckboxMessage}
           </div>
         </div>
       </div>

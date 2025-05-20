@@ -15,7 +15,7 @@ const AuthRedirectMessage: React.FC<AuthRedirectMessageProps> = ({
   return (
     <p className="w-full text-center text-sm mt-5">
       {message}
-      <Link to={to} className="text-blue-500 font-medium underline ml-1">
+      <Link to={to} className="text-blue-600 font-semibold underline ml-2">
         {label}
       </Link>
     </p>
