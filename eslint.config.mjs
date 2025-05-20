@@ -4,6 +4,7 @@ import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
 import tsEslintPlugin from '@typescript-eslint/eslint-plugin';
 import tsEslintParser from '@typescript-eslint/parser';
+import pluginJest from 'eslint-plugin-jest';
 
 export default [
   js.configs.recommended,
@@ -40,7 +41,7 @@ export default [
       '@typescript-eslint/consistent-type-imports': 'warn',
     },
   },
-  { ignores: ['jest.config.js', 'src/pages/**/*.tsx'] },
+  { ignores: ['jest.config.js', 'src/pages/**/*.tsx', 'jest.setup.ts', 'tests/**/*'] },
 
   // React support
   {
@@ -68,6 +69,20 @@ export default [
       react: {
         version: 'detect',
       },
+    },
+
+  },
+  {
+    files: ['**/*.test.js', '**/*.spec.js'], // Adjust to match your test file patterns
+    plugins: {
+      jest: pluginJest,
+    },
+    ...pluginJest.configs['flat/recommended'],
+    languageOptions: {
+      globals: pluginJest.environments.globals.globals,
+    },
+    env: {
+      jest: true, // Enable Jest environment globals
     },
   },
 ];
