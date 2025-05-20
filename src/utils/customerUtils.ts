@@ -90,7 +90,7 @@ export function saveToSessionStorage(key: string, value: string): void {
   sessionStorage.setItem(key, value);
 }
 
-export function saveLoggedInUserToSessionStorage(customer: Customer, isAuthorized: boolean): void {
+export function saveLoggedInUserToSessionStorage(customer: Customer, isAuthorized?: boolean): void {
   saveToSessionStorage(customerId, customer.id);
   saveToSessionStorage(customerVersion, `${customer.version}`);
   saveToSessionStorage(isAuthorizedKey, JSON.stringify(isAuthorized));
