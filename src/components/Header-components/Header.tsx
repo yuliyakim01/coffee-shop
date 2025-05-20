@@ -120,10 +120,7 @@ function Header() {
         </Link>
       </div>
 
-      {/* Desktop navigation */}
-      <div className="max-[900px]:hidden">
-        <Nav />
-      </div>
+
 
       {/* Icons and Auth Buttons */}
       <div className="flex justify-center items-center">
@@ -133,7 +130,6 @@ function Header() {
           </Link>
         </div>
 
-        {/* Auth buttons - Desktop only */}
         <div className="flex gap-2 max-[900px]:hidden">
           <Link
             to={ROUTES.login}
@@ -146,6 +142,7 @@ function Header() {
             />
             {LABELS.login}
           </Link>
+
           <Link
             to={ROUTES.register}
             className="group uppercase bg-LightTaupe px-3 py-1.5 rounded-md text-base text-white flex items-center gap-1.5 transition-all duration-500 ease-in-out hover:scale-[1.03] hover:bg-[#bc8f7a]"
@@ -170,54 +167,16 @@ function Header() {
         </div>
       </div>
 
-      {/* Modal Overlay - Mobile Navigation */}
       <div
         className={`fixed top-0 left-0 w-full h-screen z-10 flex transition-opacity duration-300 ${
           isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        {/* Background overlay */}
-        <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-500" onClick={closeMenu} />
 
         {/* Modal content */}
         <div
           className={`relative z-20 bg-LightTaupe w-[70%] h-full flex flex-col justify-center items-center gap-8 
-        transform transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
-        >
-          <img
-            src={close}
-            alt="Close-icon"
-            onClick={closeMenu}
-            className="w-8 absolute top-5 right-5 cursor-pointer"
-          />
 
-          <Nav isVertical onItemClick={closeMenu} />
-
-          <div className="mt-8">
-            <Link
-              to={ROUTES.login}
-              onClick={closeMenu}
-              className="group flex items-center justify-center gap-2 w-fit mx-auto uppercase bg-LightTaupe text-white px-6 py-2 rounded-md text-lg font-medium transition-transform duration-500 ease-in-out"
-            >
-              <img src={loginIcon} alt="Login icon" className="w-5 h-5" />
-              <span className="transition-transform duration-500 ease-in-out group-hover:scale-110">
-                {LABELS.login}
-              </span>
-            </Link>
-          </div>
-
-          <div className="mt-4">
-            <Link
-              to={ROUTES.register}
-              onClick={closeMenu}
-              className="group flex items-center justify-center gap-2 w-fit mx-auto uppercase bg-LightTaupe text-white px-6 py-2 rounded-md text-lg font-medium transition-transform duration-500 ease-in-out"
-            >
-              <img src={registerIcon} alt="Register icon" className="w-5 h-5" />
-              <span className="transition-transform duration-500 ease-in-out group-hover:scale-110">
-                {LABELS.register}
-              </span>
-            </Link>
-          </div>
         </div>
       </div>
     </div>
