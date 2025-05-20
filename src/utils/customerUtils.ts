@@ -1,7 +1,8 @@
 import type { Customer, CustomerDraft } from '@commercetools/platform-sdk';
-
+import type { RegistrationFormItems } from '@/data/interfaces';
 import { customerId, customerVersion } from '@/data/constants';
 import type { Country, FormRefItem } from '@/data/interfaces';
+import type { SessionUser } from '@/data/interfaces';
 import { countries } from '@/data/interfaces';
 
 export function processCustomerDraftProps(
@@ -100,7 +101,7 @@ export const getLoggedInUserFromSessionStorage = (): SessionUser | null => {
   if (customerIdFromStorage && customerVersionFromStorage) {
     return {
       customerId: customerIdFromStorage,
-      customerVersion: customerVersionFromStorage,
+      customerVersion: Number(customerVersionFromStorage),
     };
   }
 
