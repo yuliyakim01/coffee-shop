@@ -1,5 +1,5 @@
 import type { NavigateFunction } from 'react-router-dom';
-import React from 'react';
+import type React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useState } from 'react';
 import { loginCustomer } from '@/api/customers';

@@ -3,7 +3,7 @@ import type { Customer, CustomerDraft } from '@commercetools/platform-sdk';
 import { customerId, customerVersion } from '@/data/constants';
 import type { Country, FormRefItem } from '@/data/interfaces';
 import { countries } from '@/data/interfaces';
-
+import type { RegistrationFormItems, SessionUser } from '@/data/interfaces';
 export function processCustomerDraftProps(
   firstNameRef: FormRefItem,
   lastNameRef: FormRefItem,
