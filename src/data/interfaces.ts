@@ -162,15 +162,19 @@ export interface RegistrationFormOutputItems {
   password: string;
   useAsDefaultAddress: boolean;
 }
-export interface RegistrationFormRefs {
-  emailRef: RefObject<{ value: string }>;
-  passwordRef: RefObject<{ value: string }>;
-  firstNameRef: RefObject<{ value: string }>;
-  lastNameRef: RefObject<{ value: string }>;
-  dobRef: RefObject<{ value: string }>;
-  streetRef: RefObject<{ value: string }>;
-  cityRef: RefObject<{ value: string }>;
-  postalCodeRef: RefObject<{ value: string }>;
-  countryRef: RefObject<{ value: string }>;
-  useAsDefaultAddress: boolean;
+export interface RegistrationFormItems {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  countryName: string;
+  email: string;
+  password: string;
+  useSameAddress: boolean;
+  shippingStreet: string;
+  shippingCity: string;
+  shippingPostalCode: string;
+  shippingCountry: string;
 }

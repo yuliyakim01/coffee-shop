@@ -1,7 +1,7 @@
 import React, { type FormEvent, useRef, useState } from 'react';
 import { useRegistration } from '@/utils/useRegistration';
 import { isErrorFree } from '@/utils/formUtils';
-import type { FormRefItem, InputHandle, RegistrationFormOutputItems } from '@/data/interfaces';
+import type { FormRefItem, InputHandle, RegistrationFormItems } from '@/data/interfaces';
 import handleApiError from '@/utils/handleApiError';
 import Input from '@/components/Login-registration-components/Input';
 import {
@@ -19,7 +19,7 @@ import Button from '@/components/Login-registration-components/Button';
 import AuthRedirectMessage from '@/components/Login-registration-components/AuthRedirectMessage';
 import { ROUTES } from '@/data/routes';
 import { ErrorNotification, SuccessNotification } from '@/components/Popup-components/NotificationBanners';
-import { AuthRedicrect, FormElements } from '@/data/constants';
+import { AuthRedirect, FormElements } from '@/data/constants';
 import { createCustomerDraft, processCustomerDraftProps } from '@/utils/customerUtils';
 import type { CustomerDraft } from '@commercetools/platform-sdk';
 
@@ -27,7 +27,8 @@ const RegistrationFormComponent = () => {
   const [loading, setLoading] = useState(false);
   const [apiErrorMessage, setApiErrorMessage] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState<string | null>(null);
-  const [useAsDefaultAddress, setUseAsDefaultAddress] = useState(true);
+  const [useSameAddress, setUseSameAddress] = useState(true);
+
   const { register } = useRegistration();
 
   const emailRef: FormRefItem = useRef<InputHandle>(null);
@@ -39,11 +40,15 @@ const RegistrationFormComponent = () => {
   const cityRef: FormRefItem = useRef<InputHandle>(null);
   const postalCodeRef: FormRefItem = useRef<InputHandle>(null);
   const countryRef: FormRefItem = useRef<InputHandle>(null);
+
+  const shippingStreetRef: FormRefItem = useRef<InputHandle>(null);
+  const shippingCityRef: FormRefItem = useRef<InputHandle>(null);
+  const shippingPostalCodeRef: FormRefItem = useRef<InputHandle>(null);
+  const shippingCountryRef: FormRefItem = useRef<InputHandle>(null);
+
   const country: string = countryRef.current?.getValue() ?? '';
 
-  const handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void> = async (
-    e: FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setApiErrorMessage(null);
     setShowSuccess(null);
@@ -58,11 +63,13 @@ const RegistrationFormComponent = () => {
         streetRef,
         cityRef,
         postalCodeRef,
-        countryRef
+        countryRef,
+        ...(useSameAddress ? [] : [shippingStreetRef, shippingCityRef, shippingPostalCodeRef, shippingCountryRef])
       )
     )
       return;
-    const props: RegistrationFormOutputItems = processCustomerDraftProps(
+
+    const props: RegistrationFormItems = processCustomerDraftProps(
       firstNameRef,
       lastNameRef,
       dobRef,
@@ -72,9 +79,15 @@ const RegistrationFormComponent = () => {
       countryRef,
       emailRef,
       passwordRef,
-      useAsDefaultAddress
+      useSameAddress,
+      shippingStreetRef,
+      shippingCityRef,
+      shippingPostalCodeRef,
+      shippingCountryRef
     );
+
     const draft: CustomerDraft = createCustomerDraft(props);
+
     try {
       setLoading(true);
       await register(draft);
@@ -85,6 +98,7 @@ const RegistrationFormComponent = () => {
       setLoading(false);
     }
   };
+
   return (
     <form className="flex flex-col items-start gap-5 w-full" onSubmit={handleSubmit}>
       <div className="flex gap-4 w-full">
@@ -105,7 +119,7 @@ const RegistrationFormComponent = () => {
       <Input ref={dobRef} label={FormElements.dob.label} type={FormElements.dob.type} validate={validateDOB} />
 
       <div className="flex flex-col w-full">
-        <label className="font-semibold text-base mb-1">Address</label>
+        <label className="font-semibold text-base mb-1">Billing Address</label>
 
         <div className="flex gap-4 mt-2">
           <Input
@@ -137,7 +151,29 @@ const RegistrationFormComponent = () => {
           />
         </div>
       </div>
-      <DefaultAddressCheckbox checked={useAsDefaultAddress} onChange={setUseAsDefaultAddress} />
+
+      <DefaultAddressCheckbox checked={useSameAddress} onChange={setUseSameAddress} />
+
+      {!useSameAddress && (
+        <div className="flex flex-col w-full mt-4">
+          <label className="font-semibold text-base mb-1">Shipping Address</label>
+
+          <div className="flex gap-4 mt-2">
+            <Input ref={shippingStreetRef} label="Street" placeholder="Shipping street" validate={validateStreet} />
+            <Input ref={shippingCityRef} label="City" placeholder="Shipping city" validate={validateCity} />
+          </div>
+
+          <div className="flex gap-4 mt-4">
+            <Input
+              ref={shippingPostalCodeRef}
+              label="Postal Code"
+              placeholder="Shipping postal code"
+              validate={(val) => validatePostalCode(val, shippingCountryRef.current?.getValue() ?? '')}
+            />
+            <Input ref={shippingCountryRef} label="Country" placeholder="Shipping country" validate={validateCountry} />
+          </div>
+        </div>
+      )}
 
       <Input
         ref={emailRef}
@@ -157,8 +193,8 @@ const RegistrationFormComponent = () => {
       />
 
       <AuthRedirectMessage
-        message={AuthRedicrect.registerPage.question}
-        label={AuthRedicrect.registerPage.label}
+        message={AuthRedirect.registerPage.question}
+        label={AuthRedirect.registerPage.label}
         to={ROUTES.login}
       />
 
@@ -167,4 +203,5 @@ const RegistrationFormComponent = () => {
     </form>
   );
 };
+
 export default RegistrationFormComponent;
