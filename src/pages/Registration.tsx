@@ -4,13 +4,15 @@ import RegistrationFormComponent from '@/components/Login-registration-component
 
 const Register: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f0e6d7]">
-      <div className="flex flex-col items-center w-[40rem] p-12 bg-[#e6d7c2] rounded-2xl shadow-xl mt-10">
-        <div className="fixed top-8 left-8 z-50">
-          <BackButton />
-        </div>
-        <h1 className="font-semibold text-4xl mb-8">Create an account</h1>
+    <div className="min-h-screen bg-[#f0e6d7] px-4 py-12">
+      {/* Back Button aligned to the left at the top */}
+      <div className="w-full max-w-7xl mx-auto mb-6">
+        <BackButton />
+      </div>
 
+      {/* Registration Form centered below */}
+      <div className="w-full max-w-3xl mx-auto bg-[#e6d7c2] rounded-2xl shadow-xl p-8">
+        <h1 className="font-semibold text-4xl mb-8 text-center">Create an account</h1>
         <RegistrationFormComponent />
       </div>
     </div>

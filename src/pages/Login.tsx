@@ -5,14 +5,18 @@ import UserRedirect from '@/utils/useRedirect';
 
 const LoginPage: React.FC = (): ReactElement => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f0e6d7]">
+    <div className="min-h-screen bg-[#f0e6d7] px-4 py-8">
       <UserRedirect />
-      <div className="flex flex-col items-center w-[40rem] p-12 bg-[#e6d7c2] rounded-2xl shadow-xl mt-24">
-        <div className="fixed top-8 left-8 z-50">
-          <BackButton />
+      <div className="w-full max-w-7xl mx-auto mb-6">
+        <BackButton />
+      </div>
+      <div className="flex items-center justify-center min-h-[calc(100vh-6rem)]">
+        <div className="w-full max-w-xl bg-[#e6d7c2] rounded-2xl shadow-xl p-8">
+          <h1 className="font-semibold text-4xl mb-8 text-center">Login to your account</h1>
+          <div className="w-full max-w-md mx-auto">
+            <LoginFormComponent />
+          </div>
         </div>
-        <h1 className="font-semibold text-4xl mb-8">Login to your account</h1>
-        <LoginFormComponent />
       </div>
     </div>
   );
