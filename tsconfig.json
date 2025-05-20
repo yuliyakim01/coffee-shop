@@ -15,7 +15,8 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["jest", "@testing-library/jest-dom"]
+    "types": ["jest", "@testing-library/jest-dom", "node"],
+    "lib": ["dom", "esnext"]
   },
   "include": ["src/**/*", "tests"],
   "exclude": ["node_modules", "dist"]

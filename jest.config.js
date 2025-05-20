@@ -27,6 +27,5 @@ export default {
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(png|jpg|jpeg|gif|svg)$': '<rootDir>/tests/__mocks__/fileMock.js',
   },
-
-  verbose: true,
+  collectCoverageFrom: ['src/**/*.{js,ts,tsx}'],
 };
