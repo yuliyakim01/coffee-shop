@@ -17,8 +17,8 @@ export const Nav: React.FC<NavProps> = ({ isVertical = false, onItemClick }) => 
   ];
 
   return (
-    <nav>
-      <ul className={`flex ${isVertical ? 'flex-col' : 'flex-row'} items-center gap-8 text-white text-lg`}>
+    <nav className="absolute top-[120px]">
+      <ul className={`flex ${isVertical ? 'flex-col' : 'flex-row'}  items-center gap-8 text-white text-lg`}>
         {menuItems.map((item) => (
           <li key={item.route}>
             <Link to={item.route} className="uppercase" onClick={onItemClick}>

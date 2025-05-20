@@ -13,6 +13,7 @@ import { ROUTES } from '@/data/routes';
 import Cart from '@/pages/Cart';
 import Contact from './pages/Contact';
 import NotFoundPage from '@/pages/NotFoundPage';
+import Profile from './pages/Profile';
 
 const router = createBrowserRouter([
   {
@@ -40,8 +41,12 @@ const router = createBrowserRouter([
         element: <Location />,
       },
       {
-        path: '/cart',
+        path: ROUTES.cart,
         element: <Cart />,
+      },
+      {
+        path: ROUTES.profile,
+        element: <Profile />,
       },
     ],
   },

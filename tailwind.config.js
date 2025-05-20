@@ -25,6 +25,15 @@ export default {
         ReviewCardShadow: '0px 10px 20px rgba(0, 0, 0, 0.25)',
         locationSectionShadow: '20px 20px 10px 0px rgba(62, 47, 25, 0.20)',
       },
+      keyframes: {
+        slideFade: {
+          '0%': { opacity: 0, transform: 'translateY(-10px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        slideFade: 'slideFade 0.3s ease-out',
+      },
     },
   },
   plugins: [],
