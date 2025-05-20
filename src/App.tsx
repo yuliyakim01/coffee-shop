@@ -40,16 +40,8 @@ const router = createBrowserRouter([
         element: <Location />,
       },
       {
-        path: ROUTES.cart,
+        path: '/cart',
         element: <Cart />,
-      },
-      {
-        path: ROUTES.notFound,
-        element: <NotFoundPage />,
-      },
-      {
-        path: ROUTES.contact,
-        element: <Contact />,
       },
     ],
   },
