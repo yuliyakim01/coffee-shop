@@ -3,8 +3,6 @@ import { render, screen } from '@testing-library/react';
 import NotFoundPage from '../../src/pages/NotFoundPage';
 
 jest.mock('../../src/components/Login-registration-components/BackButton', () => () => <button>Back</button>);
-
-// Mock the SearchBar component (simple mock version)
 jest.mock('../../src/components/NotFound-components/SearchBar', () => () => <input placeholder="Search..." />);
 jest.mock('@/assets/coffee-illustration.png', () => 'file stub');
 
