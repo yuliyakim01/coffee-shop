@@ -2,7 +2,7 @@ import React from 'react';
 import footerImage from '@/assets/footer.png';
 import { Link } from 'react-router-dom';
 import { footerNavList, LABELS, ROUTES } from '@/data/routes';
-import logo from '@/assets/logo.png';
+import logo from '@/assets/logo.svg';
 
 function Footer() {
   return (

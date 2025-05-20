@@ -4,7 +4,7 @@ import { customerId, customerVersion } from '@/data/constants';
 import type { Country, FormRefItem } from '@/data/interfaces';
 import type { SessionUser } from '@/data/interfaces';
 import { countries } from '@/data/interfaces';
-
+import type { RegistrationFormItems, SessionUser } from '@/data/interfaces';
 export function processCustomerDraftProps(
   firstNameRef: FormRefItem,
   lastNameRef: FormRefItem,
@@ -74,6 +74,12 @@ export function createCustomerDraft(prop: RegistrationFormItems): CustomerDraft 
   };
 }
 
+export const isAuthorizedKey = 'isAuthorized';
+
+export function normalizeInput(userInput: string): string {
+  return userInput.trim();
+}
+
 export function normalizeCountryInput(countryName: string): string {
   const match: Country | undefined = countries.find(
     (country: Country): boolean => country.name.toLowerCase() === countryName.trim().toLowerCase()
@@ -81,17 +87,14 @@ export function normalizeCountryInput(countryName: string): string {
   return match ? match.code : 'GE';
 }
 
-export function normalizeInput(userInput: string): string {
-  return userInput.trim();
-}
-
 export function saveToSessionStorage(key: string, value: string): void {
   sessionStorage.setItem(key, value);
 }
 
-export function saveLoggedInUserToSessionStorage(customer: Customer): void {
+export function saveLoggedInUserToSessionStorage(customer: Customer, isAuthorized?: boolean): void {
   saveToSessionStorage(customerId, customer.id);
   saveToSessionStorage(customerVersion, `${customer.version}`);
+  saveToSessionStorage(isAuthorizedKey, JSON.stringify(isAuthorized));
 }
 
 export const getLoggedInUserFromSessionStorage = (): SessionUser | null => {
@@ -106,4 +109,15 @@ export const getLoggedInUserFromSessionStorage = (): SessionUser | null => {
   }
 
   return null;
+};
+
+export const getIsAuthorizedFromSessionStorage = (): boolean => {
+  const value = sessionStorage.getItem(isAuthorizedKey);
+  return value === 'true';
+};
+
+export const logoutUser = (): void => {
+  sessionStorage.removeItem(customerId);
+  sessionStorage.removeItem(customerVersion);
+  sessionStorage.removeItem(isAuthorizedKey);
 };

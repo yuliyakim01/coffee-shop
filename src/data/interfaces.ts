@@ -181,5 +181,6 @@ export interface RegistrationFormItems {
 
 export interface SessionUser {
   customerId: string;
-  customerVersion: number;
+  customerVersion: string;
+
 }
