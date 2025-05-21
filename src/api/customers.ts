@@ -1,4 +1,4 @@
-import type { ApiRoot, ClientResponse, CustomerDraft } from '@commercetools/platform-sdk';
+import type { ApiRoot, ClientResponse, Customer, CustomerDraft } from '@commercetools/platform-sdk';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { ctpClient } from '@/api/commerceToolsClient';
 import { AuthData as AUTH } from '@/api/token/authData';
@@ -38,6 +38,21 @@ export const loginCustomer: (email: string, password: string) => Promise<SignInR
     return response.body;
   } catch (error) {
     console.error('Login failed:', error);
+    throw error;
+  }
+};
+export const getCustomerById = async (customerId: string): Promise<Customer> => {
+  try {
+    const response: ClientResponse<Customer> = await apiRoot
+      .withProjectKey({ projectKey: AUTH.projectKey })
+      .customers()
+      .withId({ ID: customerId })
+      .get()
+      .execute();
+    console.log(response.body);
+    return response.body;
+  } catch (error) {
+    console.error('Failed to fetch a customer:', error);
     throw error;
   }
 };
