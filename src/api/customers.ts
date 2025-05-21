@@ -1,4 +1,4 @@
-import type { ApiRoot, ClientResponse, Customer, CustomerDraft } from '@commercetools/platform-sdk';
+import type { ApiRoot, ClientResponse, Customer, CustomerDraft, CustomerToken } from '@commercetools/platform-sdk';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { ctpClient } from '@/api/commerceToolsClient';
 import { AuthData as AUTH } from '@/api/token/authData';
@@ -49,10 +49,46 @@ export const getCustomerById = async (customerId: string): Promise<Customer> => 
       .withId({ ID: customerId })
       .get()
       .execute();
-    console.log(response.body);
     return response.body;
   } catch (error) {
     console.error('Failed to fetch a customer:', error);
+    throw error;
+  }
+};
+export const requestPasswordResetToken = async (emailUser: string) => {
+  try {
+    const response: ClientResponse<CustomerToken> = await apiRoot
+      .withProjectKey({ projectKey: AUTH.projectKey })
+      .customers()
+      .passwordToken()
+      .post({
+        body: {
+          email: emailUser,
+        },
+      })
+      .execute();
+    return response.body;
+  } catch (error) {
+    console.error('Failed to request a token:', error);
+    throw error;
+  }
+};
+export const resetCustomerPassword = async (token: string, password: string): Promise<Customer> => {
+  try {
+    const response: ClientResponse<Customer> = await apiRoot
+      .withProjectKey({ projectKey: AUTH.projectKey })
+      .customers()
+      .passwordReset()
+      .post({
+        body: {
+          tokenValue: token,
+          newPassword: password,
+        },
+      })
+      .execute();
+    return response.body;
+  } catch (error) {
+    console.error('Failed to reset password:', error);
     throw error;
   }
 };

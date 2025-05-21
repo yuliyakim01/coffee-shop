@@ -14,13 +14,12 @@ const CustomerProfile = () => {
         if (!user) return;
         const customerId: string | undefined = user.customerId;
         if (!customerId) return;
-        console.log(customerId);
         const customerData: Customer = await getCustomerById(customerId);
         if (!customerData) return;
-
         setCustomer(customerData);
       } catch (error) {
         console.error('Failed to fetch customer:', error);
+        throw error;
       }
     };
 
