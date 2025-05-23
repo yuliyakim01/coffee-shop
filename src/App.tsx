@@ -48,6 +48,10 @@ const router = createBrowserRouter([
         path: ROUTES.profile,
         element: <Profile />,
       },
+      {
+        path: ROUTES.notFound,
+        element: <NotFoundPage />,
+      },
     ],
   },
 
