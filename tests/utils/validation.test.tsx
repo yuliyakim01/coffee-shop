@@ -28,7 +28,6 @@ describe('Validation Functions', () => {
     });
   });
 
-  // Password validation tests
   describe('validatePassword', () => {
     it('should return null for a strong valid password', () => {
       expect(validatePassword('StrongP@ss1')).toBeNull();
@@ -59,7 +58,6 @@ describe('Validation Functions', () => {
     });
   });
 
-  // Name validation tests
   describe('validateName', () => {
     it('should return null for a valid name', () => {
       expect(validateName('John')).toBeNull();
@@ -74,7 +72,6 @@ describe('Validation Functions', () => {
     });
   });
 
-  // Date of Birth (DOB) validation tests
   describe('validateDOB', () => {
     it('should return null for a valid date', () => {
       expect(validateDOB('2000-01-01')).toBeNull();
@@ -100,7 +97,6 @@ describe('Validation Functions', () => {
     });
   });
 
-  // City validation tests
   describe('validateCity', () => {
     it('should return null for a valid city', () => {
       expect(validateCity('New York')).toBeNull();
@@ -111,7 +107,6 @@ describe('Validation Functions', () => {
     });
   });
 
-  // Postal Code validation tests
   describe('validatePostalCode', () => {
     it('should return null for a valid US postal code', () => {
       expect(validatePostalCode('12345', 'United States')).toBeNull();
@@ -140,7 +135,6 @@ describe('Validation Functions', () => {
     });
   });
 
-  // Country validation tests
   describe('validateCountry', () => {
     it('should return null for a valid country', () => {
       expect(validateCountry('Canada')).toBeNull();
