@@ -11,7 +11,6 @@ import Register from './pages/Registration';
 import ForgotPassword from './pages/ForgotPassword';
 import { ROUTES } from '@/data/routes';
 import Cart from '@/pages/Cart';
-import Contact from './pages/Contact';
 import NotFoundPage from '@/pages/NotFoundPage';
 import Profile from './pages/Profile';
 
@@ -47,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.profile,
         element: <Profile />,
+      },
+      {
+        path: ROUTES.notFound,
+        element: <NotFoundPage />,
       },
     ],
   },

@@ -1,5 +1,4 @@
-import type { ChangeEvent } from 'react';
-import React, { forwardRef, type ReactElement, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, type ReactElement, type ChangeEvent, useImperativeHandle, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TogglePasswordVisibleButton from './TogglePasswordVisibleButton';
 import { ROUTES } from '@/data/routes';
@@ -13,7 +12,7 @@ import type {
 } from '@/data/interfaces';
 
 const PasswordInput: RefPasswordInputType = forwardRef<InputHandle, PasswordInputProps>(
-  ({ showForgotPassword = true }: PasswordInputProps, ref: RefPropType): ReactElement => {
+  ({ showForgotPassword = true, placeholder }: PasswordInputProps, ref: RefPropType): ReactElement => {
     const [showPassword, setShowPassword] = useState(false);
     const [value, setValue] = useState('');
     const [error, setError] = useState('');
@@ -41,7 +40,7 @@ const PasswordInput: RefPasswordInputType = forwardRef<InputHandle, PasswordInpu
           <input
             className="w-full h-12 px-3 pr-12 border border-gray-300 rounded-lg bg-white font-poppins text-base"
             type={showPassword ? 'text' : 'password'}
-            placeholder="Enter your password"
+            placeholder={placeholder ?? 'Enter your password'}
             value={value}
             onChange={handleChange}
             required

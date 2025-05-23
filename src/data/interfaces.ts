@@ -94,6 +94,12 @@ export interface ApiError {
   errors?: { code: string; message: string }[];
 }
 
+export interface CommercetoolsSdkError {
+  body?: ApiError;
+  message?: string;
+  statusCode?: number;
+}
+
 export interface PopupProps {
   message: string;
   onClose?: () => void;
@@ -145,6 +151,7 @@ export type HandleInputType = (e: ChangeEvent<HTMLInputElement>) => void;
 export type RefPropType = ((instance: InputHandle | null) => void) | RefObject<InputHandle | null> | null;
 export type PasswordInputProps = {
   showForgotPassword?: boolean;
+  placeholder?: string;
 };
 export type RefPasswordInputType = ForwardRefExoticComponent<
   PropsWithoutRef<PasswordInputProps> & RefAttributes<InputHandle>
@@ -182,5 +189,4 @@ export interface RegistrationFormItems {
 export interface SessionUser {
   customerId: string;
   customerVersion: string;
-
 }
