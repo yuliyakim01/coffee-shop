@@ -6,7 +6,7 @@ import logo from '@/assets/logo.svg';
 
 function Footer() {
   return (
-    <div className="w-full bg-cover bg-center " style={{ backgroundImage: `url(${footerImage})` }}>
+    <footer className="w-full bg-cover bg-center " style={{ backgroundImage: `url(${footerImage})` }}>
       <div className="bg-[rgba(29,23,20,0.84)] w-full h-full flex flex-col md:flex-row justify-between items-start gap-12 px-6 py-12 md:px-[100px] md:py-[100px]">
         {/* Navigation Links */}
         <nav>
@@ -35,7 +35,7 @@ function Footer() {
           </a>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
 

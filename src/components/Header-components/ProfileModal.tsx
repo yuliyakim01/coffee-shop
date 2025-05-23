@@ -4,7 +4,10 @@ import { logoutUser } from '@/utils/customerUtils';
 
 function ProfileModal() {
   return (
-    <div className=" w-[200px]  bg-brown p-6 flex flex-col items-center gap-4 rounded-xl shadow-lg animate-slideFade z-50">
+    <div
+      className=" w-[200px]  bg-brown p-6 flex flex-col items-center gap-4 rounded-xl shadow-lg animate-slideFade z-50"
+      role="dialog"
+    >
       <Link to="/profile" className="text-americanSilver hover:text-white transition-colors duration-200">
         Profile
       </Link>
