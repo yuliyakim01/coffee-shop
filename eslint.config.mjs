@@ -4,6 +4,7 @@ import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
 import tsEslintPlugin from '@typescript-eslint/eslint-plugin';
 import tsEslintParser from '@typescript-eslint/parser';
+import jestPlugin from 'eslint-plugin-jest';
 
 export default [
   js.configs.recommended,
@@ -15,6 +16,7 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
+        ...jestPlugin.environments.globals.globals,
       },
     },
   },
@@ -32,15 +34,17 @@ export default [
     },
     plugins: {
       '@typescript-eslint': tsEslintPlugin,
+      jest: jestPlugin,
     },
     rules: {
       ...tsEslintPlugin.configs.recommended.rules,
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/consistent-type-imports': 'warn',
+      ...jestPlugin.configs['recommended'].rules,
     },
   },
-  { ignores: ['jest.config.js', 'src/pages/**/*.tsx'] },
+  { ignores: ['jest.config.js', 'src/pages/**/*.tsx', 'jest.setup.ts'] },
 
   // React support
   {
