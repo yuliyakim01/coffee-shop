@@ -10,13 +10,15 @@ import { LABELS, ROUTES } from '@/data/routes';
 import { Link, useLocation } from 'react-router-dom';
 import { getIsAuthorizedFromSessionStorage } from '@/utils/customerUtils';
 import ProfileModal from './ProfileModal';
+import headerBg from '@/assets/footer.png';
 
 function Header() {
+  const location = useLocation();
+  const isMainPage = location.pathname === ROUTES.main;
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef(null);
   const userIconRef = useRef(null);
-  const location = useLocation();
   const isAuthorized = getIsAuthorizedFromSessionStorage();
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -44,7 +46,22 @@ function Header() {
   }, [location]);
 
   return (
-    <div className="z-10 w-full flex justify-between items-center pt-2 px-4">
+    <div
+      className="z-10 w-full flex justify-between items-center pt-2 px-4 ${
+        !isMainPage ? 'relative' : ''
+      }"
+      style={
+        !isMainPage
+          ? {
+              backgroundImage: `url(${headerBg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              height: '115px',
+              top: 0,
+            }
+          : undefined
+      }
+    >
       <div>
         <Link to={ROUTES.main}>
           <img src={logo} alt="logo" className="w-[80px] h-[80px]" />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Input from '@/components/Login-registration-components/Input';
 import Button from '@/components/Login-registration-components/Button';
 import DefaultAddressCheckbox from '@/components/Profile-components/DefaultAddressCheckbox';
-import headerBg from '@/assets/footer.png';
+
 function Profile() {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -41,10 +41,6 @@ function Profile() {
 
   return (
     <div className=" relative w-full min-h-screen bg-[#221B18] text-americanSilver py-10 px-4 sm:px-6 lg:px-8">
-      <div
-        className=" absolute top-[-110px] left-0 h-[115px] w-full bg-cover bg-center"
-        style={{ backgroundImage: `url(${headerBg})` }}
-      ></div>
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-creamLight font-third">My Profile</h1>
