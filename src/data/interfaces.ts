@@ -138,12 +138,18 @@ export interface InputProps {
   label: string;
   type?: string;
   placeholder?: string;
-  validate: (value: string) => string | null;
+  value?: string;
+  className?: string;
+  onChange?: (val: string) => void;
+  validate?: (value: string) => string | null;
 }
 export type RefInputType = ForwardRefExoticComponent<PropsWithoutRef<InputProps> & RefAttributes<InputHandle>>;
 export type HandleInputType = (e: ChangeEvent<HTMLInputElement>) => void;
 export type RefPropType = ((instance: InputHandle | null) => void) | RefObject<InputHandle | null> | null;
 export type PasswordInputProps = {
+  value?: string;
+  onChange?: (value: string) => void;
+  className?: string;
   showForgotPassword?: boolean;
 };
 export type RefPasswordInputType = ForwardRefExoticComponent<
@@ -182,5 +188,4 @@ export interface RegistrationFormItems {
 export interface SessionUser {
   customerId: string;
   customerVersion: string;
-
 }
