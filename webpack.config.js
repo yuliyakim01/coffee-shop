@@ -42,7 +42,7 @@ export default {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.css$/i,
+        test: /\.css$/,
         use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
       {
@@ -63,8 +63,8 @@ export default {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'public', 'index.html'), // Updated path
-      favicon: path.resolve(__dirname, 'public', 'favicon.ico'), // Updated path
+      template: path.resolve(__dirname, 'public', 'index.html'),
+      favicon: path.resolve(__dirname, 'public', 'favicon.ico'),
     }),
   ],
   optimization: {

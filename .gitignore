@@ -5,3 +5,5 @@ node_modules/
 /build/
 /.dist/
 /.idea/
+/coverage/
+/.nyc_output/
