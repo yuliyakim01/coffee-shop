@@ -30,6 +30,7 @@ import PersonalInfoSection from '@/components/Profile-components/PersonalInfoSec
 import AddressSection from '@/components/Profile-components/AddressSection';
 import { PasswordChangeButton } from '@/components/Profile-components/PasswordChangeButton';
 import AddAddress from '@/components/Profile-components/AddAddress';
+import { AppMessages, ButtonText, CustomerFields, StatusType, UpdateTypes } from '@/data/constants';
 
 const ProfileComponent: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -89,7 +90,7 @@ const ProfileComponent: React.FC = () => {
 
         setCustomer(customerData);
       } catch (error) {
-        console.error('Failed to fetch customer:', error);
+        console.error(AppMessages.custemerFetchFailure, error);
         throw error;
       }
     };
@@ -112,14 +113,14 @@ const ProfileComponent: React.FC = () => {
     ];
     if (customer.defaultBillingAddressId !== customerInputRefs.current['defaultBilling']?.initialValue) {
       actions.push({
-        action: 'setDefaultBillingAddress',
+        action: UpdateTypes.setDefaultBillingAddress,
         addressId: customer.defaultBillingAddressId,
       });
     }
 
     if (customer.defaultShippingAddressId !== customerInputRefs.current['defaultShipping']?.initialValue) {
       actions.push({
-        action: 'setDefaultShippingAddress',
+        action: UpdateTypes.setDefaultShippingAddress,
         addressId: customer.defaultShippingAddressId,
       });
     }
@@ -131,14 +132,14 @@ const ProfileComponent: React.FC = () => {
     try {
       const response = await updateCustomer(customer, payload);
 
-      showToast('Profile updated successfully!', 'success');
+      showToast(AppMessages.profileUpdateSuccess, StatusType.success);
       updateCustomerState(response);
-      setSuccessMessage('Profile updated successfully!');
+      setSuccessMessage(AppMessages.profileUpdateSuccess);
       setIsEditing(false);
     } catch (error) {
-      console.error('Error updating customer:', error);
-      showToast('Failed to update profile. Please try again.', 'error');
-      setErrorMessage('Failed to update profile. Please try again.');
+      console.error(AppMessages.profileUpdateError, error);
+      showToast(AppMessages.profileUpdateFailure, StatusType.error);
+      setErrorMessage(AppMessages.profileUpdateFailure);
     } finally {
       setLoading(false);
     }
@@ -150,16 +151,16 @@ const ProfileComponent: React.FC = () => {
 
     const errors = validateCustomer(customer);
     if (Object.keys(errors).length > 0) {
-      console.warn('Validation failed', errors);
-      showToast('Please fix validation errors before submitting.', 'error');
-      setErrorMessage('Please fix validation errors before submitting.');
+      console.warn(AppMessages.validationFailed, errors);
+      showToast(AppMessages.validationFixRequest, StatusType.error);
+      setErrorMessage(AppMessages.validationFixRequest);
       setLoading(false);
       return;
     }
     const payload = generateUpdatedCustomerPayload(customer);
 
     if (!payload) {
-      setSuccessMessage('No changes detected.');
+      setSuccessMessage(AppMessages.noChangesDetected);
       setLoading(false);
       return;
     }
@@ -191,9 +192,11 @@ const ProfileComponent: React.FC = () => {
       if (!addressRef) return;
 
       Object.keys(addressRef).forEach((field) => {
-        if (field === 'country') {
+        if (field === CustomerFields.country) {
           const originalCountry = originalCustomer?.addresses[index]?.country;
-          addressRef['country']?.setValueExternally(originalCountry ? denormalizeCountryCode(originalCountry) : '');
+          addressRef[CustomerFields.country]?.setValueExternally(
+            originalCountry ? denormalizeCountryCode(originalCountry) : ''
+          );
 
           setTimeout(() => {
             const postalCodeRef = addressRef?.postalCode;
@@ -220,19 +223,19 @@ const ProfileComponent: React.FC = () => {
         Object.values(addressRef).forEach((fieldRef) => fieldRef?.setErrorExternally?.(''));
       });
       updateCustomerState(originalCustomer);
-      showToast('Profile changes are cancelled', 'success');
+      showToast(AppMessages.profileUpdateCancel, StatusType.success);
       resetInputFields();
     }
     setIsEditing(false);
   };
   const onAdd = async (newAddress: addAddressType) => {
     const requestBody: CustomerUpdateAction[] = [];
-    requestBody.push({ action: 'addAddress', address: newAddress });
+    requestBody.push({ action: UpdateTypes.addAddress, address: newAddress });
 
     try {
       let response = await updateCustomer(customer, { version: customer.version, actions: requestBody });
       if (!response || !response.addresses) {
-        showToast('Failed to retrieve new address. Please try again.', 'error');
+        showToast(AppMessages.addressFetchFailure, StatusType.error);
         return;
       }
       updateCustomerState(response);
@@ -244,27 +247,27 @@ const ProfileComponent: React.FC = () => {
       )?.id;
 
       if (!newAddressId) {
-        showToast('Failed to retrieve newly added address. Please try again.', 'error');
+        showToast('Failed to retrieve newly added address. Please try again.', StatusType.error);
         return;
       }
       const defaultUpdateActions: CustomerUpdateAction[] = [];
       if (newAddress.isDefaultBilling) {
-        defaultUpdateActions.push({ action: 'setDefaultBillingAddress', addressId: newAddressId });
+        defaultUpdateActions.push({ action: UpdateTypes.setDefaultBillingAddress, addressId: newAddressId });
       }
       if (newAddress.isDefaultShipping) {
-        defaultUpdateActions.push({ action: 'setDefaultShippingAddress', addressId: newAddressId });
+        defaultUpdateActions.push({ action: UpdateTypes.setDefaultShippingAddress, addressId: newAddressId });
       }
       if (defaultUpdateActions.length > 0) {
         response = await updateCustomer(customer, { version: response.version, actions: defaultUpdateActions });
         updateCustomerState(response);
       }
-      showToast('New address added successfully!', 'success');
-      setSuccessMessage('New address added successfully!');
+      showToast(AppMessages.addressCreationSuccess, StatusType.success);
+      setSuccessMessage(AppMessages.addressCreationSuccess);
       setIsEditing(false);
     } catch (error) {
-      console.error('Error adding new address:', error);
-      showToast('Failed to add new address. Please try again.', 'error');
-      setErrorMessage('Failed to add new address. Please try again.');
+      console.error(AppMessages.addressCreationError, error);
+      showToast(AppMessages.addressCreationFailure, StatusType.error);
+      setErrorMessage(AppMessages.addressCreationFailure);
     } finally {
       setLoading(false);
     }
@@ -279,19 +282,19 @@ const ProfileComponent: React.FC = () => {
     if (addressToDelete === null) return;
     const addressId = customer?.addresses[addressToDelete]?.id;
     if (!addressId) {
-      showToast('Failed to remove address. No ID found.', 'error');
+      showToast(AppMessages.addressDeleteFailureID, StatusType.error);
       return;
     }
-    const requestBody: CustomerUpdateAction[] = [{ action: 'removeAddress', addressId }];
+    const requestBody: CustomerUpdateAction[] = [{ action: UpdateTypes.removeAddress, addressId }];
 
     try {
       const response = await updateCustomer(customer, { version: customer.version, actions: requestBody });
 
       updateCustomerState(response);
-      showToast(`Selected address removed successfully!`, 'success');
+      showToast(AppMessages.addressDeleteSuccess, StatusType.success);
     } catch (error) {
-      console.error('Error removing address:', error);
-      showToast('Failed to remove address. Please try again.', 'error');
+      console.error(AppMessages.addressDeleteError, error);
+      showToast(AppMessages.addressDeleteFailure, StatusType.error);
     } finally {
       setAddressToDelete(null);
     }
@@ -306,30 +309,30 @@ const ProfileComponent: React.FC = () => {
       country: normalizeCountryInput(updatedAddress.country),
     };
     const updateActions: CustomerUpdateAction[] = [
-      { action: 'changeAddress', addressId: updatedAddress.id!, address: normalizedCountryAddress },
+      { action: UpdateTypes.changeAddress, addressId: updatedAddress.id!, address: normalizedCountryAddress },
     ];
 
     if (isBillingDefault && customer.defaultBillingAddressId !== updatedAddress.id) {
       updateActions.push({
-        action: 'setDefaultBillingAddress',
+        action: UpdateTypes.setDefaultBillingAddress,
         addressId: updatedAddress.id!,
       });
     } else if (!isBillingDefault && customer.defaultBillingAddressId === updatedAddress.id) {
       updateActions.push({
-        action: 'setDefaultBillingAddress',
-        addressId: '',
+        action: UpdateTypes.setDefaultBillingAddress,
+        addressId: AppMessages.emptyValidation,
       });
     }
 
     if (isShippingDefault && customer.defaultShippingAddressId !== updatedAddress.id) {
       updateActions.push({
-        action: 'setDefaultShippingAddress',
+        action: UpdateTypes.setDefaultShippingAddress,
         addressId: updatedAddress.id!,
       });
     } else if (!isShippingDefault && customer.defaultShippingAddressId === updatedAddress.id) {
       updateActions.push({
-        action: 'setDefaultShippingAddress',
-        addressId: '',
+        action: UpdateTypes.setDefaultShippingAddress,
+        addressId: AppMessages.emptyValidation,
       });
     }
 
@@ -339,11 +342,11 @@ const ProfileComponent: React.FC = () => {
         actions: updateActions,
       });
       updateCustomerState(response);
-      showToast('Address updated successfully!', 'success');
+      showToast(AppMessages.addressUpdateSuccess, StatusType.success);
       if (addressToEdit) setAddressToEdit(null);
     } catch (error) {
-      console.error('Error updating address:', error);
-      showToast('Failed to update address. Please try again.', 'error');
+      console.error(AppMessages.addressUpdateError, error);
+      showToast(AppMessages.addressUpdateFailure, StatusType.error);
     }
   };
 
@@ -416,9 +419,7 @@ const ProfileComponent: React.FC = () => {
             {isEditing && (
               <div className="fixed bottom-0 left-0 w-full flex flex-col gap-4 bg-creamLight p-4 shadow-md">
                 <div className="text-center">
-                  <p className="text-amber-800">
-                    You are in edit mode... Use buttons below to save your changes or exist edit mode.{' '}
-                  </p>
+                  <p className="text-amber-800">{AppMessages.youAreInEditMode}</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
@@ -429,7 +430,7 @@ const ProfileComponent: React.FC = () => {
                   />
                   <Button
                     type="submit"
-                    label={loading ? 'Saving...' : 'Save Changes'}
+                    label={loading ? ButtonText.saving : ButtonText.saveChanges}
                     disabled={loading}
                     className="bg-amber-800 hover:bg-rustBrown text-Temptress transition-transform duration-200 hover:scale-105"
                   />

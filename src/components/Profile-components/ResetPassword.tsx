@@ -4,7 +4,7 @@ import { normalizeInput } from '@/utils/customerUtils';
 import { requestPasswordResetToken, resetCustomerPassword } from '@/api/customers';
 import { validateEmail, validatePassword } from '@/utils/validation';
 import Input from '@/components/Login-registration-components/Input';
-import { FormElements } from '@/data/constants';
+import { AppMessages, FormElements } from '@/data/constants';
 import Button from '@/components/Login-registration-components/Button';
 import PasswordInput from '@/components/Login-registration-components/PasswordInput';
 import { ErrorNotification, SuccessNotification } from '@/components/Popup-components/NotificationBanners';
@@ -49,7 +49,7 @@ const ResetPassword = () => {
     const confirmPassword = normalizeInput(confirmPasswordRef.current?.getValue?.() ?? '');
 
     if (newPassword !== confirmPassword) {
-      setApiErrorMessage('Passwords do not match.');
+      setApiErrorMessage(AppMessages.passwordsDoNotMatch);
       setLoading(false);
       return;
     }
