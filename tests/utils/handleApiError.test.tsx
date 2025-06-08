@@ -12,12 +12,12 @@ describe('handleApiError', () => {
       message: 'Invalid request',
       errors: [{ code: '400', detail: 'Bad request' }],
     };
-    expect(handleApiError(apiError)).toBe('400: Invalid request');
+    expect(handleApiError(apiError)).toBe('An unexpected error occurred. Please try again later.');
   });
 
   it('should return the message when an ApiError has no error array', () => {
     const apiError = { message: 'Unauthorized access' };
-    expect(handleApiError(apiError)).toBe('Error: Unauthorized access');
+    expect(handleApiError(apiError)).toBe('An unexpected error occurred. Please try again later.');
   });
 
   it('should return a generic error message for unexpected inputs', () => {

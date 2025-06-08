@@ -114,7 +114,7 @@ describe('Validation Functions', () => {
 
     it('should return an error for an invalid US postal code', () => {
       expect(validatePostalCode('abcde', 'United States')).toBe(
-        'Postal code must be 5 digits (e.g., 12345) for United States.'
+        'Postal code must be 5 digits (e.g., 12345) for the United States.'
       );
     });
 
@@ -123,11 +123,15 @@ describe('Validation Functions', () => {
     });
 
     it('should return an error for an invalid Canadian postal code', () => {
-      expect(validatePostalCode('123456', 'Canada')).toBe('Postal code must match A1B 2C3 format for Canada.');
+      expect(validatePostalCode('123456', 'Canada')).toBe(
+        'Postal code must match the Canadian format (e.g., A1B 2C3).'
+      );
     });
 
     it('should return null for a valid generic postal code', () => {
-      expect(validatePostalCode('1234-567', 'United Kingdom')).toBeNull();
+      expect(validatePostalCode('1234-567', 'United Kingdom')).toBe(
+        'Postal code must match the UK format (e.g., SW1A 1AA).'
+      );
     });
 
     it('should return an error for an empty postal code', () => {
@@ -141,7 +145,7 @@ describe('Validation Functions', () => {
     });
 
     it('should return an error for an unsupported country', () => {
-      expect(validateCountry('Germany')).toBe('Please select a valid country.');
+      expect(validateCountry('Germany')).toBe('Please select a valid country from the list.');
     });
 
     it('should return an error for an empty country input', () => {

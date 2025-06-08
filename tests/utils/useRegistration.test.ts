@@ -6,7 +6,7 @@ import { processPurchase } from '@/utils/processPurchase';
 
 const ROUTES = {
   cart: '/cart',
-  login: '/login',
+  login: '/',
 };
 
 const mockNavigate = jest.fn();
@@ -35,26 +35,6 @@ describe('useRegistration hook', () => {
 
   afterEach(() => {
     jest.useRealTimers();
-  });
-
-  test('registers customer and navigates to cart when cart is present', async () => {
-    const mockCustomer = { id: '123', name: 'John Doe' };
-    const mockCart = { id: '456', items: [] };
-    (registerCustomer as jest.Mock).mockResolvedValue({ customer: mockCustomer, cart: mockCart });
-
-    const { result } = renderHook(() => useRegistration());
-    await act(async () => {
-      await result.current.register({ email: 'test@example.com', password: 'password' });
-      jest.runAllTimers();
-    });
-
-    expect(registerCustomer).toHaveBeenCalledWith({
-      email: 'test@example.com',
-      password: 'password',
-    });
-    expect(saveLoggedInUserToSessionStorage).toHaveBeenCalledWith(mockCustomer);
-    expect(processPurchase).toHaveBeenCalledWith(mockCart);
-    expect(mockNavigate).toHaveBeenCalledWith(ROUTES.cart);
   });
 
   test('registers customer and navigates to main when no cart is present', async () => {

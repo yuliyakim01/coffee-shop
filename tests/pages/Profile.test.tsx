@@ -1,22 +1,20 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Profile from '@/pages/Profile';
+import Profile from '@/pages/Profile'; // Adjust path if needed
 
-describe('Profile Component', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+jest.mock('@/components/Profile-components/ProfileComponent', () => () => (
+  <div data-testid="profile-component">Mocked ProfileComponent</div>
+));
 
-  test('renders Profile component with correct content', () => {
+jest.mock('@/components/Profile-components/RedirectUnauthorizedUser', () => () => (
+  <div data-testid="redirect-unauthorized-user">Mocked RedirectUnauthorizedUser</div>
+));
+
+describe('Profile page', () => {
+  it('renders RedirectUnauthorizedUser and ProfileComponent', () => {
     render(<Profile />);
 
-    expect(screen.getByText('Profile')).toBeInTheDocument();
-  });
-
-  test('renders container div', () => {
-    render(<Profile />);
-
-    const containerDiv = screen.getByText('Profile');
-    expect(containerDiv).toBeInTheDocument();
-    expect(containerDiv.tagName).toBe('DIV');
+    expect(screen.getByTestId('redirect-unauthorized-user')).toBeInTheDocument();
+    expect(screen.getByTestId('profile-component')).toBeInTheDocument();
   });
 });
