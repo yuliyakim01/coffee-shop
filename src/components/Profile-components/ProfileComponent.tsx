@@ -342,6 +342,7 @@ const ProfileComponent: React.FC = () => {
         actions: updateActions,
       });
       updateCustomerState(response);
+      window.history.go(0);
       showToast(AppMessages.addressUpdateSuccess, StatusType.success);
       if (addressToEdit) setAddressToEdit(null);
     } catch (error) {
