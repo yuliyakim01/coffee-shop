@@ -1,22 +1,29 @@
-import { ctpClient } from './commerceToolsClient';
-import type { ApiRoot, ClientResponse, ProductPagedQueryResponse } from '@commercetools/platform-sdk';
-import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { AuthData as AUTH } from '@/api/token/authData';
+import type {
+  ClientResponse,
+  ProductProjection,
+  ProductProjectionPagedQueryResponse,
+} from '@commercetools/platform-sdk';
+import { getApiRoot } from '@/utils/getApiRoot';
 
-const apiRoot: ApiRoot = createApiBuilderFromCtpClient(ctpClient);
+export const fetchAllProducts = async (): Promise<ProductProjectionPagedQueryResponse> => {
+  const response: ClientResponse<ProductProjectionPagedQueryResponse> = await getApiRoot()
+    .productProjections()
+    .get({ queryArgs: { limit: 500 } })
+    .execute();
+  return response.body;
+};
 
-export const fetchAllProducts: () => Promise<ProductPagedQueryResponse> =
-  async (): Promise<ProductPagedQueryResponse> => {
-    try {
-      const response: ClientResponse<ProductPagedQueryResponse> = await apiRoot
-        .withProjectKey({ projectKey: AUTH.projectKey })
-        .products()
-        .get()
-        .execute();
+export const fetchProductById = async (id: string): Promise<ProductProjection> => {
+  try {
+    const response: ClientResponse<ProductProjection> = await getApiRoot()
+      .productProjections()
+      .withId({ ID: id })
+      .get()
+      .execute();
 
-      return response.body;
-    } catch (error) {
-      console.error('Failed to fetch products:', error);
-      throw error;
-    }
-  };
+    return response.body;
+  } catch (error) {
+    console.error(`Failed to fetch product with ID ${id}:`, error);
+    throw error;
+  }
+};

@@ -62,7 +62,7 @@ describe('Nav Component', () => {
     );
 
     const navList = screen.getByRole('list');
-    expect(navList).toHaveClass('flex-row');
+    expect(navList).toHaveClass('      flex flex-col md:flex-row items-center gap-8 text-white text-lg');
     expect(navList).not.toHaveClass('flex-col');
   });
 

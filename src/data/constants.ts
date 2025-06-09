@@ -23,18 +23,23 @@ export const FormElements = {
   street: {
     label: '',
     placeholder: 'Street',
+    labelFilled: 'Street Name',
   },
   city: {
     label: '',
     placeholder: 'City',
+    labelFilled: 'City',
   },
   postalCode: {
     label: '',
     placeholder: 'Postal Code',
+    labelFilled: 'Postal Code',
   },
   country: {
     label: '',
     placeholder: 'Country',
+    labelFilled: 'Country',
+    defaultValue: 'Select a country',
   },
   sameAddress: {
     label: 'Use same address for shipping',
@@ -53,6 +58,10 @@ export const FormElements = {
   },
   shippingAddress: 'Shipping Address',
   billingAddress: 'Billing Address',
+  setAsDefaultBillingAddress: 'Set as Default Billing Address',
+  setAsDefaultShippingAddress: 'Set as Default Shipping Address',
+  defaultBillingAddress: 'Default Billing Address',
+  defaultShippingAddress: 'Default Shipping Address',
 };
 
 export const sameAddressCheckboxMessage = 'Check this if you want to use your billing address for shipping as well.';
@@ -76,3 +85,63 @@ export const allowedCountries = [
   'Uzbekistan',
   'Kyrgyzstan',
 ];
+export const AppMessages = {
+  profileUpdateSuccess: 'Profile updated successfully!',
+  profileUpdateCancel: 'Profile changes are cancelled',
+  profileUpdateFailure: 'Failed to update profile. Please try again.',
+  profileUpdateError: 'Error updating customer:',
+  addressUpdateSuccess: 'Address updated successfully!',
+  addressUpdateError: 'Error updating address:',
+  addressUpdateFailure: 'Failed to update address. Please try again.',
+  addressCreationSuccess: 'New address created successfully!',
+  addressCreationFailure: 'Failed to create address. Please try again.',
+  addressCreationError: 'Error adding new address:',
+  addressCreationCancel: 'Address entry canceled',
+  addressDeleteSuccess: 'Address deleted successfully!',
+  addressDeleteFailure: 'Failed to delete address. Please try again.',
+  addressDeleteFailureID: 'Failed to remove address. No ID found.',
+  addressDeleteError: 'Error removing address:',
+  addressFetchFailure: 'Failed to retrieve new address. Please try again.',
+  custemerFetchFailure: 'Failed to fetch customer!',
+  noChangesDetected: 'No changes detected.',
+  validationFailed: 'Validation failed',
+  validationFixRequest: 'Please fix validation errors before submitting.',
+  validationCountryUndefined: 'Country is undefined in postal code validation!',
+  validationCountryIsRequired: 'Country is required for postal code validation.',
+  emptyValidation: '',
+  youAreInEditMode: 'You are in edit mode... Use buttons below to save your changes or exist edit mode.',
+  customerDoesNotExist: 'Customer does not exist',
+  passwordChangeSuccess: 'Password successfully changed!',
+  passwordsDoNotMatch: 'Passwords do not match',
+  notLoggedIn: 'Not logged in',
+};
+export const StatusType: { success: 'success'; error: 'error' } = {
+  success: 'success',
+  error: 'error',
+};
+export const UpdateTypes = {
+  setDefaultBillingAddress: 'setDefaultBillingAddress',
+  setDefaultShippingAddress: 'setDefaultShippingAddress',
+  removeAddress: 'removeAddress',
+  changeAddress: 'changeAddress',
+  addAddress: 'addAddress',
+};
+export const CustomerFields = {
+  streetName: 'streetName',
+  city: 'city',
+  postalCode: 'postalCode',
+  country: 'country',
+  defaultShippingAddressId: 'defaultShippingAddressId',
+  defaultBillingAddressId: 'defaultBillingAddressId',
+  dateOfBirth: 'dateOfBirth',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+};
+export const ButtonText = {
+  save: 'Save',
+  saving: 'Saving...',
+  saveChanges: 'Save Changes',
+  addNewAddress: 'Add New Address',
+  changePassword: 'Change Password',
+};

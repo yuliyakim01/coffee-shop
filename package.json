@@ -52,11 +52,13 @@
     "@types/node": "^22.15.19",
     "@types/react-slick": "^0.23.13",
     "@types/testing-library__react": "^10.0.1",
+    "@types/toastify-js": "^1.12.4",
     "@typescript-eslint/eslint-plugin": "^8.32.0",
     "@typescript-eslint/parser": "^8.32.0",
     "autoprefixer": "^10.4.21",
     "babel-jest": "^29.7.0",
     "babel-loader": "^10.0.0",
+    "copy-webpack-plugin": "^13.0.0",
     "css-loader": "^7.1.2",
     "eslint": "^9.27.0",
     "eslint-plugin-jest": "^28.11.1",
@@ -103,6 +105,8 @@
     "react-router-dom": "^7.6.0",
     "react-slick": "^0.30.3",
     "slick-carousel": "^1.8.1",
-    "text-encoding": "^0.7.0"
+    "swiper": "^11.2.8",
+    "text-encoding": "^0.7.0",
+    "toastify-js": "^1.12.0"
   }
 }

@@ -2,6 +2,7 @@ import type { Cart } from '@commercetools/platform-sdk/dist/declarations/src/gen
 import type { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import type { ChangeEvent, ForwardRefExoticComponent, PropsWithoutRef, RefAttributes, RefObject } from 'react';
 import type React from 'react';
+import type { CustomFields } from '@commercetools/platform-sdk';
 
 export interface Country {
   code: string;
@@ -66,9 +67,6 @@ export const languages: Language[] = [
     locale: 'en-US',
   },
 ];
-export type ProductType = 'Coffee' | 'Tea' | 'Smoothies';
-
-export const productTypes: ProductType[] = ['Coffee', 'Tea', 'Smoothies'];
 
 export interface Address {
   streetName: string;
@@ -140,6 +138,8 @@ export interface InputHandle {
   getError: StringFunction;
   setValueExternally: (value: string) => void;
   triggerValidation?: () => void;
+  initialValue?: StringOrNull;
+  setErrorExternally?: (error?: string) => void;
 }
 export interface InputProps {
   label: string;
@@ -149,6 +149,8 @@ export interface InputProps {
   className?: string;
   onChange?: (val: string) => void;
   validate?: (value: string) => string | null;
+  initialValue?: string | CustomFields | undefined;
+  readOnly?: boolean;
 }
 export type RefInputType = ForwardRefExoticComponent<PropsWithoutRef<InputProps> & RefAttributes<InputHandle>>;
 export type HandleInputType = (e: ChangeEvent<HTMLInputElement>) => void;
@@ -159,6 +161,7 @@ export type PasswordInputProps = {
   className?: string;
   showForgotPassword?: boolean;
   placeholder?: string;
+  label?: string;
 };
 export type RefPasswordInputType = ForwardRefExoticComponent<
   PropsWithoutRef<PasswordInputProps> & RefAttributes<InputHandle>
@@ -198,4 +201,148 @@ export interface RegistrationFormItems {
 export interface SessionUser {
   customerId: string;
   customerVersion: string;
+}
+export interface ProductCategory {
+  key: string;
+  name: {
+    en?: string;
+    [locale: string]: string | undefined;
+  };
+}
+export interface SimpleCategory {
+  key: string;
+  label: string;
+}
+
+export interface ProductInteface {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  type: string;
+  ingredients: string[];
+  is_sale: boolean;
+  sale_percent: number;
+  category: ProductCategory | null;
+  images: string[];
+  sku: string;
+  key: string;
+}
+export interface ProductSliderProps {
+  product: ProductInteface;
+}
+export type SortField = 'name' | 'price';
+export type SortOrder = 'asc' | 'desc';
+export interface Pagination {
+  offset: number;
+  limit: number;
+}
+
+export interface Filter {
+  category?: string;
+  isSale?: boolean;
+  type?: string;
+  priceMin?: number;
+  priceMax?: number;
+}
+
+export interface ProductFilter {
+  is_sale?: boolean;
+  category?: string;
+  priceMin?: number;
+  priceMax?: number;
+}
+
+export type Subscriber = VoidFunction;
+export type SortValues = 1 | -1;
+export interface PaginationHandle {
+  goToPage: (page: number) => void;
+  nextPage: () => void;
+  prevPage: () => void;
+  reset: () => void;
+  getCurrentPage: () => number;
+  getPageSize: () => number;
+  setPageSize: (size: number) => void;
+}
+
+export interface PaginationProps {
+  totalPages: number;
+  initialPage?: number;
+  initialPageSize?: number;
+  onPageChange?: (page: number) => void;
+  onPageSizeChange?: (size: number) => void;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+export interface SearchComponentHandle {
+  getValue: () => string;
+  clear: () => void;
+}
+
+export interface SearchComponentProps {
+  placeholder?: string;
+  onSearchChange?: (value: string) => void;
+  className?: string;
+  style?: React.CSSProperties;
+}
+export interface SortingComponentProps {
+  initialField?: SortField;
+  initialOrder?: SortOrder;
+  onSortChange?: (field: SortField | null, order: SortOrder | null) => void;
+}
+export interface PersonalInfoProps {
+  customerInputRefs: RefObject<Record<string, HTMLInputElement | HTMLSelectElement | null>>;
+  customer: Customer;
+  handleInputChange: (field: string, value: string) => void;
+  validationFunctions: Record<string, (...args: unknown[]) => string | null>;
+  isEditing: boolean;
+}
+
+export type ValidCustomerAction =
+  | 'setDateOfBirth'
+  | 'changeEmail'
+  | 'changeAddress'
+  | 'addAddress'
+  | 'addBillingAddressId'
+  | 'addCustomerGroupAssignment'
+  | 'addShippingAddressId'
+  | 'addStore'
+  | 'removeAddress'
+  | 'setVatId'
+  | 'setDefaultShippingAddress'
+  | 'setAddressCustomType'
+  | 'setAuthenticationMode'
+  | 'removeBillingAddressId'
+  | 'removeShippingAddressId'
+  | 'removeStore'
+  | 'setAddressCustomField'
+  | 'setCompanyName'
+  | 'setCustomField'
+  | 'setCustomType'
+  | 'setCustomerGroup'
+  | 'setCustomerNumber'
+  | 'setDefaultBillingAddress';
+
+export interface AddressRefs {
+  postalCode?: HTMLInputElement;
+  country?: HTMLSelectElement;
+  streetName?: HTMLInputElement;
+  countryName?: HTMLSelectElement;
+}
+export type CustomerPersonalFields = 'firstName' | 'lastName' | 'dateOfBirth' | 'email';
+export interface CustomInput extends HTMLInputElement {
+  getValue: () => string;
+}
+export type addAddressType = {
+  streetName: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  isDefaultBilling: boolean;
+  isDefaultShipping: boolean;
+};
+export interface HandleSaveEditOptions {
+  isBillingDefault?: boolean;
+  isShippingDefault?: boolean;
 }
