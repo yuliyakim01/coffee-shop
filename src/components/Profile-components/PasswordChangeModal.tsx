@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { showToast } from '@/utils/profileUtils';
 import PasswordInput from '@/components/Login-registration-components/PasswordInput';
 import type { InputHandle } from '@/data/interfaces';
+import { AppMessages, ButtonText, StatusType } from '@/data/constants';
 
 interface PasswordModalProps {
   isOpen: boolean;
@@ -34,12 +35,12 @@ export const PasswordChangeModal: React.FC<PasswordModalProps> = ({ isOpen, onCl
     const confirmPasswordError = confirmPasswordRef.current?.getError();
 
     if (currentPasswordError || newPasswordError || confirmPasswordError) {
-      showToast('Please correct validation errors before submitting.', 'error');
+      showToast(AppMessages.validationFixRequest, StatusType.error);
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      showToast('Passwords do not match', 'error');
+      showToast(AppMessages.passwordsDoNotMatch, StatusType.error);
       return;
     }
     await onChangePassword(currentPassword, newPassword);
@@ -51,7 +52,7 @@ export const PasswordChangeModal: React.FC<PasswordModalProps> = ({ isOpen, onCl
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[9998]">
       <div className="bg-coffeeBrown p-6 rounded-lg w-96 flex flex-col gap-2 fixed top-5 left-1/2 transform -translate-x-1/2 z-[9999]">
-        <h2 className="text-xl font-semibold my-4">Change Password</h2>
+        <h2 className="text-xl font-semibold my-4">{ButtonText.changePassword}</h2>
 
         <PasswordInput
           ref={currentPasswordRef}

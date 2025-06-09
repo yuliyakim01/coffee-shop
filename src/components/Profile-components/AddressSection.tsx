@@ -11,6 +11,7 @@ import pencilIcon from '@/assets/pencil.png';
 import removeIcon from '@/assets/remove.png';
 import AddressFields from '@/components/Profile-components/AddressFields';
 import { showToast, validateAddressEntry } from '@/utils/profileUtils';
+import { AppMessages, ButtonText, CustomerFields, FormElements } from '@/data/constants';
 
 interface AddressSectionProps {
   customer: Customer;
@@ -55,8 +56,8 @@ const AddressSection: React.FC<AddressSectionProps> = ({
     const errors = validateAddressEntry(addressToEdit);
 
     if (errors) {
-      console.warn('Validation failed', errors);
-      showToast('Please try again, validation failed.', 'error');
+      console.warn(AppMessages.validationFailed, errors);
+      showToast(AppMessages.validationFixRequest, 'error');
       return;
     }
 
@@ -110,7 +111,7 @@ const AddressSection: React.FC<AddressSectionProps> = ({
                 Cancel
               </button>
               <button className="bg-green-600 text-white p-2 rounded-md" onClick={handleSaveAndClose}>
-                Save Address
+                {ButtonText.saveChanges}
               </button>
             </div>
           </div>
@@ -150,20 +151,20 @@ const AddressSection: React.FC<AddressSectionProps> = ({
                 {customer.defaultBillingAddressId === address.id && (
                   <div className="flex items-center">
                     <span className="w-2 h-2 bg-semiGreen rounded-full mr-1" />
-                    <span className="text-sm text-semiGreen">Default Billing Address</span>
+                    <span className="text-sm text-semiGreen">{FormElements.defaultBillingAddress}</span>
                   </div>
                 )}
                 {customer.defaultShippingAddressId === address.id && (
                   <div className="flex items-center">
                     <span className="w-2 h-2 bg-blue-400 rounded-full mr-1" />
-                    <span className="text-sm text-blue-400">Default Shipping Address</span>
+                    <span className="text-sm text-blue-400">{FormElements.defaultShippingAddress}</span>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Inline address fields can be readOnly unless editing whole section */}
-            {['streetName', 'city', 'postalCode'].map((field) => (
+            {[CustomerFields.streetName, CustomerFields.city, CustomerFields.postalCode].map((field) => (
               <Input
                 key={`${index}-${field}`}
                 ref={(el) => {
@@ -187,10 +188,11 @@ const AddressSection: React.FC<AddressSectionProps> = ({
                   )
                 }
                 validate={(val) => {
-                  if (field === 'postalCode')
+                  if (field === CustomerFields.postalCode) {
                     return validatePostalCode(val, addressRefs.current[index]?.country?.getValue() ?? '');
-                  if (field === 'streetName') return validateStreet(val);
-                  if (field === 'city') return validateCity(val);
+                  }
+                  if (field === CustomerFields.streetName) return validateStreet(val);
+                  if (field === CustomerFields.city) return validateCity(val);
                   return null;
                 }}
                 readOnly={!isEditing}
@@ -202,14 +204,14 @@ const AddressSection: React.FC<AddressSectionProps> = ({
               ref={(el) => {
                 if (el) {
                   addressRefs.current[index] = addressRefs.current[index] || {};
-                  addressRefs.current[index]['country'] = el;
+                  addressRefs.current[index][CustomerFields.country] = el;
                 }
               }}
-              label="Country"
+              label={FormElements.country.labelFilled}
               initialValue={isEditing ? address.country : denormalizeCountryCode(address.country)}
               onChange={(selectedCountry) => {
                 if (!addressRefs.current[index]) addressRefs.current[index] = {};
-                addressRefs.current[index]['country']?.setValueExternally(selectedCountry);
+                addressRefs.current[index][CustomerFields.country]?.setValueExternally(selectedCountry);
 
                 const currentPostal = addressRefs.current[index]?.postalCode?.getValue() ?? '';
                 const error = validatePostalCode(currentPostal, selectedCountry);
@@ -240,11 +242,11 @@ const AddressSection: React.FC<AddressSectionProps> = ({
                     checked={customer.defaultBillingAddressId === address.id}
                     onChange={() => {
                       if (address.id) {
-                        handleSetDefaultAddress('defaultBillingAddressId', address.id);
+                        handleSetDefaultAddress(CustomerFields.defaultBillingAddressId, address.id);
                       }
                     }}
                   />
-                  <span className="text-sm text-creamLight">Set as Default Billing Address</span>
+                  <span className="text-sm text-creamLight">{FormElements.setAsDefaultBillingAddress}</span>
                 </label>
 
                 <label className="flex items-center gap-2 cursor-pointer">
@@ -253,11 +255,11 @@ const AddressSection: React.FC<AddressSectionProps> = ({
                     checked={customer.defaultShippingAddressId === address.id}
                     onChange={() => {
                       if (address.id) {
-                        handleSetDefaultAddress('defaultShippingAddressId', address.id);
+                        handleSetDefaultAddress(CustomerFields.defaultShippingAddressId, address.id);
                       }
                     }}
                   />
-                  <span className="text-sm text-creamLight">Set as Default Shipping Address</span>
+                  <span className="text-sm text-creamLight">{FormElements.setAsDefaultShippingAddress}</span>
                 </label>
               </div>
             )}

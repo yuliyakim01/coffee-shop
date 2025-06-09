@@ -9,6 +9,7 @@ import { showToast } from '@/utils/profileUtils';
 import React from 'react';
 import handleApiError from '@/utils/handleApiError';
 import { getCustomerById } from '@/api/customers';
+import { AppMessages, ButtonText, StatusType } from '@/data/constants';
 
 export const PasswordChangeButton = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -17,10 +18,10 @@ export const PasswordChangeButton = () => {
     try {
       const sessionUser: SessionUser | null = getLoggedInUserFromSessionStorage();
       if (!sessionUser) {
-        throw new Error('Not logged in');
+        throw new Error(AppMessages.notLoggedIn);
       }
       const customerData = await getCustomerById(sessionUser.customerId);
-      if (!customerData) throw new Error('Customer does not exist');
+      if (!customerData) throw new Error(AppMessages.customerDoesNotExist);
 
       const customerChangePassword: CustomerChangePassword = {
         id: sessionUser.customerId,
@@ -29,17 +30,17 @@ export const PasswordChangeButton = () => {
         newPassword,
       };
       await changeCustomerPassword(customerChangePassword);
-      showToast('Password successfully changed!', 'success');
+      showToast(AppMessages.passwordChangeSuccess, StatusType.success);
     } catch (error) {
       console.error(error);
-      showToast(handleApiError(error), 'error');
+      showToast(handleApiError(error), StatusType.error);
     }
   };
 
   return (
     <div>
       <Button
-        label="Change Password"
+        label={ButtonText.changePassword}
         className="bg-lime-900 transition-transform duration-200 hover:scale-105"
         onClick={() => setModalOpen(true)}
       />
