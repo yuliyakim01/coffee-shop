@@ -14,10 +14,7 @@ export function simplifyProducts(
   return apiResponse.results.map((product) => simplifySingleProduct(product, categoryMap));
 }
 
-export function simplifySingleProduct(
-  product: ProductProjection,
-  categoryMap: Map<string, Category>
-): ProductInteface {
+export function simplifySingleProduct(product: ProductProjection, categoryMap: Map<string, Category>): ProductInteface {
   const variant: ProductVariant = product.masterVariant;
   const attributes: Attribute[] = variant.attributes || [];
 
@@ -44,6 +41,7 @@ export function simplifySingleProduct(
     category: simplifiedCategory,
     sku: variant.sku || '',
     key: variant.key || '',
+    variantId: variant.id,
   };
 }
 
