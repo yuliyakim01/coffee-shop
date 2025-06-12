@@ -227,6 +227,7 @@ export interface ProductInteface {
   images: string[];
   sku: string;
   key: string;
+  variantId: number;
 }
 export interface ProductSliderProps {
   product: ProductInteface;
@@ -345,4 +346,13 @@ export type addAddressType = {
 export interface HandleSaveEditOptions {
   isBillingDefault?: boolean;
   isShippingDefault?: boolean;
+}
+export interface CartProduct {
+  id: string;
+  variantId: number;
+  quantity?: number;
+}
+export interface AddToCartButtonProps {
+  product: CartProduct;
+  className?: string;
 }
