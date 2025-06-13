@@ -1,5 +1,4 @@
 import type { Cart, CartDraft, LineItem, ProductProjection } from '@commercetools/platform-sdk';
-import { MyCartUpdateAction } from '@commercetools/platform-sdk';
 import type { CartProduct, SessionUser } from '@/data/interfaces';
 import type { ProductInteface } from '@/data/interfaces';
 import { CartFields, CartUpdateActions } from '@/data/constants';
@@ -8,9 +7,16 @@ export const convertToCartProduct = (product: ProductProjection | ProductIntefac
   return {
     id: product.id,
     variantId: 'variants' in product ? product.masterVariant.id : product.variantId,
-  };
+  } as CartProduct;
 };
-
+export const createCartDraft = (product: ProductProjection | ProductInteface, user: SessionUser | null) => {
+  const draftProduct = convertToCartProduct(product);
+  return {
+    currency: CartFields.usd,
+    lineItems: [{ quantity: 1, productId: product.id, variantId: draftProduct.variantId }],
+    customerId: user ? user.customerId : undefined,
+  } as CartDraft;
+};
 export const buildLineItemActionAdd = (product: CartProduct, lineItem: LineItem | null | undefined) => {
   const { id: productId, variantId } = product;
 
@@ -29,19 +35,28 @@ export const buildLineItemActionAdd = (product: CartProduct, lineItem: LineItem 
     quantity: 1,
   };
 };
-
-export const findLineItem = (product: CartProduct, cart: Cart) => {
-  const index: number = cart?.lineItems.findIndex((item) => item.id === product.id) ?? -1;
-  return index >= 0 ? cart?.lineItems[index] : null;
+export const buildLineItemActionReduce = (product: CartProduct, lineItem: LineItem | null | undefined) => {
+  const { id: productId, variantId } = product;
+  if (!lineItem) throw new Error('Cannot reduce amount of product that does not exist');
+  if (lineItem.quantity <= 1) throw new Error('You reached the minimum quantity of 1');
+  return {
+    action: CartUpdateActions.changeLineItemQuantity,
+    lineItemId: lineItem.id,
+    quantity: lineItem.quantity - 1,
+  };
 };
 
-export const createCartDraft = (product: ProductProjection | ProductInteface, user: SessionUser | null) => {
-  const draftProduct = convertToCartProduct(product);
+export const buildLineItemActionRemove = (product: CartProduct, lineItem: LineItem | null | undefined) => {
+  const { id: productId, variantId } = product;
+  if (!lineItem) throw new Error('Cannot remove lineItem, it does not exist');
   return {
-    currency: CartFields.usd,
-    lineItems: [{ quantity: 1, productId: product.id, variantId: draftProduct.variantId }],
-    customerId: user ? user.customerId : undefined,
-  } as CartDraft;
+    action: CartUpdateActions.removeLineItem,
+    lineItemId: lineItem.id,
+  };
+};
+export const findLineItem = (productId: string, cart: Cart) => {
+  const index: number = cart?.lineItems.findIndex((item) => item.id === productId) ?? -1;
+  return index >= 0 ? cart?.lineItems[index] : null;
 };
 
 export const getOrCreateAnonymousId = (): string => {
