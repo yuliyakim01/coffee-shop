@@ -28,7 +28,6 @@ export const createEmptyCartDraft = (anonymousId?: string, customerId?: string) 
 };
 export const buildLineItemActionAdd = (product: CartProduct, lineItem: LineItem | null | undefined) => {
   const { id: productId, variantId } = product;
-  console.log('buildLineItemActionAdd', CartUpdateActions.changeLineItemQuantity, lineItem?.id, lineItem?.quantity + 1);
 
   if (lineItem) {
     return {
@@ -37,7 +36,6 @@ export const buildLineItemActionAdd = (product: CartProduct, lineItem: LineItem 
       quantity: lineItem.quantity + 1,
     };
   }
-  console.log('buildLineItemActionAdd - new ', CartUpdateActions.changeLineItemQuantity, productId, variantId);
   return {
     action: CartUpdateActions.addLineItem,
     productId,
@@ -65,7 +63,7 @@ export const buildLineItemActionRemove = (product: CartProduct, lineItem: LineIt
   };
 };
 export const findLineItem = (productId: string, cart: Cart) => {
-  const index: number = cart?.lineItems.findIndex((item) => item.id === productId) ?? -1;
+  const index: number = cart?.lineItems.findIndex((item) => item.productId === productId) ?? -1;
   return index >= 0 ? cart?.lineItems[index] : null;
 };
 

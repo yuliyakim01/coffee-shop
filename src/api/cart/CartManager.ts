@@ -2,7 +2,7 @@ import type { Cart, CartDraft, MyCartUpdate, MyCartUpdateAction, ProductProjecti
 import type { CartProduct, SessionUser } from '@/data/interfaces';
 import { type ProductInteface } from '@/data/interfaces';
 import { getLoggedInUserFromSessionStorage } from '@/utils/customerUtils';
-import { anonymousId, createCart, updateCart } from '@/api/cart/cart';
+import { anonymousId, createCart } from '@/api/cart/cart';
 import {
   buildLineItemActionAdd,
   convertToCartProduct,
@@ -11,7 +11,7 @@ import {
   findLineItem,
   getOrCreateAnonymousId,
 } from '@/utils/cartUtils';
-import { checkExistingCart } from '@/api/cart/cartAdmin';
+import { checkExistingCart, updateCart } from '@/api/cart/cartAdmin';
 import { CartUpdateActions } from '@/data/constants';
 
 export default class CartManager {
@@ -64,8 +64,6 @@ export default class CartManager {
       await this.createNewCart(cartDraft);
     }
     await this.manageLineItem(convertToCartProduct(product));
-    console.log('!!!!! success!!!! ', this.cart);
-
     return this.cart;
   }
 
@@ -82,10 +80,8 @@ export default class CartManager {
 
   private async manageLineItem(product: CartProduct): Promise<void> {
     if (this.cart == null) throw new Error('Please create a cart first!');
-    console.log('this this this ', this.cart);
     const { id: productId, variantId } = product;
     const lineItem = findLineItem(product.id, this.cart);
-    console.log('this this line itme', lineItem);
     const action: MyCartUpdateAction = buildLineItemActionAdd(product, lineItem);
 
     const cartUpdate: MyCartUpdate = {
@@ -94,8 +90,6 @@ export default class CartManager {
     };
 
     try {
-      console.log('%%%%%%%', cartUpdate);
-
       this.cart = await updateCart(this.cart, cartUpdate);
     } catch (error) {
       console.error('Error in manageLineItem:', error);
@@ -123,7 +117,6 @@ export default class CartManager {
       version: this.cart.version,
       actions: [action],
     };
-
     try {
       this.cart = await updateCart(this.cart, cartUpdate);
       return this.cart;

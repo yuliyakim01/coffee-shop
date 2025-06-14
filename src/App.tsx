@@ -14,6 +14,7 @@ import Cart from '@/pages/Cart';
 import NotFoundPage from '@/pages/NotFoundPage';
 import Profile from './pages/Profile';
 import DetailedProduct from './pages/DetailedProduct';
+import { CartProvider } from '@/api/cart/CartContext';
 
 const router = createBrowserRouter([
   {
@@ -74,7 +75,11 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <CartProvider>
+      <RouterProvider router={router} />
+    </CartProvider>
+  );
 };
 
 export default App;

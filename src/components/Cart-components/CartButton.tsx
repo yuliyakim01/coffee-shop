@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import Button from '@/components/Login-registration-components/Button';
-import { AppMessages, CartFields, StatusType } from '@/data/constants';
-import type { AddToCartButtonProps, CartProduct, ProductInteface } from '@/data/interfaces';
-import { Cart, ProductProjection } from '@commercetools/platform-sdk';
+import { CartFields, StatusType } from '@/data/constants';
+import type { AddToCartButtonProps } from '@/data/interfaces';
 import { useAddToCart } from '@/utils/useAddToCart';
 import { useCart } from '@/utils/useCart';
 import { useRemoveFromCart } from '@/utils/useRemoveFromCart';
+import { showToast } from '@/utils/profileUtils';
+import handleApiError from '@/utils/handleApiError';
 
 const CartButton: React.FC<AddToCartButtonProps> = ({ product }) => {
-  const { isInCart, initialized } = useCart();
+  const { isInCart, cart, initialized } = useCart();
   const addToCart = useAddToCart();
   const removeFromCart = useRemoveFromCart();
 
-  const inCart = isInCart(product.id);
+  const inCart = useMemo(() => isInCart(product.id), [cart]);
 
   const handleClick = async () => {
     if (!initialized) return;
@@ -20,13 +21,13 @@ const CartButton: React.FC<AddToCartButtonProps> = ({ product }) => {
     try {
       if (inCart) {
         await removeFromCart(product);
-        // TODO: show toast "Removed from cart"
+        showToast(`${product.name} removed from cart`, StatusType.success);
       } else {
         await addToCart(product);
-        // TODO: show toast "Added to cart"
+        showToast(`${product.name} successfully added to cart`, StatusType.success);
       }
     } catch (e) {
-      // TODO: show toast "Something went wrong"
+      showToast(`${handleApiError(e)}`, StatusType.error);
     }
   };
 
