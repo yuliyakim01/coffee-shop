@@ -14,10 +14,7 @@ export function simplifyProducts(
   return apiResponse.results.map((product) => simplifySingleProduct(product, categoryMap));
 }
 
-export function simplifySingleProduct(
-  product: ProductProjection,
-  categoryMap: Map<string, Category>
-): ProductInteface {
+export function simplifySingleProduct(product: ProductProjection, categoryMap: Map<string, Category>): ProductInteface {
   const variant: ProductVariant = product.masterVariant;
   const attributes: Attribute[] = variant.attributes || [];
 
@@ -44,21 +41,15 @@ export function simplifySingleProduct(
     category: simplifiedCategory,
     sku: variant.sku || '',
     key: variant.key || '',
+    variantId: variant.id,
   };
 }
 
-// Helpers
-function getAttributeValue(attributes: Attribute[], name: string): any {
+function getAttributeValue(attributes: Attribute[], name: string) {
   return attributes.find((attr) => attr.name === name)?.value ?? null;
 }
 
 function getNumericValue(attributes: Attribute[], name: string): number | null {
   const val = getAttributeValue(attributes, name);
   return typeof val === 'number' ? val : parseFloat(val);
-}
-
-function getEnumValue<T>(attributes: Attribute[], name: string, enumMap: Record<string, T>): T | null {
-  const attr = attributes.find((attr) => attr.name === name);
-  const label = attr?.value?.label;
-  return label && label in enumMap ? enumMap[label as keyof typeof enumMap] : null;
 }

@@ -2,7 +2,7 @@ import type { Cart } from '@commercetools/platform-sdk/dist/declarations/src/gen
 import type { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import type { ChangeEvent, ForwardRefExoticComponent, PropsWithoutRef, RefAttributes, RefObject } from 'react';
 import type React from 'react';
-import type { CustomFields } from '@commercetools/platform-sdk';
+import type { CustomFields, ProductProjection } from '@commercetools/platform-sdk';
 
 export interface Country {
   code: string;
@@ -227,6 +227,7 @@ export interface ProductInteface {
   images: string[];
   sku: string;
   key: string;
+  variantId: number;
 }
 export interface ProductSliderProps {
   product: ProductInteface;
@@ -345,4 +346,13 @@ export type addAddressType = {
 export interface HandleSaveEditOptions {
   isBillingDefault?: boolean;
   isShippingDefault?: boolean;
+}
+export interface CartProduct {
+  id: string;
+  variantId: number;
+  quantity?: number;
+}
+export interface AddToCartButtonProps {
+  product: ProductProjection | ProductInteface;
+  className?: string;
 }

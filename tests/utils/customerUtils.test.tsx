@@ -9,7 +9,7 @@ import {
   logoutUser,
   isAuthorizedKey,
 } from '@/utils/customerUtils';
-import { countries, StringFunction, StringOrNull } from '@/data/interfaces';
+import { countries } from '@/data/interfaces';
 import { customerId, customerVersion } from '@/data/constants';
 import type { FormRefItem } from '@/data/interfaces';
 
@@ -146,7 +146,7 @@ describe('Utility Functions', () => {
     });
 
     it('should save and get session user info', () => {
-      const mockCustomer = { id: 'cust123', version: 5 } as any;
+      const mockCustomer = { id: 'cust123', version: 5 };
       saveLoggedInUserToSessionStorage(mockCustomer, true);
 
       const sessionUser = getLoggedInUserFromSessionStorage();

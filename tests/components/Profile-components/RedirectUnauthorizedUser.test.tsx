@@ -2,7 +2,6 @@ import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import RedirectUnauthorizedUser from '@/components/Profile-components/RedirectUnauthorizedUser';
 import { getLoggedInUserFromSessionStorage } from '@/utils/customerUtils';
-import { useNavigate } from 'react-router-dom';
 
 jest.mock('@/utils/customerUtils', () => ({
   getLoggedInUserFromSessionStorage: jest.fn(),
