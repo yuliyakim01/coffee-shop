@@ -5,6 +5,7 @@ import { getLoggedInUserFromSessionStorage } from '@/utils/customerUtils';
 import { anonymousId, createCart } from '@/api/cart/cart';
 import {
   buildLineItemActionAdd,
+  buildLineItemActionRemove,
   convertToCartProduct,
   createCartDraft,
   createEmptyCartDraft,
@@ -32,7 +33,7 @@ export default class CartManager {
     let queryParam: string;
 
     if (this.user !== null) {
-      queryParam = `customerId="${this.user.customerId}"`;
+      queryParam = `(customerId="${this.user.customerId}" OR anonymousId="${id}")`;
       sessionUserCustomerId = this.user.customerId;
     } else {
       queryParam = `anonymousId="${id}"`;
@@ -61,10 +62,19 @@ export default class CartManager {
   public async addToCart(product: ProductProjection | ProductInteface) {
     if (!this.cart) {
       const cartDraft = createCartDraft(product, this.user);
-      await this.createNewCart(cartDraft);
+      try {
+        await this.createNewCart(cartDraft);
+      } catch (error) {
+        console.error('Error creating cart:', error);
+        throw error;
+      }
     }
-    await this.manageLineItem(convertToCartProduct(product));
-    return this.cart;
+    try {
+      await this.manageLineItem(convertToCartProduct(product));
+      return this.cart;
+    } catch (error) {
+      console.error('Failed to add item to cart:', error);
+    }
   }
 
   private async createNewCart(cartDraft: CartDraft) {
@@ -87,9 +97,9 @@ export default class CartManager {
       version: this.cart.version,
       actions: [action],
     };
-
     try {
-      this.cart = await updateCart(this.cart, cartUpdate);
+      const updatedCart = await updateCart(this.cart, cartUpdate);
+      if (updatedCart) this.cart = updatedCart;
     } catch (error) {
       console.error('Error in manageLineItem:', error);
       throw error;
@@ -107,17 +117,15 @@ export default class CartManager {
     const lineItem = findLineItem(productId, this.cart);
     if (!lineItem) return;
 
-    const action: MyCartUpdateAction = {
-      action: CartUpdateActions.removeLineItem,
-      lineItemId: lineItem.id,
-    };
+    const action: MyCartUpdateAction = buildLineItemActionRemove(lineItem.id);
 
     const cartUpdate: MyCartUpdate = {
       version: this.cart.version,
       actions: [action],
     };
     try {
-      this.cart = await updateCart(this.cart, cartUpdate);
+      const updatedCart = await updateCart(this.cart, cartUpdate);
+      if (updatedCart) this.cart = updatedCart;
       return this.cart;
     } catch (error) {
       console.error('Failed to remove item from cart:', error);

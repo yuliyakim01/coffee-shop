@@ -53,11 +53,11 @@ export const buildLineItemActionReduce = (product: CartProduct, lineItem: LineIt
   };
 };
 
-export const buildLineItemActionRemove = (product: CartProduct, lineItem: LineItem | null | undefined) => {
-  if (!lineItem) throw new Error('Cannot remove lineItem, it does not exist');
+export const buildLineItemActionRemove = (lineItemId: string) => {
+  if (!lineItemId) throw new Error('Cannot remove lineItem, it does not exist');
   return {
     action: CartUpdateActions.removeLineItem,
-    lineItemId: lineItem.id,
+    lineItemId: lineItemId,
   };
 };
 export const findLineItem = (productId: string, cart: Cart) => {

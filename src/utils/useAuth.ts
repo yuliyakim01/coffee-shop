@@ -3,9 +3,10 @@ import type React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useState } from 'react';
 import { loginCustomer } from '@/api/customers';
-import { normalizeInput, saveLoggedInUserToSessionStorage } from '@/utils/customerUtils';
-import { ROUTES } from '@/data/routes';
+import { normalizeInput } from '@/utils/customerUtils';
 import type { FormRefItem, SignInResponse } from '@/data/interfaces';
+import { handleAfterAuthSteps } from '@/utils/handleAfterAuthSteps';
+import { ROUTES } from '@/data/routes';
 
 export function useAuth(): {
   loginWithRefs: (emailRef: FormRefItem, passwordRef: FormRefItem) => Promise<void>;
@@ -15,26 +16,22 @@ export function useAuth(): {
   const navigate: NavigateFunction = useNavigate();
   const [isAuthorized, setIsAuthorized] = useState(false);
 
-  const loginWithRefs = useCallback(
-    async (emailRef: FormRefItem, passwordRef: FormRefItem): Promise<void> => {
-      const email = normalizeInput(emailRef.current?.getValue?.() ?? '');
-      const password = normalizeInput(passwordRef.current?.getValue?.() ?? '');
+  const loginWithRefs = useCallback(async (emailRef: FormRefItem, passwordRef: FormRefItem): Promise<void> => {
+    const email = normalizeInput(emailRef.current?.getValue?.() ?? '');
+    const password = normalizeInput(passwordRef.current?.getValue?.() ?? '');
 
-      const response: SignInResponse = await loginCustomer(email, password);
+    const response: SignInResponse = await loginCustomer(email, password);
 
-      if (response.customer) {
-        setIsAuthorized(true);
-        saveLoggedInUserToSessionStorage(response.customer, true);
-        setTimeout(() => {
-          navigate(ROUTES.main);
-        }, 2000);
-      } else {
-        setIsAuthorized(false);
-        throw new Error('Login failed');
-      }
-    },
-    [navigate]
-  );
-
+    if (response.customer) {
+      setIsAuthorized(true);
+      handleAfterAuthSteps(response.customer);
+      setTimeout(() => {
+        navigate(ROUTES.main);
+      }, 2000);
+    } else {
+      setIsAuthorized(false);
+      throw new Error('Login failed');
+    }
+  }, []);
   return { loginWithRefs, isAuthorized, setIsAuthorized };
 }
