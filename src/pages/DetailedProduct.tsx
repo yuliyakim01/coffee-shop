@@ -13,6 +13,7 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import '@/styles/productSlider.css';
+import CartButton from '@/components/Cart-components/CartButton';
 
 const DetailedProduct: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -89,6 +90,7 @@ const DetailedProduct: React.FC = () => {
 
       <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row gap-10 items-start">
         <div className="flex-1 space-y-4 md:mr-6">
+          <CartButton product={product} />
           <h1 className="text-3xl sm:text-4xl font-bold text-black">{product.name}</h1>
 
           <div className="flex items-center gap-3">

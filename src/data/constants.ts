@@ -148,6 +148,7 @@ export const ButtonText = {
 };
 export const CartFields = {
   addToCart: 'Add to Cart',
+  removeFromCart: 'Remove from Cart',
   usd: 'USD',
   anonymousId: 'anonymousId',
 };

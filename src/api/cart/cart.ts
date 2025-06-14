@@ -1,37 +1,44 @@
 import { getApiRoot } from '@/utils/getApiRoot';
-import type { Cart, CartDraft, ClientResponse, MyCartUpdate } from '@commercetools/platform-sdk';
-import { ByProjectKeyMeCartsRequestBuilder, LineItemDraft, Product } from '@commercetools/platform-sdk';
-import { CartUpdateActions } from '@/data/constants';
+import type {
+  Cart,
+  CartDraft,
+  ClientResponse,
+  MyCartUpdate,
+  ByProjectKeyMeCartsRequestBuilder,
+} from '@commercetools/platform-sdk';
+import { LineItemDraft, Product } from '@commercetools/platform-sdk';
+import { CartFields, CartUpdateActions } from '@/data/constants';
 import { getApiRootMyCart } from '@/api/cart/commerceToolsClientAnonymous';
 import { getOrCreateAnonymousId } from '@/utils/cartUtils';
 
-const cartEndpoint = getApiRootMyCart().me().carts();
+export const anonymousId: string = getOrCreateAnonymousId();
+const cartEndpoint: ByProjectKeyMeCartsRequestBuilder = getApiRootMyCart(anonymousId).me().carts();
 
-export const getAnonymousCart = async (): Promise<Cart | null> => {
-  try {
-    const response = await cartEndpoint.get().execute();
-    return response.body.results.length > 0 ? response.body.results[0] : null;
-  } catch (error) {
-    console.error('Error fetching anonymous cart:', error);
-    return null;
-  }
-};
-export const createNewAnonymousCart = async (): Promise<Cart> => {
-  try {
-    const response = await cartEndpoint
-      .post({
-        body: {
-          currency: 'USD',
-        },
-      })
-      .execute();
-
-    return response.body;
-  } catch (error) {
-    console.error('Failed to create new anonymous cart:', error);
-    throw error;
-  }
-};
+// export const getAnonymousCart = async (): Promise<Cart | null> => {
+//   try {
+//     const response = await cartEndpoint.get().execute();
+//     return response.body.results.length > 0 ? response.body.results[0] : null;
+//   } catch (error) {
+//     console.error('Error fetching anonymous cart:', error);
+//     return null;
+//   }
+// };
+// export const createNewAnonymousCart = async (): Promise<Cart> => {
+//   try {
+//     const response: ClientResponse<Cart> = await cartEndpoint
+//       .post({
+//         body: {
+//           currency: CartFields.usd,
+//         },
+//       })
+//       .execute();
+//
+//     return response.body;
+//   } catch (error) {
+//     console.error('Failed to create new anonymous cart:', error);
+//     throw error;
+//   }
+// };
 
 export const createCart = async (cartDraft: CartDraft) => {
   try {
@@ -44,6 +51,7 @@ export const createCart = async (cartDraft: CartDraft) => {
 };
 
 export const updateCart = async (cart: Cart, body: MyCartUpdate) => {
+  console.log('55555555cart', cart, 'body', body);
   try {
     const response: ClientResponse<Cart> = await cartEndpoint.withId({ ID: cart.id }).post({ body }).execute();
     return response.body;
@@ -52,25 +60,25 @@ export const updateCart = async (cart: Cart, body: MyCartUpdate) => {
     throw error;
   }
 };
-export const fetchOrCreateCart = async () => {
-  const anonymousId = getOrCreateAnonymousId();
-
-  const carts = await cartEndpoint.get({ queryArgs: { where: `anonymousId="${anonymousId}"` } }).execute();
-  const existingCart = carts.body.results[0];
-
-  if (existingCart) return existingCart;
-
-  const newCart = await cartEndpoint
-    .post({
-      body: {
-        currency: 'USD',
-        anonymousId,
-      },
-    })
-    .execute();
-
-  return newCart.body;
-};
+// export const fetchOrCreateCart = async () => {
+//   const anonymousId = getOrCreateAnonymousId();
+//
+//   const carts = await cartEndpoint.get({ queryArgs: { where: `anonymousId="${anonymousId}"` } }).execute();
+//   const existingCart = carts.body.results[0];
+//
+//   if (existingCart) return existingCart;
+//
+//   const newCart = await cartEndpoint
+//     .post({
+//       body: {
+//         currency: 'USD',
+//         anonymousId,
+//       },
+//     })
+//     .execute();
+//
+//   return newCart.body;
+// };
 
 /*
 {

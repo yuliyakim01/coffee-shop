@@ -11,14 +11,24 @@ export const convertToCartProduct = (product: ProductProjection | ProductIntefac
 };
 export const createCartDraft = (product: ProductProjection | ProductInteface, user: SessionUser | null) => {
   const draftProduct = convertToCartProduct(product);
+  const id = getOrCreateAnonymousId();
+  const owner = user !== null ? `customerId: ${user?.customerId}` : `anonymousId: ${id}`;
   return {
     currency: CartFields.usd,
     lineItems: [{ quantity: 1, productId: product.id, variantId: draftProduct.variantId }],
-    customerId: user ? user.customerId : undefined,
+    owner,
+  } as CartDraft;
+};
+export const createEmptyCartDraft = (anonymousId?: string, customerId?: string) => {
+  return {
+    currency: CartFields.usd,
+    customerId: customerId,
+    anonymousId: anonymousId,
   } as CartDraft;
 };
 export const buildLineItemActionAdd = (product: CartProduct, lineItem: LineItem | null | undefined) => {
   const { id: productId, variantId } = product;
+  console.log('buildLineItemActionAdd', CartUpdateActions.changeLineItemQuantity, lineItem?.id, lineItem?.quantity + 1);
 
   if (lineItem) {
     return {
@@ -27,7 +37,7 @@ export const buildLineItemActionAdd = (product: CartProduct, lineItem: LineItem 
       quantity: lineItem.quantity + 1,
     };
   }
-
+  console.log('buildLineItemActionAdd - new ', CartUpdateActions.changeLineItemQuantity, productId, variantId);
   return {
     action: CartUpdateActions.addLineItem,
     productId,
