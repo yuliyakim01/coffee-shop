@@ -45,18 +45,11 @@ export function simplifySingleProduct(product: ProductProjection, categoryMap: M
   };
 }
 
-// Helpers
-function getAttributeValue(attributes: Attribute[], name: string): any {
+function getAttributeValue(attributes: Attribute[], name: string) {
   return attributes.find((attr) => attr.name === name)?.value ?? null;
 }
 
 function getNumericValue(attributes: Attribute[], name: string): number | null {
   const val = getAttributeValue(attributes, name);
   return typeof val === 'number' ? val : parseFloat(val);
-}
-
-function getEnumValue<T>(attributes: Attribute[], name: string, enumMap: Record<string, T>): T | null {
-  const attr = attributes.find((attr) => attr.name === name);
-  const label = attr?.value?.label;
-  return label && label in enumMap ? enumMap[label as keyof typeof enumMap] : null;
 }

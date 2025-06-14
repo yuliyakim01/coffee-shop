@@ -43,15 +43,15 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentCategoryKey, productName
         Products
       </Link>
 
-      {hierarchy.map((cat, index) => (
-        <React.Fragment key={cat.key}>
+      {hierarchy.map((category) => (
+        <React.Fragment key={category.key}>
           <span>{'>'}</span>
           {onNavigate ? (
-            <button onClick={() => onNavigate(cat.key)} className="hover:underline">
-              {cat.name?.['en-US'] || Object.values(cat.name)[0] || cat.key}
+            <button onClick={() => onNavigate(category.key)} className="hover:underline">
+              {category.name?.['en-US'] || Object.values(category.name)[0] || category.key}
             </button>
           ) : (
-            <span>{cat.name?.['en-US'] || Object.values(cat.name)[0] || cat.key}</span>
+            <span>{category.name?.['en-US'] || Object.values(category.name)[0] || category.key}</span>
           )}
         </React.Fragment>
       ))}

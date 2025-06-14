@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import FilterComponent from '@/components/Product-components/FilterComponent';
-import { categoryService } from '@/api/category/CategoryService';
 
 jest.mock('@/api/category/CategoryService', () => ({
   getSubcategoriesByParentKey: jest.fn(),

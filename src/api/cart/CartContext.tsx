@@ -32,6 +32,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!cart) return false;
     return cart.lineItems.some((item) => item.productId === productId && item.quantity > 0);
   };
+
   const value = useMemo(
     () => ({
       cart,
@@ -39,7 +40,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       isInCart,
       setCart,
     }),
-    [cart, initialized]
+    [cart, initialized, isInCart]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

@@ -9,11 +9,11 @@ import { showToast } from '@/utils/profileUtils';
 import handleApiError from '@/utils/handleApiError';
 
 const CartButton: React.FC<AddToCartButtonProps> = ({ product }) => {
-  const { isInCart, cart, initialized } = useCart();
+  const { isInCart, initialized } = useCart();
   const addToCart = useAddToCart();
   const removeFromCart = useRemoveFromCart();
 
-  const inCart = useMemo(() => isInCart(product.id), [cart]);
+  const inCart = useMemo(() => isInCart(product.id), [isInCart, product.id]);
 
   const handleClick = async () => {
     if (!initialized) return;

@@ -4,7 +4,7 @@ import type { ProductInteface } from '@/data/interfaces';
 import { useCart } from '@/utils/useCart';
 
 export const useAddToCart = () => {
-  const { cart, setCart } = useCart();
+  const { setCart } = useCart();
 
   return async (product: ProductProjection | ProductInteface) => {
     try {

@@ -33,7 +33,7 @@ describe('Product simplification utils', () => {
       ],
     },
     categories: [{ id: 'cat1' }],
-  } as any;
+  };
 
   const mockPagedResponse: ProductProjectionPagedQueryResponse = {
     results: [mockProductProjection, mockProductProjection],
@@ -41,7 +41,7 @@ describe('Product simplification utils', () => {
     offset: 0,
     count: 2,
     total: 2,
-  } as any;
+  };
 
   test('simplifySingleProduct returns correct simplified product', () => {
     const simplified = simplifySingleProduct(mockProductProjection, categoryMap);

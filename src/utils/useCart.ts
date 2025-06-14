@@ -8,7 +8,7 @@ export const useCart = () => {
     throw new Error('useCart must be used within a CartProvider');
   }
 
-  const { cart, setCart, initialized, isInCart } = context;
+  const { setCart, initialized } = context;
 
   useEffect(() => {
     const init = async () => {

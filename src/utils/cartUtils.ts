@@ -44,7 +44,6 @@ export const buildLineItemActionAdd = (product: CartProduct, lineItem: LineItem 
   };
 };
 export const buildLineItemActionReduce = (product: CartProduct, lineItem: LineItem | null | undefined) => {
-  const { id: productId, variantId } = product;
   if (!lineItem) throw new Error('Cannot reduce amount of product that does not exist');
   if (lineItem.quantity <= 1) throw new Error('You reached the minimum quantity of 1');
   return {
@@ -55,7 +54,6 @@ export const buildLineItemActionReduce = (product: CartProduct, lineItem: LineIt
 };
 
 export const buildLineItemActionRemove = (product: CartProduct, lineItem: LineItem | null | undefined) => {
-  const { id: productId, variantId } = product;
   if (!lineItem) throw new Error('Cannot remove lineItem, it does not exist');
   return {
     action: CartUpdateActions.removeLineItem,

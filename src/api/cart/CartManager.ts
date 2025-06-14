@@ -80,7 +80,6 @@ export default class CartManager {
 
   private async manageLineItem(product: CartProduct): Promise<void> {
     if (this.cart == null) throw new Error('Please create a cart first!');
-    const { id: productId, variantId } = product;
     const lineItem = findLineItem(product.id, this.cart);
     const action: MyCartUpdateAction = buildLineItemActionAdd(product, lineItem);
 
