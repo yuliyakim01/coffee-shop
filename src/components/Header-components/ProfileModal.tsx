@@ -2,12 +2,14 @@ import React from 'react';
 import { Link, type NavigateFunction, useNavigate } from 'react-router-dom';
 import { logoutUser } from '@/utils/customerUtils';
 import { LABELS, ROUTES } from '@/data/routes';
+import { useCart } from '@/utils/useCart';
 
 function ProfileModal() {
   const navigate: NavigateFunction = useNavigate();
+  const { setCart } = useCart();
 
   const handleLogout = () => {
-    logoutUser();
+    logoutUser(setCart);
     navigate(ROUTES.main);
   };
 

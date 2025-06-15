@@ -3,15 +3,15 @@ import type { NavigateFunction } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { registerCustomer } from '@/api/customers';
 import type { CustomerDraft, CustomerSignInResult } from '@commercetools/platform-sdk';
+import { handleAfterAuthSteps } from '@/utils/handleAfterAuthSteps';
 import { ROUTES } from '@/data/routes';
-
-import { processPurchase } from '@/utils/processPurchase';
-import { saveLoggedInUserToSessionStorage } from '@/utils/customerUtils';
+import { useCart } from '@/utils/useCart';
 
 export function useRegistration(): {
   register: (customerDraft: CustomerDraft) => Promise<void>;
 } {
   const navigate: NavigateFunction = useNavigate();
+  const { cart, setCart } = useCart();
 
   const register: (customerDraft: CustomerDraft) => Promise<void> = useCallback(
     async (customerDraft: CustomerDraft): Promise<void> => {
@@ -19,17 +19,10 @@ export function useRegistration(): {
         const response: CustomerSignInResult = await registerCustomer(customerDraft);
 
         if (response.customer) {
-          if (response.cart) {
-            processPurchase(response.cart);
-            setTimeout((): void => {
-              navigate(ROUTES.cart);
-            }, 2000);
-          } else {
-            saveLoggedInUserToSessionStorage(response.customer, true);
-            setTimeout((): void => {
-              navigate(ROUTES.main);
-            }, 2000);
-          }
+          await handleAfterAuthSteps(response.customer, setCart);
+          setTimeout(() => {
+            navigate(ROUTES.main);
+          }, 2000);
         } else {
           throw new Error('Registration failed: No customer returned.');
         }
@@ -38,7 +31,7 @@ export function useRegistration(): {
         throw error;
       }
     },
-    [navigate]
+    []
   );
 
   return { register };

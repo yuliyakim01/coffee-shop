@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react';
 import cartManager from '@/api/cart/CartManagerInstance';
 import { CartContext } from '@/api/cart/CartContext';
+import type { Cart } from '@commercetools/platform-sdk';
 
 export const useCart = () => {
   const context = useContext(CartContext);
@@ -13,10 +14,8 @@ export const useCart = () => {
   useEffect(() => {
     const init = async () => {
       await cartManager.initialize();
-      const currentCart = await cartManager.getCart();
-      if (currentCart === null) console.log('useCart, cart is null!');
-      if (currentCart) setCart(currentCart);
-      if (currentCart !== null) console.log('useCart, cart is not null!');
+      const currentCart: Cart | null = await cartManager.getCart();
+      setCart(currentCart);
     };
 
     if (!initialized) {
