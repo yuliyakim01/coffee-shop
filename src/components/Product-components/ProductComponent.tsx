@@ -66,7 +66,9 @@ const ProductComponent: React.FC<Props> = ({ product }) => {
           )}
         </div>
       </div>
-
+      <div className="w-full mb-1">
+        <CartButton product={product} />
+      </div>
       <div className="w-full">
         <Link
           to={`/products/${product.id}`}
@@ -74,9 +76,6 @@ const ProductComponent: React.FC<Props> = ({ product }) => {
         >
           View Details
         </Link>
-      </div>
-      <div className="w-full">
-        <CartButton product={product} />
       </div>
     </div>
   );

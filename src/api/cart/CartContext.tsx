@@ -7,6 +7,7 @@ type CartContextType = {
   initialized: boolean;
   isInCart: (productId: string) => boolean;
   setCart: (cart: Cart | null) => void;
+  refreshCart: () => Promise<void>;
 };
 
 export const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -14,7 +15,10 @@ export const CartContext = createContext<CartContextType | undefined>(undefined)
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cart, setCart] = useState<Cart | null>(null);
   const [initialized, setInitialized] = useState(false);
-
+  const refreshCart = async () => {
+    const updated = await cartManager.getCart();
+    setCart(updated || null);
+  };
   useEffect(() => {
     const init = async () => {
       await cartManager.initialize();
@@ -39,8 +43,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       initialized,
       isInCart,
       setCart,
+      refreshCart,
     }),
-    [cart, initialized, isInCart]
+    [cart, initialized, isInCart, refreshCart]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
