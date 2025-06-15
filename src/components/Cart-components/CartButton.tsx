@@ -36,7 +36,7 @@ const CartButton: React.FC<AddToCartButtonProps> = ({ product }) => {
       type="button"
       onClick={handleClick}
       label={inCart ? CartFields.removeFromCart : CartFields.addToCart}
-      className={`text-black border-4 ${inCart ? 'border-green-300' : 'border-red-300'}`}
+      className={`text-black border-2 ${inCart ? 'border-green-300' : 'border-red-300'}`}
     />
   );
 };

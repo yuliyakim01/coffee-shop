@@ -1,12 +1,14 @@
-// components/CartItem.js
 import React from 'react';
 
 type CartItemType = {
   id: string | number;
   name: string;
   image: string;
-  price: number;
   quantity: number;
+  isSale: boolean;
+  salePercent: number;
+  originalPrice: number;
+  discountPrice: number;
 };
 
 type CartItemProps = {
@@ -18,7 +20,7 @@ type CartItemProps = {
 
 const CartItem: React.FC<CartItemProps> = ({ item, onDecrease, onIncrease, onRemove }) => {
   return (
-    <div className="  p-4 sm:p-6 flex flex-col sm:flex-row items-center">
+    <div className="p-4 sm:p-6 flex flex-col sm:flex-row items-center">
       <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-md mr-4 mb-4 sm:mb-0">
         <img src={item.image} alt={item.name} className="w-full h-full object-cover object-center" />
       </div>
@@ -27,7 +29,15 @@ const CartItem: React.FC<CartItemProps> = ({ item, onDecrease, onIncrease, onRem
         <div className="flex flex-col sm:flex-row justify-between">
           <div className="mb-2 sm:mb-0">
             <h3 className="text-lg font-medium text-Temptress">{item.name}</h3>
-            <p className="text-brown">${item.price.toFixed(2)}</p>
+            {item.isSale ? (
+              <div className="flex items-center gap-2">
+                <span className="text-red-400 font-bold">${item.discountPrice}</span>
+                <span className="text-coffeeLight line-through text-sm">${item.originalPrice}</span>
+                <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">{item.salePercent}% OFF</span>
+              </div>
+            ) : (
+              <span className="text-black font-bold">${item.originalPrice}</span>
+            )}
           </div>
 
           <div className="flex items-center">

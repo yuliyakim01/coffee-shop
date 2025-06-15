@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Nav } from './Nav';
 import logo from '@/assets/logo.svg';
 import cart from '@/assets/cart.png';
@@ -12,7 +12,7 @@ import { getIsAuthorizedFromSessionStorage } from '@/utils/customerUtils';
 import ProfileModal from './ProfileModal';
 import headerBg from '@/assets/footer.png';
 import registerIcon from '@/assets/register-icon.svg';
-
+import { CartContext } from '@/api/cart/CartContext';
 function Header() {
   const location = useLocation();
   const isMainPage = location.pathname === ROUTES.main;
@@ -21,7 +21,8 @@ function Header() {
   const profileRef = useRef(null);
   const userIconRef = useRef(null);
   const isAuthorized = getIsAuthorizedFromSessionStorage();
-
+  const context = useContext(CartContext);
+  const cartNum = context?.cart?.lineItems?.length || 0;
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
   const toggleProfile = () => setIsProfileOpen((prev) => !prev);
@@ -75,7 +76,7 @@ function Header() {
 
       <div className="flex justify-center items-center ">
         <div className="bg-cream flex justify-center items-center rounded-full py-2 px-2  cursor-pointer relative">
-          <p className="absolute top-0 text-xs font-bold">1</p>
+          <p className="absolute top-0 text-xs font-bold">{cartNum}</p>
           <Link to={ROUTES.cart} className="flex justify-center items-center w-full h-full">
             <img src={cart} alt="cart" className="w-8" />
           </Link>
