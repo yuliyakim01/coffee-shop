@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import cartManager from '@/api/cart/CartManagerInstance';
 import type { Cart, LineItem } from '@commercetools/platform-sdk';
 import OrderSummary from './OrderSummary';
 import PromoCode from './Promocode';
 import EmptyCart from './EmptyCart';
 import CartItem from './CartItem';
+import { CartContext } from '@/api/cart/CartContext';
 
 const Basket: React.FC = () => {
   const [cart, setCart] = useState<Cart | null>(null);
-
+  const context = useContext(CartContext);
   useEffect(() => {
     const fetchCart = async () => {
       await cartManager.initialize();
@@ -42,17 +43,50 @@ const Basket: React.FC = () => {
     return acc + price * item.quantity;
   }, 0);
 
-  const removeItem = (id: string) => {
-    cartManager.removeFromCart(id).then(() => {
-      setCart((prevCart) => {
-        if (!prevCart) return prevCart;
-        return {
-          ...prevCart,
-          lineItems: prevCart.lineItems.filter((item) => item.id !== id),
-        };
-      });
-    });
+  const removeItem = async (id: string) => {
+    try {
+      const updatedCart = await cartManager.removeFromCart(id);
+      if (updatedCart) {
+        setCart(updatedCart);
+        await context?.refreshCart();
+      } else {
+        const freshCart = await cartManager.getCart();
+        setCart(freshCart);
+      }
+    } catch (error) {
+      console.error('Failed to remove item:', error);
+    }
   };
+  const increaseQuantity = async (lineItemId: string) => {
+    try {
+      const updatedCart = await cartManager.increaseQuantity(lineItemId);
+      if (updatedCart) {
+        setCart(updatedCart);
+      } else {
+        const freshCart = await cartManager.getCart();
+        setCart(freshCart);
+      }
+    } catch (error) {
+      console.error('Failed to increase quantity:', error);
+      // Optionally show error to user
+    }
+  };
+
+  const decreaseQuantity = async (lineItemId: string) => {
+    try {
+      const updatedCart = await cartManager.decreaseQuantity(lineItemId);
+      if (updatedCart) {
+        setCart(updatedCart);
+      } else {
+        const freshCart = await cartManager.getCart();
+        setCart(freshCart);
+      }
+    } catch (error) {
+      console.error('Failed to decrease quantity:', error);
+      // Optionally show error to user
+    }
+  };
+
   return (
     <div className="p-4 bg-coffeeBrown grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="lg:col-span-2 bg-cream px-6 py-5 rounded-lg border-2 border-whiteCoffee shadow-lg">
@@ -80,9 +114,9 @@ const Basket: React.FC = () => {
                   originalPrice,
                   discountPrice,
                 }}
-                onDecrease={() => {}}
-                onIncrease={() => {}}
-                onRemove={removeItem}
+                onDecrease={() => decreaseQuantity(item.id)}
+                onIncrease={() => increaseQuantity(item.id)}
+                onRemove={() => removeItem(item.productId)}
               />
             );
           })}

@@ -99,12 +99,62 @@ export default class CartManager {
     if (!this.cart) return false;
     return this.cart.lineItems.some((item) => item.productId === productId);
   }
+  // In your CartManager.ts
 
-  public async removeFromCart(productId: string): Promise<Cart | void> {
+  public async changeLineItemQuantity(lineItemId: string, quantity: number): Promise<Cart | null> {
+    if (!this.cart) {
+      console.error('Cart is not initialized');
+      return null;
+    }
+
+    const action: MyCartUpdateAction = {
+      action: 'changeLineItemQuantity',
+      lineItemId,
+      quantity,
+    };
+
+    const cartUpdate: MyCartUpdate = {
+      version: this.cart.version,
+      actions: [action],
+    };
+
+    try {
+      const updatedCart = await updateCart(this.cart, cartUpdate);
+      this.cart = updatedCart;
+      return updatedCart;
+    } catch (error) {
+      console.error('Failed to change item quantity:', error);
+      throw error;
+    }
+  }
+
+  public async increaseQuantity(lineItemId: string): Promise<Cart | null> {
+    if (!this.cart) return null;
+
+    const lineItem = this.cart.lineItems.find((item) => item.id === lineItemId);
+    if (!lineItem) return null;
+
+    const newQuantity = lineItem.quantity + 1;
+    return this.changeLineItemQuantity(lineItemId, newQuantity);
+  }
+
+  public async decreaseQuantity(lineItemId: string): Promise<Cart | null> {
+    if (!this.cart) return null;
+
+    const lineItem = this.cart.lineItems.find((item) => item.id === lineItemId);
+    if (!lineItem) return null;
+
+    const newQuantity = lineItem.quantity - 1;
+    if (newQuantity <= 0) {
+      return this.removeFromCart(lineItem.productId);
+    }
+    return this.changeLineItemQuantity(lineItemId, newQuantity);
+  }
+  public async removeFromCart(productId: string): Promise<Cart | null> {
     if (!this.cart) throw new Error('Cart is not initialized');
 
     const lineItem = findLineItem(productId, this.cart);
-    if (!lineItem) return;
+    if (!lineItem) return null;
 
     const action: MyCartUpdateAction = buildLineItemActionRemove(lineItem.id);
 
@@ -118,6 +168,7 @@ export default class CartManager {
       return this.cart;
     } catch (error) {
       console.error('Failed to remove item from cart:', error);
+      return null;
     }
   }
 
