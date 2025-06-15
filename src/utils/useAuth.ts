@@ -7,6 +7,7 @@ import { normalizeInput } from '@/utils/customerUtils';
 import type { FormRefItem, SignInResponse } from '@/data/interfaces';
 import { handleAfterAuthSteps } from '@/utils/handleAfterAuthSteps';
 import { ROUTES } from '@/data/routes';
+import { useCart } from '@/utils/useCart';
 
 export function useAuth(): {
   loginWithRefs: (emailRef: FormRefItem, passwordRef: FormRefItem) => Promise<void>;
@@ -15,6 +16,7 @@ export function useAuth(): {
 } {
   const navigate: NavigateFunction = useNavigate();
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const { cart, setCart } = useCart();
 
   const loginWithRefs = useCallback(async (emailRef: FormRefItem, passwordRef: FormRefItem): Promise<void> => {
     const email = normalizeInput(emailRef.current?.getValue?.() ?? '');
@@ -24,7 +26,7 @@ export function useAuth(): {
 
     if (response.customer) {
       setIsAuthorized(true);
-      handleAfterAuthSteps(response.customer);
+      await handleAfterAuthSteps(response.customer, setCart);
       setTimeout(() => {
         navigate(ROUTES.main);
       }, 2000);

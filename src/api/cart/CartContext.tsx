@@ -6,7 +6,7 @@ type CartContextType = {
   cart: Cart | null;
   initialized: boolean;
   isInCart: (productId: string) => boolean;
-  setCart: (cart: Cart) => void;
+  setCart: (cart: Cart | null) => void;
 };
 
 export const CartContext = createContext<CartContextType | undefined>(undefined);

@@ -10,8 +10,8 @@ export const useAddToCart = () => {
     try {
       await cartManager.addToCart(product);
       const updatedCart = await cartManager.getCart();
-
-      setCart({ ...updatedCart });
+      if (updatedCart) setCart(updatedCart);
+      // setCart({ ...updatedCart });
     } catch (error) {
       console.error('Add to cart failed:', error);
     }

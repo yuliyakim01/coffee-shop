@@ -10,6 +10,7 @@ import {
   createCartDraft,
   createEmptyCartDraft,
   findLineItem,
+  getCartQuery,
   getOrCreateAnonymousId,
 } from '@/utils/cartUtils';
 import { checkExistingCart, updateCart } from '@/api/cart/cartAdmin';
@@ -29,30 +30,19 @@ export default class CartManager {
     this.initializing = true;
 
     const id: string = anonymousId ?? getOrCreateAnonymousId();
-    let sessionUserCustomerId = null;
-    let queryParam: string;
-
-    if (this.user !== null) {
-      queryParam = `(customerId="${this.user.customerId}" OR anonymousId="${id}")`;
-      sessionUserCustomerId = this.user.customerId;
-    } else {
-      queryParam = `anonymousId="${id}"`;
-    }
+    let sessionUserCustomerId = this.user?.customerId;
+    let queryParam: string = getCartQuery(this.user, anonymousId);
 
     const cartExists = await checkExistingCart(queryParam);
-    if (cartExists) {
-      this.cart = cartExists;
-    } else {
-      const draft = createEmptyCartDraft(sessionUserCustomerId ?? id);
+    this.setCartIfExists(cartExists);
+    if (!cartExists) {
+      const draft = createEmptyCartDraft(sessionUserCustomerId, id);
       try {
-        const newCart = await createCart(draft);
-        if (newCart) {
-          this.cart = newCart;
-        } else {
-          console.error('Failed to create cart');
-        }
+        const newCart: Cart = await createCart(draft);
+        this.setCartIfExists(newCart);
       } catch (error) {
         console.error('Error creating cart:', error);
+        throw error;
       } finally {
         this.initializing = false;
       }
@@ -130,5 +120,13 @@ export default class CartManager {
     } catch (error) {
       console.error('Failed to remove item from cart:', error);
     }
+  }
+
+  public setCartIfExists(newCart: Cart | undefined) {
+    if (newCart) this.cart = newCart;
+  }
+
+  public setCartToNull(): void {
+    this.cart = null;
   }
 }

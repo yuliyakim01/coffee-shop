@@ -5,11 +5,13 @@ import { registerCustomer } from '@/api/customers';
 import type { CustomerDraft, CustomerSignInResult } from '@commercetools/platform-sdk';
 import { handleAfterAuthSteps } from '@/utils/handleAfterAuthSteps';
 import { ROUTES } from '@/data/routes';
+import { useCart } from '@/utils/useCart';
 
 export function useRegistration(): {
   register: (customerDraft: CustomerDraft) => Promise<void>;
 } {
   const navigate: NavigateFunction = useNavigate();
+  const { cart, setCart } = useCart();
 
   const register: (customerDraft: CustomerDraft) => Promise<void> = useCallback(
     async (customerDraft: CustomerDraft): Promise<void> => {
@@ -17,7 +19,7 @@ export function useRegistration(): {
         const response: CustomerSignInResult = await registerCustomer(customerDraft);
 
         if (response.customer) {
-          handleAfterAuthSteps(response.customer);
+          await handleAfterAuthSteps(response.customer, setCart);
           setTimeout(() => {
             navigate(ROUTES.main);
           }, 2000);

@@ -1,7 +1,8 @@
-import type { Customer, CustomerDraft } from '@commercetools/platform-sdk';
+import type { Cart, Customer, CustomerDraft } from '@commercetools/platform-sdk';
 import { customerId, customerVersion } from '@/data/constants';
 import type { Country, FormRefItem, RegistrationFormItems, SessionUser } from '@/data/interfaces';
 import { countries } from '@/data/interfaces';
+import cartManager from '@/api/cart/CartManagerInstance';
 
 export function processCustomerDraftProps(
   firstNameRef: FormRefItem,
@@ -126,8 +127,10 @@ export const getIsAuthorizedFromSessionStorage = (): boolean => {
   return value === 'true';
 };
 
-export const logoutUser = (): void => {
+export const logoutUser = (setCart: (cart: Cart | null) => void): void => {
   sessionStorage.removeItem(customerId);
   sessionStorage.removeItem(customerVersion);
   sessionStorage.removeItem(isAuthorizedKey);
+  setCart(null);
+  cartManager.initialize();
 };
