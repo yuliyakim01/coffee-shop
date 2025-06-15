@@ -74,12 +74,12 @@ function Header() {
       </div>
 
       <div className="flex justify-center items-center ">
-        <div>
-          <Link to={ROUTES.cart}>
-            <img src={cart} alt="cart" className="w-8 mr-5" />
+        <div className="bg-cream flex justify-center items-center rounded-full py-2 px-2  cursor-pointer relative">
+          <p className="absolute top-0 text-xs font-bold">1</p>
+          <Link to={ROUTES.cart} className="flex justify-center items-center w-full h-full">
+            <img src={cart} alt="cart" className="w-8" />
           </Link>
         </div>
-
         {isAuthorized ? (
           <div ref={userIconRef} onClick={toggleProfile} className="relative cursor-pointer">
             <img src={userIcon} alt="userIcon" className="w-10 h-10" />
@@ -93,7 +93,8 @@ function Header() {
           <div className="flex ">
             <Link
               to={ROUTES.login}
-              className="ml-3 group flex items-center justify-center gap-2 w-fit mx-auto uppercase bg-LightTaupe text-white px-6 py-2 rounded-md text-lg font-medium transition-transform duration-500 ease-in-out hidden min-[900px]:flex"
+              className="ml-3 group flex items-center justify-center gap-2 w-fit mx-auto uppercase bg-LightTaupe
+               text-white px-6 py-2 rounded-md text-lg font-medium transition-transform duration-500 ease-in-out hidden min-[900px]:flex"
             >
               <img src={loginIcon} alt="Login icon" className="w-5 h-5" />
               <span className="transition-transform duration-500 ease-in-out group-hover:scale-110">

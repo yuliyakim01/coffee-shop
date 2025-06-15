@@ -12,7 +12,6 @@ export const Nav: React.FC<NavProps> = ({ isVertical = false, onItemClick }) => 
     { route: ROUTES.main, label: LABELS.home },
     { route: ROUTES.about, label: LABELS.about },
     { route: ROUTES.products, label: LABELS.products },
-    { route: ROUTES.locations, label: LABELS.locations },
   ];
 
   return (
