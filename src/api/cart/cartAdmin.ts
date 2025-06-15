@@ -1,7 +1,6 @@
 import { getApiRoot } from '@/utils/getApiRoot';
 import type {
   Cart,
-  CartDraft,
   CartPagedQueryResponse,
   CartUpdate,
   ClientResponse,
@@ -9,8 +8,7 @@ import type {
 } from '@commercetools/platform-sdk';
 import type { MergeCartType } from '@/data/interfaces';
 import { mergeCartItems } from '@/utils/mergeCartUtils';
-import { getApiRootMyCart } from '@/api/cart/commerceToolsClientAnonymous';
-import handleApiError from '@/utils/handleApiError';
+import cartManager from '@/api/cart/CartManagerInstance';
 
 const cartEndpoint = getApiRoot().carts();
 
@@ -19,7 +17,9 @@ export const checkExistingCart = async (whereClause: string): Promise<Cart | und
     const response: ClientResponse<CartPagedQueryResponse> = await cartEndpoint
       .get({ queryArgs: { where: whereClause } })
       .execute();
-
+    let cartArray: Cart[] = [...response.body.results];
+    const currentCart = await cartManager.getCart();
+    if (currentCart !== null) cartArray.push(currentCart);
     if (response.body.results.length > 1) {
       const prepForJoin: MergeCartType = mergeCartItems(response.body.results);
       const joinedCart = await updateCart(prepForJoin.primaryCart, prepForJoin.cartUpdate);

@@ -1,7 +1,7 @@
 import { AuthData as AUTH } from '@/api/token/authData';
 import type { AnonymousAuthMiddlewareOptions } from '@commercetools/sdk-client-v2';
-import { ClientBuilder, type Client, type HttpMiddlewareOptions } from '@commercetools/sdk-client-v2';
-import { ByProjectKeyMeCartsRequestBuilder, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { ClientBuilder, type HttpMiddlewareOptions } from '@commercetools/sdk-client-v2';
+import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
 const authMiddlewareOptions = (): AnonymousAuthMiddlewareOptions => ({
   host: AUTH.authUrl,
@@ -22,7 +22,7 @@ const httpMiddlewareOptions: HttpMiddlewareOptions = {
 const ctpClient = new ClientBuilder()
   .withAnonymousSessionFlow(authMiddlewareOptions())
   .withHttpMiddleware(httpMiddlewareOptions)
-  .withLoggerMiddleware()
+  // .withLoggerMiddleware()
   .build();
 
 export const getApiRootMyCart = () => {

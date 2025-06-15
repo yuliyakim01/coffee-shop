@@ -14,7 +14,6 @@ import {
   getOrCreateAnonymousId,
 } from '@/utils/cartUtils';
 import { checkExistingCart, updateCart } from '@/api/cart/cartAdmin';
-import { CartUpdateActions } from '@/data/constants';
 
 export default class CartManager {
   private cart: Cart | null = null;
@@ -28,13 +27,13 @@ export default class CartManager {
   public async initialize() {
     if (this.cart !== null || this.initializing) return;
     this.initializing = true;
-
     const id: string = anonymousId ?? getOrCreateAnonymousId();
     let sessionUserCustomerId = this.user?.customerId;
     let queryParam: string = getCartQuery(this.user, anonymousId);
 
     const cartExists = await checkExistingCart(queryParam);
     this.setCartIfExists(cartExists);
+
     if (!cartExists) {
       const draft = createEmptyCartDraft(sessionUserCustomerId, id);
       try {
