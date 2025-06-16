@@ -234,6 +234,7 @@ export interface ProductInteface {
   sku: string;
   key: string;
   variantId: number;
+  discountedPrice: number | undefined;
 }
 
 export interface ProductSliderProps {

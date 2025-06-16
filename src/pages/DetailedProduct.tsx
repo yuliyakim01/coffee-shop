@@ -62,7 +62,7 @@ const DetailedProduct: React.FC = () => {
   if (error || !product) return <div className="p-6 text-red-500">{error || 'Product not available.'}</div>;
 
   const originalPrice = product.price.toFixed(2);
-  const discountPrice = calculateDiscountPrice().toFixed(2);
+  const discountPrice = product.discountedPrice ?? calculateDiscountPrice().toFixed(2);
   const isOnSale = product.is_sale && product.sale_percent;
 
   return (

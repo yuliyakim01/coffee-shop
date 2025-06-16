@@ -85,7 +85,7 @@ const PromoCode: React.FC<PromoCodeProps> = ({ onChange }) => {
               value={code}
               onChange={(e) => setCode(e.target.value)}
               placeholder="Enter promo code"
-              className={`flex-1 px-4 py-2 rounded-md border ${
+              className={`min-w-0 w-full px-4 py-2 rounded-md border ${
                 isValid === false ? 'border-red-300' : 'border-whiteCoffee'
               } focus:outline-none focus:ring-1 focus:ring-LightTaupe`}
             />

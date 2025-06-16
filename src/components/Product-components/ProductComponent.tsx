@@ -14,7 +14,7 @@ const ProductComponent: React.FC<Props> = ({ product }) => {
   };
 
   const originalPrice = product.price.toFixed(2);
-  const discountPrice = calculateDiscountPrice().toFixed(2);
+  const discountPrice = product.discountedPrice ?? calculateDiscountPrice();
   const isOnSale = product.is_sale && product.sale_percent;
 
   const productName =

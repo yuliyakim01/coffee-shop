@@ -106,7 +106,7 @@ const Basket: React.FC = () => {
             const isSale = !!attributes.find((attr) => attr.name === 'is_sale')?.value;
             const salePercent = attributes.find((attr) => attr.name === 'sale_percent')?.value || 0;
             const originalPrice = +(item.price.value.centAmount / 100).toFixed(2);
-            const discountPrice = calculateSalePrice(item);
+            const discountPrice = +(item.totalPrice.centAmount / 100).toFixed(2);
             const name = Object.values(item.name)[0];
 
             return (

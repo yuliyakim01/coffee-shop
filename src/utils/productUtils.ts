@@ -42,6 +42,7 @@ export function simplifySingleProduct(product: ProductProjection, categoryMap: M
     sku: variant.sku || '',
     key: variant.key || '',
     variantId: variant.id,
+    discountedPrice: (variant.prices?.[0]?.discounted?.value?.centAmount ?? 0) / 100,
   };
 }
 
