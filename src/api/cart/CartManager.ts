@@ -208,14 +208,11 @@ export default class CartManager {
     }
   }
 
-  public async removePromoCode(code: string): Promise<Cart | null> {
+  public async removePromoCode(): Promise<Cart | null> {
     if (!this.cart) throw new Error('Cart not initialized');
 
-    // Find the discount code *ID* by matching the string to a cached/applied value
-    const appliedCode = this.cart.discountCodes?.find(
-      (d) => d.state === 'MatchesCart' // Optional filter: active codes
-    );
-
+    const appliedCode = this.cart.discountCodes?.find((d) => d.discountCode.typeId === 'discount-code');
+    console.log('applied code', this.cart);
     if (!appliedCode) return null;
 
     const cartUpdate: MyCartUpdate = {
