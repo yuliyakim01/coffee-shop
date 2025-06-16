@@ -49,7 +49,7 @@ const PromoCode: React.FC<PromoCodeProps> = ({ onChange }) => {
 
   const handleRemove = async () => {
     try {
-      const updatedCart = await cartManager.removePromoCode(appliedCode || '');
+      const updatedCart = await cartManager.removePromoCode();
       if (updatedCart) {
         showToast('Promo code removed', StatusType.success);
         setAppliedCode(null);
