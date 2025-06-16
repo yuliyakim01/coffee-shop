@@ -30,7 +30,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ subtotal, shipping, total, 
             <span className="text-green-700 font-medium">
               <strong>{promoCode}</strong> Discount Applied
             </span>
-            <span className="text-green-700 font-medium">–${promoAmount.toFixed(2)}</span>
+            <span className="text-green-700 font-medium">💰${promoAmount.toFixed(2)}</span>
           </div>
         )}
 

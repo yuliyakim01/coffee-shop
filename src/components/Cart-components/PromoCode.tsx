@@ -16,7 +16,6 @@ const PromoCode: React.FC<PromoCodeProps> = ({ onChange }) => {
   const cartContext = useContext(CartContext);
 
   useEffect(() => {
-    // On load, check if a promo code is already applied
     const checkApplied = async () => {
       const cart = await cartManager.getCart();
       const existing = cart?.discountCodes?.[0]?.discountCode?.id;

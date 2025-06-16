@@ -58,14 +58,9 @@ const Basket: React.FC = () => {
 
     return originalPrice;
   };
-
-  const totalPrice = cart.lineItems.reduce((acc, item) => {
-    const price = calculateSalePrice(item);
-    return acc + price * item.quantity;
-  }, 0);
-
   const cartTotal = cart.totalPrice.centAmount / 100;
-  const discountAmount = +(totalPrice - cartTotal).toFixed(2);
+  const discountAmount = +((cart.discountOnTotalPrice?.discountedAmount?.centAmount ?? 0) / 100).toFixed(2);
+  const totalPrice = cartTotal + discountAmount;
   const hasPromo = !!appliedCodeRef && discountAmount > 0;
 
   const removeItem = async (productId: string) => {
