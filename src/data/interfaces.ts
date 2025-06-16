@@ -380,3 +380,7 @@ export type MergeCartType = {
   primaryCart: Cart;
   cartUpdate: CartUpdate;
 };
+export interface PromoCode {
+  name: string;
+  description: string;
+}

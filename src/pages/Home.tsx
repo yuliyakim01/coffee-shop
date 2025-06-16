@@ -11,8 +11,8 @@ function HomePage() {
   return (
     <div className="w-full h-full flex-1 flex flex-col ">
       <HomePageHero />
-      <PromoCodeList />
       <Bartons />
+      <PromoCodeList />
       <OpeningHours />
       <OurMenu />
       <Review />

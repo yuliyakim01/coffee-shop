@@ -8,6 +8,7 @@ import CartItem from './CartItem';
 import { CartContext } from '@/api/cart/CartContext';
 import ClearCartModal from './ClearCartModal';
 import PromoCodeList from '@/components/Cart-components/PromoCodeList';
+import RunningPromoCodes from './RunningPromoCodes';
 
 const Basket: React.FC = () => {
   const [cart, setCart] = useState<Cart | null>(null);
@@ -38,7 +39,7 @@ const Basket: React.FC = () => {
   };
 
   const appliedCodeRef = cart?.discountCodes?.[0]?.discountCode?.id ?? null;
-
+  console.log(promoCodeLabel, 'promoCodeLabel');
   useEffect(() => {
     const loadPromoCode = async () => {
       if (appliedCodeRef) {
@@ -60,9 +61,7 @@ const Basket: React.FC = () => {
     const isSale = attributes.find((attr) => attr.name === 'is_sale')?.value;
     const salePercent = attributes.find((attr) => attr.name === 'sale_percent')?.value;
     const originalPrice = item.price.value.centAmount / 100;
-    return isSale && salePercent
-      ? +(originalPrice * (1 - salePercent / 100)).toFixed(2)
-      : originalPrice;
+    return isSale && salePercent ? +(originalPrice * (1 - salePercent / 100)).toFixed(2) : originalPrice;
   };
 
   const cartTotal = cart.totalPrice.centAmount / 100;
@@ -99,10 +98,9 @@ const Basket: React.FC = () => {
   };
 
   return (
-    <div>
-      <PromoCodeList />
-      <div className="p-4 bg-coffeeBrown grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Basket Section */}
+    <div className="bg-coffeeBrown relative">
+      <RunningPromoCodes />
+      <div className="py-20 px-4  grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 bg-cream px-6 py-5 rounded-lg border-2 border-whiteCoffee shadow-lg flex flex-col justify-between">
           <div>
             <h2 className="text-2xl font-bold text-Temptress mb-4">🛍 Your Basket</h2>
@@ -137,7 +135,6 @@ const Basket: React.FC = () => {
             </ul>
           </div>
 
-          {/* Clear Cart Button */}
           <div className="mt-6">
             <button
               onClick={() => setIsClearModalOpen(true)}
@@ -148,7 +145,6 @@ const Basket: React.FC = () => {
           </div>
         </div>
 
-        {/* Order Summary and Promo Code */}
         <div className="flex flex-col gap-6">
           <PromoCode onChange={refreshCartState} />
           <OrderSummary
@@ -156,3 +152,17 @@ const Basket: React.FC = () => {
             shipping={0}
             total={cartTotal}
             promoAmount={hasPromo ? discountAmount : 0}
+          />
+        </div>
+      </div>
+
+      <ClearCartModal
+        isOpen={isClearModalOpen}
+        onClose={() => setIsClearModalOpen(false)}
+        onConfirm={handleClearCart}
+      />
+    </div>
+  );
+};
+
+export default Basket;
