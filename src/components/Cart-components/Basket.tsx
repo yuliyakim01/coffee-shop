@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
-import cartManager from '@/api/cart/CartManagerInstance';
+import cartManager, { fetchPromoCodeString } from '@/api/cart/CartManagerInstance';
 import type { Cart, LineItem } from '@commercetools/platform-sdk';
 import OrderSummary from './OrderSummary';
-import PromoCode from './Promocode';
+import PromoCode from './PromoCode';
 import EmptyCart from './EmptyCart';
 import CartItem from './CartItem';
 import { CartContext } from '@/api/cart/CartContext';
 
 const Basket: React.FC = () => {
   const [cart, setCart] = useState<Cart | null>(null);
+  const [promoCodeLabel, setPromoCodeLabel] = useState<string | null>(null);
   const context = useContext(CartContext);
+
   useEffect(() => {
     const fetchCart = async () => {
       await cartManager.initialize();
@@ -19,16 +21,35 @@ const Basket: React.FC = () => {
     fetchCart();
   }, []);
 
+  const refreshCartState = async () => {
+    await context?.refreshCart?.();
+    const updated = await cartManager.getCart();
+    setCart(updated);
+  };
+
+  // Always compute values BEFORE conditional returns to avoid hook mismatches
+  const appliedCodeRef = cart?.discountCodes?.[0]?.discountCode?.id ?? null;
+
+  useEffect(() => {
+    const loadPromoCode = async () => {
+      if (appliedCodeRef) {
+        const label = await fetchPromoCodeString(appliedCodeRef);
+        setPromoCodeLabel(label);
+      } else {
+        setPromoCodeLabel(null);
+      }
+    };
+    loadPromoCode();
+  }, [appliedCodeRef]);
+
   if (!cart || cart.lineItems.length === 0) {
     return <EmptyCart />;
   }
 
   const calculateSalePrice = (item: LineItem) => {
     const attributes = item.variant?.attributes || [];
-
     const isSale = attributes.find((attr) => attr.name === 'is_sale')?.value;
     const salePercent = attributes.find((attr) => attr.name === 'sale_percent')?.value;
-
     const originalPrice = item.price.value.centAmount / 100;
 
     if (isSale && salePercent) {
@@ -37,53 +58,36 @@ const Basket: React.FC = () => {
 
     return originalPrice;
   };
+  const cartTotal = cart.totalPrice.centAmount / 100;
+  const discountAmount = +((cart.discountOnTotalPrice?.discountedAmount?.centAmount ?? 0) / 100).toFixed(2);
+  const totalPrice = cartTotal + discountAmount;
+  const hasPromo = !!appliedCodeRef && discountAmount > 0;
 
-  const totalPrice = cart.lineItems.reduce((acc, item) => {
-    const price = calculateSalePrice(item);
-    return acc + price * item.quantity;
-  }, 0);
-
-  const removeItem = async (id: string) => {
+  const removeItem = async (productId: string) => {
     try {
-      const updatedCart = await cartManager.removeFromCart(id);
-      if (updatedCart) {
-        setCart(updatedCart);
-        await context?.refreshCart();
-      } else {
-        const freshCart = await cartManager.getCart();
-        setCart(freshCart);
-      }
+      const updatedCart = await cartManager.removeFromCart(productId);
+      setCart(updatedCart ?? (await cartManager.getCart()));
+      await context?.refreshCart();
     } catch (error) {
       console.error('Failed to remove item:', error);
     }
   };
+
   const increaseQuantity = async (lineItemId: string) => {
     try {
       const updatedCart = await cartManager.increaseQuantity(lineItemId);
-      if (updatedCart) {
-        setCart(updatedCart);
-      } else {
-        const freshCart = await cartManager.getCart();
-        setCart(freshCart);
-      }
+      setCart(updatedCart ?? (await cartManager.getCart()));
     } catch (error) {
       console.error('Failed to increase quantity:', error);
-      // Optionally show error to user
     }
   };
 
   const decreaseQuantity = async (lineItemId: string) => {
     try {
       const updatedCart = await cartManager.decreaseQuantity(lineItemId);
-      if (updatedCart) {
-        setCart(updatedCart);
-      } else {
-        const freshCart = await cartManager.getCart();
-        setCart(freshCart);
-      }
+      setCart(updatedCart ?? (await cartManager.getCart()));
     } catch (error) {
       console.error('Failed to decrease quantity:', error);
-      // Optionally show error to user
     }
   };
 
@@ -96,9 +100,8 @@ const Basket: React.FC = () => {
             const attributes = item.variant?.attributes || [];
             const isSale = !!attributes.find((attr) => attr.name === 'is_sale')?.value;
             const salePercent = attributes.find((attr) => attr.name === 'sale_percent')?.value || 0;
-
             const originalPrice = +(item.price.value.centAmount / 100).toFixed(2);
-            const discountPrice = calculateSalePrice(item);
+            const discountPrice = +(item.totalPrice.centAmount / 100).toFixed(2);
             const name = Object.values(item.name)[0];
 
             return (
@@ -124,8 +127,15 @@ const Basket: React.FC = () => {
       </div>
 
       <div className="flex flex-col gap-6">
-        <PromoCode />
-        <OrderSummary subtotal={totalPrice} shipping={0} total={totalPrice} />
+        <PromoCode onChange={refreshCartState} />
+
+        <OrderSummary
+          subtotal={totalPrice}
+          shipping={0}
+          total={cartTotal}
+          promoAmount={hasPromo ? discountAmount : 0}
+          promoCode={hasPromo ? (promoCodeLabel ?? '') : ''}
+        />
       </div>
     </div>
   );

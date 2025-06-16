@@ -99,7 +99,6 @@ export default class CartManager {
     if (!this.cart) return false;
     return this.cart.lineItems.some((item) => item.productId === productId);
   }
-  // In your CartManager.ts
 
   public async changeLineItemQuantity(lineItemId: string, quantity: number): Promise<Cart | null> {
     if (!this.cart) {
@@ -178,5 +177,60 @@ export default class CartManager {
 
   public setCartToNull(): void {
     this.cart = null;
+  }
+  public async applyPromoCode(code: string): Promise<Cart | null> {
+    if (!this.cart) throw new Error('Cart not initialized');
+
+    const cartUpdate: MyCartUpdate = {
+      version: this.cart.version,
+      actions: [
+        {
+          action: 'addDiscountCode',
+          code: code.trim(),
+        },
+      ],
+    };
+
+    try {
+      const updatedCart = await updateCart(this.cart, cartUpdate);
+      if (updatedCart) this.cart = updatedCart;
+      return this.cart;
+    } catch (error) {
+      console.error('Failed to apply promo code:', error);
+      throw error;
+    }
+  }
+
+  public async removePromoCode(code: string): Promise<Cart | null> {
+    if (!this.cart) throw new Error('Cart not initialized');
+
+    // Find the discount code *ID* by matching the string to a cached/applied value
+    const appliedCode = this.cart.discountCodes?.find(
+      (d) => d.state === 'MatchesCart' // Optional filter: active codes
+    );
+
+    if (!appliedCode) return null;
+
+    const cartUpdate: MyCartUpdate = {
+      version: this.cart.version,
+      actions: [
+        {
+          action: 'removeDiscountCode',
+          discountCode: {
+            typeId: 'discount-code',
+            id: appliedCode.discountCode.id,
+          },
+        },
+      ],
+    };
+
+    try {
+      const updatedCart = await updateCart(this.cart, cartUpdate);
+      if (updatedCart) this.cart = updatedCart;
+      return this.cart;
+    } catch (error) {
+      console.error('Failed to remove promo code:', error);
+      throw error;
+    }
   }
 }
