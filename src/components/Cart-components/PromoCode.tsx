@@ -1,25 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { CartContext } from '@/api/cart/CartContext';
+import cartManager from '@/api/cart/CartManagerInstance';
+import { showToast } from '@/utils/profileUtils';
+import { StatusType } from '@/data/constants';
 
-const PromoCode = () => {
+type PromoCodeProps = {
+  onChange?: () => void;
+};
+
+const PromoCode: React.FC<PromoCodeProps> = ({ onChange }) => {
   const [code, setCode] = useState('');
   const [appliedCode, setAppliedCode] = useState<string | null>(null);
   const [isValid, setIsValid] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState(false);
+  const cartContext = useContext(CartContext);
 
-  const handleApply = () => {
-    // Simple validation - replace with actual validation logic
-    const validCodes = ['DISCOUNT10', 'SAVE20', 'FREESHIP'];
-    const isValidCode = validCodes.includes(code.toUpperCase());
+  useEffect(() => {
+    // On load, check if a promo code is already applied
+    const checkApplied = async () => {
+      const cart = await cartManager.getCart();
+      const existing = cart?.discountCodes?.[0]?.discountCode?.id;
+      if (existing) setAppliedCode(existing);
+    };
+    checkApplied();
+  }, []);
 
-    setIsValid(isValidCode);
-    if (isValidCode) {
-      setAppliedCode(code.toUpperCase());
+  const handleApply = async () => {
+    if (!code.trim()) return;
+    setLoading(true);
+    try {
+      const updatedCart = await cartManager.applyPromoCode(code.trim());
+      if (updatedCart) {
+        setAppliedCode(code.trim().toUpperCase());
+        setIsValid(true);
+        showToast('Promo code applied successfully', StatusType.success);
+        await cartContext?.refreshCart?.();
+        await onChange?.();
+      } else {
+        setIsValid(false);
+        showToast('Invalid or expired promo code', StatusType.error);
+      }
+    } catch (error) {
+      setIsValid(false);
+      showToast('Failed to apply promo code', StatusType.error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleRemove = () => {
-    setAppliedCode(null);
-    setCode('');
-    setIsValid(null);
+  const handleRemove = async () => {
+    try {
+      const updatedCart = await cartManager.removePromoCode(appliedCode || '');
+      if (updatedCart) {
+        showToast('Promo code removed', StatusType.success);
+        setAppliedCode(null);
+        setCode('');
+        setIsValid(null);
+        await cartContext?.refreshCart?.();
+        await onChange?.();
+      }
+    } catch {
+      showToast('Failed to remove promo code', StatusType.error);
+    }
   };
 
   return (
@@ -28,20 +70,8 @@ const PromoCode = () => {
 
       {appliedCode ? (
         <div className="flex items-center justify-between bg-green-50/50 p-3 rounded border border-green-200">
-          <div className="flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-green-600 mr-2"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span className="text-green-800 font-medium">Code applied: {appliedCode}</span>
+          <div className="flex items-center text-green-800 font-medium">
+            ✅ Code applied: <span className="ml-1">{appliedCode}</span>
           </div>
           <button onClick={handleRemove} className="text-sm text-rustBrown hover:text-LightTaupe transition">
             Remove
@@ -61,24 +91,13 @@ const PromoCode = () => {
             />
             <button
               onClick={handleApply}
-              disabled={!code.trim()}
+              disabled={!code.trim() || loading}
               className="bg-LightTaupe text-creamLight px-4 py-2 rounded-md hover:bg-rustBrown transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Apply
+              {loading ? 'Applying...' : 'Apply'}
             </button>
           </div>
-          {isValid === false && (
-            <p className="mt-2 text-sm text-red-600 flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Invalid promo code
-            </p>
-          )}
+          {isValid === false && <p className="mt-2 text-sm text-red-600">Invalid or expired promo code</p>}
         </>
       )}
     </div>
