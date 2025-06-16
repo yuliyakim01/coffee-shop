@@ -130,7 +130,7 @@ function Review() {
       style={{ backgroundImage: `url(${reviewBg})` }}
     >
       <h2 className="pt-[80px] mb-[30px] text-white text-[40px] font-bold leading-[150%] text-center">
-        What our Customers
+        What Our Customers Say
       </h2>
       <div className="  [&_.slick-dots>li>button::before]:text-[#FFFFFF ] [&_.slick-dots>li.slick-active>button::before]:text-[#8C8C8C] pb-[50px]">
         <Slider {...settings}>
