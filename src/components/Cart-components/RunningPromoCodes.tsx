@@ -37,11 +37,11 @@ function RunningPromoCodes() {
       <style>
         {`
           @keyframes marquee {
-            0% { transform: translateX(100%); }
+            0% { transform: translateX(80%); }
             100% { transform: translateX(-100%); }
           }
           .animate-marquee {
-            animation: marquee 18s linear infinite;
+            animation: marquee 12s linear infinite;
           }
         `}
       </style>
