@@ -6,12 +6,21 @@ import PromoCode from './PromoCode';
 import EmptyCart from './EmptyCart';
 import CartItem from './CartItem';
 import { CartContext } from '@/api/cart/CartContext';
+import ClearCartModal from './ClearCartModal';
 import PromoCodeList from '@/components/Cart-components/PromoCodeList';
 
 const Basket: React.FC = () => {
   const [cart, setCart] = useState<Cart | null>(null);
   const [promoCodeLabel, setPromoCodeLabel] = useState<string | null>(null);
   const context = useContext(CartContext);
+  const [isClearModalOpen, setIsClearModalOpen] = useState(false);
+
+  const handleClearCart = async () => {
+    const cleared = await cartManager.clearCart();
+    setCart(cleared ?? (await cartManager.getCart()));
+    await context?.refreshCart?.();
+    setIsClearModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -28,7 +37,6 @@ const Basket: React.FC = () => {
     setCart(updated);
   };
 
-  // Always compute values BEFORE conditional returns to avoid hook mismatches
   const appliedCodeRef = cart?.discountCodes?.[0]?.discountCode?.id ?? null;
 
   useEffect(() => {
@@ -52,13 +60,11 @@ const Basket: React.FC = () => {
     const isSale = attributes.find((attr) => attr.name === 'is_sale')?.value;
     const salePercent = attributes.find((attr) => attr.name === 'sale_percent')?.value;
     const originalPrice = item.price.value.centAmount / 100;
-
-    if (isSale && salePercent) {
-      return +(originalPrice * (1 - salePercent / 100)).toFixed(2);
-    }
-
-    return originalPrice;
+    return isSale && salePercent
+      ? +(originalPrice * (1 - salePercent / 100)).toFixed(2)
+      : originalPrice;
   };
+
   const cartTotal = cart.totalPrice.centAmount / 100;
   const discountAmount = +((cart.discountOnTotalPrice?.discountedAmount?.centAmount ?? 0) / 100).toFixed(2);
   const totalPrice = cartTotal + discountAmount;
@@ -96,53 +102,57 @@ const Basket: React.FC = () => {
     <div>
       <PromoCodeList />
       <div className="p-4 bg-coffeeBrown grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 bg-cream px-6 py-5 rounded-lg border-2 border-whiteCoffee shadow-lg">
-          <h2 className="text-2xl font-bold text-Temptress mb-4">🛍 Your Basket</h2>
-          <ul className="space-y-4">
-            {cart.lineItems.map((item: LineItem) => {
-              const attributes = item.variant?.attributes || [];
-              const isSale = !!attributes.find((attr) => attr.name === 'is_sale')?.value;
-              const salePercent = attributes.find((attr) => attr.name === 'sale_percent')?.value || 0;
-              const originalPrice = +(item.price.value.centAmount / 100).toFixed(2);
-              const discountPrice = +(item.totalPrice.centAmount / 100).toFixed(2);
-              const name = Object.values(item.name)[0];
+        {/* Basket Section */}
+        <div className="lg:col-span-2 bg-cream px-6 py-5 rounded-lg border-2 border-whiteCoffee shadow-lg flex flex-col justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-Temptress mb-4">🛍 Your Basket</h2>
+            <ul className="space-y-4">
+              {cart.lineItems.map((item: LineItem) => {
+                const attributes = item.variant?.attributes || [];
+                const isSale = !!attributes.find((attr) => attr.name === 'is_sale')?.value;
+                const salePercent = attributes.find((attr) => attr.name === 'sale_percent')?.value || 0;
+                const originalPrice = +(item.price.value.centAmount / 100).toFixed(2);
+                const discountPrice = +(item.totalPrice.centAmount / 100).toFixed(2);
+                const name = Object.values(item.name)[0];
 
-              return (
-                <CartItem
-                  key={item.id}
-                  item={{
-                    id: item.id,
-                    name,
-                    image: item.variant?.images?.[0]?.url || 'https://via.placeholder.com/150',
-                    quantity: item.quantity,
-                    isSale,
-                    salePercent,
-                    originalPrice,
-                    discountPrice,
-                  }}
-                  onDecrease={() => decreaseQuantity(item.id)}
-                  onIncrease={() => increaseQuantity(item.id)}
-                  onRemove={() => removeItem(item.productId)}
-                />
-              );
-            })}
-          </ul>
+                return (
+                  <CartItem
+                    key={item.id}
+                    item={{
+                      id: item.id,
+                      name,
+                      image: item.variant?.images?.[0]?.url || 'https://via.placeholder.com/150',
+                      quantity: item.quantity,
+                      isSale,
+                      salePercent,
+                      originalPrice,
+                      discountPrice,
+                    }}
+                    onDecrease={() => decreaseQuantity(item.id)}
+                    onIncrease={() => increaseQuantity(item.id)}
+                    onRemove={() => removeItem(item.productId)}
+                  />
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Clear Cart Button */}
+          <div className="mt-6">
+            <button
+              onClick={() => setIsClearModalOpen(true)}
+              className="px-4 py-2 bg-red-500 text-white rounded-full text-sm hover:bg-red-600 transition shadow-md w-fit"
+            >
+              🗑️ Clear Shopping Cart
+            </button>
+          </div>
         </div>
 
+        {/* Order Summary and Promo Code */}
         <div className="flex flex-col gap-6">
           <PromoCode onChange={refreshCartState} />
-
           <OrderSummary
             subtotal={totalPrice}
             shipping={0}
             total={cartTotal}
             promoAmount={hasPromo ? discountAmount : 0}
-            promoCode={hasPromo ? (promoCodeLabel ?? '') : ''}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Basket;

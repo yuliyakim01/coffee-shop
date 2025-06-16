@@ -1,4 +1,11 @@
-import type { Cart, CartDraft, MyCartUpdate, MyCartUpdateAction, ProductProjection } from '@commercetools/platform-sdk';
+import type {
+  Cart,
+  CartDraft,
+  MyCartUpdate,
+  MyCartUpdateAction,
+  ProductProjection,
+  MyCartRemoveLineItemAction,
+} from '@commercetools/platform-sdk';
 import type { CartProduct, SessionUser } from '@/data/interfaces';
 import { type ProductInteface } from '@/data/interfaces';
 import { getLoggedInUserFromSessionStorage } from '@/utils/customerUtils';
@@ -228,6 +235,29 @@ export default class CartManager {
     } catch (error) {
       console.error('Failed to remove promo code:', error);
       throw error;
+    }
+  }
+
+  public async clearCart(): Promise<Cart | null> {
+    if (!this.cart || this.cart.lineItems.length === 0) return this.cart;
+
+    const actions: MyCartRemoveLineItemAction[] = this.cart.lineItems.map((item) => ({
+      action: 'removeLineItem',
+      lineItemId: item.id,
+    }));
+
+    const cartUpdate: MyCartUpdate = {
+      version: this.cart.version,
+      actions,
+    };
+
+    try {
+      const updatedCart = await updateCart(this.cart, cartUpdate);
+      this.cart = updatedCart;
+      return updatedCart;
+    } catch (error) {
+      console.error('Failed to clear cart:', error);
+      return null;
     }
   }
 }
