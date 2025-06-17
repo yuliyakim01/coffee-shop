@@ -5,16 +5,19 @@ import type { ProductInteface } from '@/data/interfaces';
 export function useProducts() {
   const [products, setProducts] = useState<ProductInteface[]>([]);
   const [total, setTotal] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const update = () => {
       setProducts(productService.getProducts());
       setTotal(productService.getTotalCount());
+      setLoading(false);
     };
 
     productService.subscribe(update);
 
     if (productService.getTotalCount() === 0) {
+      setLoading(true);
       productService.loadProducts();
     } else {
       update();
@@ -31,6 +34,7 @@ export function useProducts() {
   return {
     products,
     total,
+    loading,
     setSearchTerm,
     setFilter,
     setSort,

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { BeatLoader } from 'react-spinners';
 import cartManager, { fetchPromoCodeString } from '@/api/cart/CartManagerInstance';
 import type { Cart, LineItem } from '@commercetools/platform-sdk';
 import OrderSummary from './OrderSummary';
@@ -7,39 +8,50 @@ import EmptyCart from './EmptyCart';
 import CartItem from './CartItem';
 import { CartContext } from '@/api/cart/CartContext';
 import ClearCartModal from './ClearCartModal';
-import PromoCodeList from '@/components/Cart-components/PromoCodeList';
 import RunningPromoCodes from './RunningPromoCodes';
 
 const Basket: React.FC = () => {
   const [cart, setCart] = useState<Cart | null>(null);
   const [promoCodeLabel, setPromoCodeLabel] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const context = useContext(CartContext);
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
 
   const handleClearCart = async () => {
+    setIsLoading(true);
     const cleared = await cartManager.clearCart();
     setCart(cleared ?? (await cartManager.getCart()));
     await context?.refreshCart?.();
     setIsClearModalOpen(false);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     const fetchCart = async () => {
-      await cartManager.initialize();
-      const currentCart = await cartManager.getCart();
-      setCart(currentCart);
+      setIsLoading(true);
+      try {
+        await cartManager.initialize();
+        const currentCart = await cartManager.getCart();
+        setCart(currentCart);
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchCart();
   }, []);
 
   const refreshCartState = async () => {
+    setIsLoading(true);
     await context?.refreshCart?.();
     const updated = await cartManager.getCart();
     setCart(updated);
+    setIsLoading(false);
   };
 
   const appliedCodeRef = cart?.discountCodes?.[0]?.discountCode?.id ?? null;
-  console.log(promoCodeLabel, 'promoCodeLabel');
+
   useEffect(() => {
     const loadPromoCode = async () => {
       if (appliedCodeRef) {
@@ -51,6 +63,14 @@ const Basket: React.FC = () => {
     };
     loadPromoCode();
   }, [appliedCodeRef]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-coffeeBrown">
+        <BeatLoader color="#6F4E37" size={20} />
+      </div>
+    );
+  }
 
   if (!cart || cart.lineItems.length === 0) {
     return <EmptyCart />;
