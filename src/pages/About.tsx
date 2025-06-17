@@ -3,12 +3,19 @@ import yuliyaImg from '@/assets/yuliya.jpg';
 
 const teamMembers = [
   {
-    name: 'Assem Asfandiarova',
+    name: 'Asem Asfandiarova',
     role: 'Full Stack Developer & Team Lead',
     bio: '...',
     github: 'https://github.com/assem12345assem',
     image: '/images/alice.jpg',
-    contributions: ['Integrated Commercetools API'],
+    contributions: [
+      'Integrated Commercetools API',
+      'Wrote unit tests',
+      'Implemented product search, sort, filter, and pagination',
+      'Implemented profile editing, and address management',
+      'Implemented add/remove items from cart',
+      'Implemented password reset',
+    ],
   },
   {
     name: 'Giorgi Khoshtaria',
@@ -16,7 +23,14 @@ const teamMembers = [
     bio: '...',
     github: 'https://github.com/Giorgi-Khoshtaria',
     image: '/images/bob.jpg',
-    contributions: ['Developed all responsive UI components'],
+    contributions: [
+      'Developed all responsive UI components',
+      'Maintained overall design and UI/UX of the app',
+      'Implemented main page, catalog page, cart page, header, footer, promo codes',
+      'Implemented main page, catalog page, cart page, header, footer, promo codes',
+      'Implemented logout, routing functionality',
+      'Image slider, product slider, review slider',
+    ],
   },
   {
     name: 'Yuliya Kim',
@@ -30,6 +44,7 @@ const teamMembers = [
       'Implemented detailed product page using the commercetools API',
       'Built category breadcrumb and filtering navigation',
       'Styled and structured the About page',
+      'Implemented increasing/decreasing product quantity in cart and clearing shopping cart',
     ],
   },
 ];
