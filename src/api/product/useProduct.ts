@@ -9,15 +9,17 @@ export function useProducts() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const totalCount = productService.getTotalCount();
+    setTotal(totalCount);
+
     const handleProductUpdate = () => {
       setProducts(productService.getProducts());
-      setTotal(productService.getTotalCount());
       setLoading(false);
     };
 
     subscriptionManager.subscribe(handleProductUpdate);
 
-    if (productService.getTotalCount() === 0) {
+    if (total === 0) {
       setLoading(true);
       productService.loadProducts();
     } else {
