@@ -7,9 +7,10 @@ import { simplifySingleProduct } from '@/utils/productUtils';
 import ProductSlider from '@/components/Product-components/ProductSlider';
 import type { Category } from '@commercetools/platform-sdk';
 import Breadcrumb from '@/components/Product-components/Breadcrumb';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
+import { BeatLoader } from 'react-spinners';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import '@/styles/productSlider.css';
@@ -58,8 +59,17 @@ const DetailedProduct: React.FC = () => {
     return product.price * (1 - product.sale_percent / 100);
   };
 
-  if (loading) return <div className="p-6">Loading...</div>;
-  if (error || !product) return <div className="p-6 text-red-500">{error || 'Product not available.'}</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-lightCream">
+        <BeatLoader color="#6F4E37" size={20} />
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return <div className="p-6 text-red-500">{error || 'Product not available.'}</div>;
+  }
 
   const originalPrice = product.price.toFixed(2);
   const discountPrice = product.discountedPrice ?? calculateDiscountPrice().toFixed(2);
@@ -90,7 +100,6 @@ const DetailedProduct: React.FC = () => {
 
       <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row gap-10 items-start">
         <div className="flex-1 space-y-4 md:mr-6">
-          <CartButton product={product} />
           <h1 className="text-3xl sm:text-4xl font-bold text-black">{product.name}</h1>
 
           <div className="flex items-center gap-3">
@@ -126,6 +135,7 @@ const DetailedProduct: React.FC = () => {
               <span className="font-semibold">Description:</span> {product.description}
             </p>
           </div>
+          <CartButton product={product} />
         </div>
 
         <div className="w-full md:w-[400px] lg:w-[500px] p-2 md:p-0 flex justify-center mx-auto">
