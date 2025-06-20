@@ -197,3 +197,15 @@ export const CartUpdateActions = {
   setAnonymousId: 'setAnonymousId',
   setDeleteDaysAfterLastModification: 'setDeleteDaysAfterLastModification',
 } as const;
+
+export enum PriceRange {
+  UNDER_5 = 'under-5',
+  BETWEEN_5_AND_15 = '5-15',
+  OVER_15 = 'over-15',
+}
+
+export const PRICE_RANGE_VALUES: Record<PriceRange, { min?: number; max?: number }> = {
+  [PriceRange.UNDER_5]: { max: 5 },
+  [PriceRange.BETWEEN_5_AND_15]: { min: 5, max: 15 },
+  [PriceRange.OVER_15]: { min: 15.01 },
+};
