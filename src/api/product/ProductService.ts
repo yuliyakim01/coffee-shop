@@ -58,18 +58,18 @@ class ProductService {
 
   private applyAll() {
     this.filteredProducts = this.products
-      .filter((p): boolean => this.applySearch(p))
-      .filter((p): boolean => this.applyFilters(p))
-      .sort((a, b): number => this.applySort(a, b));
+      .filter((p): boolean => this.matchesSearchTerm(p))
+      .filter((p): boolean => this.matchesFilters(p))
+      .sort((a, b): number => this.compareBySortField(a, b));
     this.notifySubscribers();
   }
 
-  private applySearch(product: ProductInteface): boolean {
+  private matchesSearchTerm(product: ProductInteface): boolean {
     const term: string = this.searchTerm.toLowerCase();
     return product.name.toLowerCase().includes(term) || product.description.toLowerCase().includes(term);
   }
 
-  private applyFilters(product: ProductInteface): boolean {
+  private matchesFilters(product: ProductInteface): boolean {
     const { category, isSale, type, priceMin, priceMax } = this.filters;
 
     const matchesCategory = category ? product.category?.key === category : true;
@@ -81,7 +81,7 @@ class ProductService {
     return matchesCategory && matchesSale && matchesType && matchesPriceMin && matchesPriceMax;
   }
 
-  private applySort(a: ProductInteface, b: ProductInteface): number {
+  private compareBySortField(a: ProductInteface, b: ProductInteface): number {
     if (!this.sortField) return 0;
     const order: SortValues = this.sortOrder === 'asc' ? 1 : -1;
 
