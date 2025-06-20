@@ -279,8 +279,8 @@ export interface PaginationHandle {
 
 export interface PaginationProps {
   totalPages: number;
-  initialPage?: number;
-  initialPageSize?: number;
+  currentPage: number;
+  pageSize: number;
   onPageChange?: (page: number) => void;
   onPageSizeChange?: (size: number) => void;
   className?: string;

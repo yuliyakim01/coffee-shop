@@ -4,14 +4,7 @@ import { useProducts } from '@/api/product/useProduct';
 import ProductComponent from '@/components/Product-components/ProductComponent';
 import SortingComponent from '@/components/Product-components/SortingComponent';
 import Breadcrumb from '@/components/Product-components/Breadcrumb';
-import {
-  PaginationHandle,
-  ProductFilter,
-  ProductInteface,
-  SearchComponentHandle,
-  SortField,
-  SortOrder,
-} from '@/data/interfaces';
+import { ProductFilter, ProductInteface, SearchComponentHandle, SortField, SortOrder } from '@/data/interfaces';
 import SearchComponent from '@/components/Product-components/SearchComponent';
 import PaginationComponent from '@/components/Product-components/PaginationComponent';
 import FilterComponent from '@/components/Product-components/FilterComponent';
@@ -23,7 +16,6 @@ const ProductPage: React.FC = () => {
   const totalPages: number = Math.ceil(total / pageSize);
 
   const searchRef = useRef<SearchComponentHandle | null>(null);
-  const paginationRef = useRef<PaginationHandle | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   const handleSearchChange = useCallback(
@@ -31,7 +23,7 @@ const ProductPage: React.FC = () => {
       setSearchTerm(value);
       setCurrentPage(1);
       setPagination(0, pageSize);
-      paginationRef.current?.reset();
+      setPagination(0, pageSize);
     },
     [setSearchTerm, setPagination, pageSize]
   );
@@ -120,10 +112,9 @@ const ProductPage: React.FC = () => {
 
       {!loading && totalPages > 1 && (
         <PaginationComponent
-          ref={paginationRef}
           totalPages={totalPages}
-          initialPage={currentPage}
-          initialPageSize={pageSize}
+          currentPage={currentPage}
+          pageSize={pageSize}
           onPageChange={handlePageChange}
           onPageSizeChange={handlePageSizeChange}
         />
