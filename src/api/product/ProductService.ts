@@ -127,18 +127,6 @@ class ProductService {
     return this.filteredProducts.length;
   }
 
-  // public subscribe(callback: Subscriber) {
-  //   this.subscribers.add(callback);
-  // }
-  //
-  // public unsubscribe(callback: Subscriber) {
-  //   this.subscribers.delete(callback);
-  // }
-  //
-  // private notifySubscribers() {
-  //   this.subscribers.forEach((callback) => callback());
-  // }
-
   private resetPagination() {
     this.pagination = { offset: 0, limit: this.pagination.limit };
   }
