@@ -13,6 +13,7 @@ import { fetchProductById } from '@/api/products';
 import type { ProductProjection } from '@commercetools/platform-sdk';
 import type { Category } from '@commercetools/platform-sdk';
 import { categoryService } from '@/api/category/CategoryService';
+import { subscriptionManager } from '@/api/product/SubscriptionManager';
 
 class ProductService {
   private static instance: ProductService;
@@ -25,8 +26,6 @@ class ProductService {
   private sortOrder: SortOrder = 'asc';
   private filters: Filter = {};
   private pagination: Pagination = { offset: 0, limit: 10 };
-
-  private subscribers: Set<Subscriber> = new Set();
 
   private constructor() {}
 
@@ -61,7 +60,7 @@ class ProductService {
       .filter((p): boolean => this.matchesSearchTerm(p))
       .filter((p): boolean => this.matchesFilters(p))
       .sort((a, b): number => this.compareBySortField(a, b));
-    this.notifySubscribers();
+    subscriptionManager.notify();
   }
 
   private matchesSearchTerm(product: ProductInteface): boolean {
@@ -116,7 +115,7 @@ class ProductService {
 
   public setPagination(offset: number, limit: number) {
     this.pagination = { offset, limit };
-    this.notifySubscribers();
+    subscriptionManager.notify();
   }
 
   public getProducts(): ProductInteface[] {
@@ -128,17 +127,17 @@ class ProductService {
     return this.filteredProducts.length;
   }
 
-  public subscribe(callback: Subscriber) {
-    this.subscribers.add(callback);
-  }
-
-  public unsubscribe(callback: Subscriber) {
-    this.subscribers.delete(callback);
-  }
-
-  private notifySubscribers() {
-    this.subscribers.forEach((callback) => callback());
-  }
+  // public subscribe(callback: Subscriber) {
+  //   this.subscribers.add(callback);
+  // }
+  //
+  // public unsubscribe(callback: Subscriber) {
+  //   this.subscribers.delete(callback);
+  // }
+  //
+  // private notifySubscribers() {
+  //   this.subscribers.forEach((callback) => callback());
+  // }
 
   private resetPagination() {
     this.pagination = { offset: 0, limit: this.pagination.limit };
