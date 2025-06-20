@@ -1,20 +1,20 @@
 import React from 'react';
 import yuliyaImg from '@/assets/yuliya.jpg';
-
+import asemImg from '@/assets/asem.jpg';
 const teamMembers = [
   {
-    name: 'Asem Asfandiarova',
-    role: 'Full Stack Developer & Team Lead',
-    bio: '...',
+    name: 'Asem',
+    role: 'Frontend Developer',
+    bio: 'I am a developer who enjoys building web applications and turning ideas into working products. I find energy in collaboration and take pride in writing clean, maintainable code.',
     github: 'https://github.com/assem12345assem',
-    image: '/images/alice.jpg',
+    image: asemImg,
     contributions: [
       'Integrated Commercetools API',
       'Wrote unit tests',
-      'Implemented product search, sort, filter, and pagination',
-      'Implemented profile editing, and address management',
-      'Implemented add/remove items from cart',
-      'Implemented password reset',
+      'Implemented product listing features including search, sorting, filtering, and pagination',
+      'Implemented cart functionality, including adding and removing items',
+      'Developed password reset flow',
+      'Implemented user registration and login functionality (excluding UI design)',
     ],
   },
   {
@@ -24,12 +24,12 @@ const teamMembers = [
     github: 'https://github.com/Giorgi-Khoshtaria',
     image: '/images/bob.jpg',
     contributions: [
-      'Developed all responsive UI components',
-      'Maintained overall design and UI/UX of the app',
-      'Implemented main page, catalog page, cart page, header, footer, promo codes',
-      'Implemented main page, catalog page, cart page, header, footer, promo codes',
-      'Implemented logout, routing functionality',
-      'Image slider, product slider, review slider',
+      'Designed and developed all responsive UI components, ensuring a consistent and polished user experience across devices',
+      'Led the overall visual design and UX direction of the application',
+      'Built key application pages from the ground up, including the main page, catalog, cart, and core layout elements like header and footer',
+      'Implemented interactive elements such as image, product, and review sliders to enhance user engagement',
+      'Integrated essential app functionality including logout and client-side routing',
+      'Contributed significantly to the app’s look, feel, and usability — shaping the product experience as it is today',
     ],
   },
   {
