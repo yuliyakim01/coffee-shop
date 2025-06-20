@@ -85,14 +85,14 @@ class ProductService {
     if (!this.sortField) return 0;
     const order: SortValues = this.sortOrder === 'asc' ? 1 : -1;
 
-    let aValue: string | number = a[this.sortField];
-    let bValue: string | number = b[this.sortField];
+    let prevProduct: string | number = a[this.sortField];
+    let nextProduct: string | number = b[this.sortField];
 
-    if (typeof aValue === 'string' && typeof bValue === 'string') {
-      return aValue.localeCompare(bValue) * order;
+    if (typeof prevProduct === 'string' && typeof nextProduct === 'string') {
+      return prevProduct.localeCompare(nextProduct) * order;
     }
 
-    return (aValue < bValue ? -1 : aValue > bValue ? 1 : 0) * order;
+    return (prevProduct < nextProduct ? -1 : prevProduct > nextProduct ? 1 : 0) * order;
   }
 
   public setSearchTerm(term: string) {
