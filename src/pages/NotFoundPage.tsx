@@ -1,7 +1,6 @@
 import React from 'react';
 import coffeeBg from '@/assets/coffee-illustration.png';
 import SearchBar from '../components/NotFound-components/SearchBar';
-import BackButton from '@/components/Login-registration-components/BackButton';
 
 const NotFoundPage: React.FC = () => {
   return (
