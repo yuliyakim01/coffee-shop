@@ -1,6 +1,7 @@
 import React from 'react';
 import yuliyaImg from '@/assets/yuliya.jpg';
 import asemImg from '@/assets/asem.jpg';
+import giorgi from '@/assets/giorgi.png';
 const teamMembers = [
   {
     name: 'Asem',
@@ -20,9 +21,9 @@ const teamMembers = [
   {
     name: 'Giorgi Khoshtaria',
     role: 'Frontend Developer',
-    bio: '...',
+    bio: 'I am a frontend developer with a strong focus on building beautiful, responsive, and performant web applications using React and TypeScript.',
     github: 'https://github.com/Giorgi-Khoshtaria',
-    image: '/images/bob.jpg',
+    image: giorgi,
     contributions: [
       'Designed and developed all responsive UI components, ensuring a consistent and polished user experience across devices',
       'Led the overall visual design and UX direction of the application',
