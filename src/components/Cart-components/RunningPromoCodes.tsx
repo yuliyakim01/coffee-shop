@@ -25,7 +25,7 @@ function RunningPromoCodes() {
   }, []);
 
   return (
-    <div className="absolute top-0 w-full bg-[rgba(34,27,24,0.60)] py-3 px-4 z-50 overflow-hidden">
+    <div className="absolute top-0 w-full bg-[rgba(34,27,24,0.60)] py-3 px-4 z-4 overflow-hidden">
       <div className="whitespace-nowrap inline-block text-[#e6d7c2] font-semibold text-lg animate-marquee">
         {codes.map((code, index) => (
           <span key={index} className="mx-8 inline-block">
