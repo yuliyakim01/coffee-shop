@@ -5,6 +5,7 @@ import type {
   MyCartUpdateAction,
   ProductProjection,
   MyCartRemoveLineItemAction,
+  CartUpdateAction,
 } from '@commercetools/platform-sdk';
 import type { CartProduct, SessionUser } from '@/data/interfaces';
 import { type ProductInteface } from '@/data/interfaces';
@@ -21,6 +22,8 @@ import {
   getOrCreateAnonymousId,
 } from '@/utils/cartUtils';
 import { checkExistingCart, updateCart } from '@/api/cart/cartAdmin';
+import { CartUpdateActions } from '@/data/constants';
+import type { CartSetAnonymousIdAction } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/cart';
 
 export default class CartManager {
   private cart: Cart | null = null;
@@ -95,7 +98,11 @@ export default class CartManager {
     };
     try {
       const updatedCart = await updateCart(this.cart, cartUpdate);
-      if (updatedCart) this.cart = updatedCart;
+      this.setCartIfExists(updatedCart);
+
+      if (this.cart.anonymousId !== null && this.cart.anonymousId !== getOrCreateAnonymousId()) {
+        this.replaceCartAnonymousId(updatedCart);
+      }
     } catch (error) {
       console.error('Error in manageLineItem:', error);
       throw error;
@@ -259,5 +266,13 @@ export default class CartManager {
       console.error('Failed to clear cart:', error);
       return null;
     }
+  }
+  private async replaceCartAnonymousId(cart: Cart) {
+    const action: CartSetAnonymousIdAction = {
+      action: CartUpdateActions.setAnonymousId,
+      anonymousId: getOrCreateAnonymousId(),
+    };
+    const newCart = await updateCart(cart, { version: cart.version, actions: [action] });
+    this.setCartIfExists(newCart);
   }
 }

@@ -1,23 +1,39 @@
 import React from 'react';
 import yuliyaImg from '@/assets/yuliya.jpg';
 import rsLogo from '@/assets/rss-logo.svg';
+import asemImg from '@/assets/asem.jpg';
+import giorgi from '@/assets/giorgi.png';
 
 const teamMembers = [
   {
-    name: 'Assem Asfandiarova',
-    role: 'Full Stack Developer & Team Lead',
-    bio: '...',
+    name: 'Asem',
+    role: 'Frontend Developer',
+    bio: 'I am a developer who enjoys building web applications and turning ideas into working products. I find energy in collaboration and take pride in writing clean, maintainable code.',
     github: 'https://github.com/assem12345assem',
-    image: '/images/alice.jpg',
-    contributions: ['Integrated Commercetools API'],
+    image: asemImg,
+    contributions: [
+      'Integrated Commercetools API',
+      'Wrote unit tests',
+      'Implemented product listing features including search, sorting, filtering, and pagination',
+      'Implemented cart functionality, including adding and removing items',
+      'Developed password reset flow',
+      'Implemented user registration and login functionality (excluding UI design)',
+    ],
   },
   {
     name: 'Giorgi Khoshtaria',
     role: 'Frontend Developer',
-    bio: '...',
+    bio: 'I am a frontend developer with a strong focus on building beautiful, responsive, and performant web applications using React and TypeScript.',
     github: 'https://github.com/Giorgi-Khoshtaria',
-    image: '/images/bob.jpg',
-    contributions: ['Developed all responsive UI components'],
+    image: giorgi,
+    contributions: [
+      'Designed and developed all responsive UI components, ensuring a consistent and polished user experience across devices',
+      'Led the overall visual design and UX direction of the application',
+      'Built key application pages from the ground up, including the main page, catalog, cart, and core layout elements like header and footer',
+      'Implemented interactive elements such as image, product, and review sliders to enhance user engagement',
+      'Integrated essential app functionality including logout and client-side routing',
+      'Contributed significantly to the app’s look, feel, and usability — shaping the product experience as it is today',
+    ],
   },
   {
     name: 'Yuliya Kim',
@@ -31,6 +47,7 @@ const teamMembers = [
       'Implemented detailed product page using the commercetools API',
       'Built category breadcrumb and filtering navigation',
       'Styled and structured the About page',
+      'Implemented increasing/decreasing product quantity in cart and clearing shopping cart',
     ],
   },
 ];
