@@ -1,7 +1,9 @@
 import React from 'react';
 import yuliyaImg from '@/assets/yuliya.jpg';
+import rsLogo from '@/assets/rss-logo.svg';
 import asemImg from '@/assets/asem.jpg';
 import giorgi from '@/assets/giorgi.png';
+
 const teamMembers = [
   {
     name: 'Asem',
@@ -94,8 +96,13 @@ const About: React.FC = () => {
         <p className="text-brown text-base">
           Despite being few in number, our team collaborated consistently and thoughtfully to deliver a polished
           eCommerce platform. From API integration to UI/UX design, we tackled every challenge with persistence and
-          creativity.
+          creativity. Huge thank you to Rolling Scopes School and our mentor Shamshod Isayev for their invaluable
+          support and guidance throughout this project. We are proud to present React Coffee as a testament to our hard
+          work and dedication.
         </p>
+        <a href="https://rs.school/" target="_blank" rel="noopener noreferrer">
+          <img src={rsLogo} alt="Rolling Scopes School Logo" className="mx-auto mt-6 w-48 h-auto" />
+        </a>
       </div>
     </div>
   );

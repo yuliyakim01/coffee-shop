@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 type OrderSummaryProps = {
   subtotal: number;
   shipping: number;
-  total: number;
   promoAmount?: number;
-  promoCode?: string;
+  promoCode?: string | null;
 };
 
-const OrderSummary: React.FC<OrderSummaryProps> = ({ subtotal, shipping, total, promoAmount = 0, promoCode }) => {
+const OrderSummary: React.FC<OrderSummaryProps> = ({ subtotal, shipping, promoAmount = 0, promoCode }) => {
+  const calculatedTotal = subtotal + shipping - promoAmount;
+
   return (
     <div className="bg-cream mt-5 px-6 py-4 rounded-lg border-2 border-whiteCoffee shadow-lg rounded-b-lg">
       <h2 className="text-xl font-semibold text-Temptress mb-4 border-b-2 border-whiteCoffee pb-2">Order Summary</h2>
@@ -28,15 +29,15 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ subtotal, shipping, total, 
         {promoAmount > 0 && promoCode && (
           <div className="flex justify-between pb-2 border-b border-whiteCoffee/50">
             <span className="text-green-700 font-medium">
-              <strong>{promoCode}</strong> Discount Applied
+              Discount <strong>{promoCode}</strong> Applied
             </span>
-            <span className="text-green-700 font-medium">💰${promoAmount.toFixed(2)}</span>
+            <span className="text-green-700 font-medium">–${promoAmount.toFixed(2)}</span>
           </div>
         )}
 
         <div className="flex justify-between pt-3 border-t-2 border-whiteCoffee mt-2">
           <span className="text-brown font-semibold text-lg">Total</span>
-          <span className="text-Temptress font-bold text-lg">${total.toFixed(2)}</span>
+          <span className="text-Temptress font-bold text-lg">${calculatedTotal.toFixed(2)}</span>
         </div>
       </div>
 

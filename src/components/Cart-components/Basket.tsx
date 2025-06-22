@@ -170,8 +170,8 @@ const Basket: React.FC = () => {
           <OrderSummary
             subtotal={totalPrice}
             shipping={0}
-            total={cartTotal}
             promoAmount={hasPromo ? discountAmount : 0}
+            promoCode={promoCodeLabel}
           />
         </div>
       </div>
