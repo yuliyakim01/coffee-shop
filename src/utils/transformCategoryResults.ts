@@ -9,7 +9,7 @@ export function transformCategoryResults(results: Category[]): SimpleCategory[] 
       const label = nameObject && typeof nameObject === 'object' ? Object.values(nameObject)[0] : '';
 
       if (!key || !label) {
-        console.warn('⚠️ Skipping category due to missing key or name', cat);
+        // console.warn('⚠️ Skipping category due to missing key or name', cat);
         return null;
       }
 
