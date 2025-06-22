@@ -1,20 +1,22 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Bartons from '@/components/homePage-components/Bartons';
-import '@testing-library/jest-dom';
 
-jest.mock('@/assets/coffee-bg.png', () => 'coffee-bg.png');
+jest.mock('@/assets/coffee-bg.png', () => 'mocked-coffee-bg');
 
 describe('Bartons component', () => {
-  it('renders heading, paragraph, and link', () => {
+  it('renders the heading and text content', () => {
     render(<Bartons />);
 
-    expect(screen.getByText(/welcome to bartons incredibly/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /welcome to react coffee/i })).toBeInTheDocument();
 
-    expect(screen.getByText(/your best local coffee. in addition to delicious sandwiches/i)).toBeInTheDocument();
+    expect(screen.getByText(/your best local coffee/i)).toBeInTheDocument();
+  });
+
+  it('renders a link to the products page', () => {
+    render(<Bartons />);
 
     const link = screen.getByRole('link', { name: /view more/i });
-    expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute('href', '/products');
   });
 });

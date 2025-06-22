@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 interface BreadcrumbProps {
   currentCategoryKey?: string;
   productName?: string;
-  onNavigate?: (key: string | undefined) => void;
+  onNavigate?: (key?: string) => void;
 }
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentCategoryKey, productName, onNavigate }) => {
@@ -20,18 +20,29 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentCategoryKey, productName
     fetchCategories();
   }, []);
 
-  const categoryMap = new Map(categories.map((cat) => [cat.key, cat]));
-  const hierarchy: Category[] = [];
+  const categoryMap: Record<string, Category> = categories.reduce(
+    (acc, cat) => {
+      acc[cat.key as string] = cat;
+      return acc;
+    },
+    {} as Record<string, Category>
+  );
 
-  if (currentCategoryKey && categoryMap.has(currentCategoryKey)) {
-    let current: Category | undefined = categoryMap.get(currentCategoryKey);
+  const buildHierarchyPath = (key?: string): Category[] => {
+    if (!key || !categoryMap[key]) return [];
 
-    while (current) {
-      hierarchy.unshift(current);
-      const parentId = current.parent?.id;
-      current = categories.find((cat) => cat.id === parentId);
-    }
-  }
+    return Array.from({ length: categories.length }) // max depth bound
+      .reduce<Category[]>((path) => {
+        const current = key && categoryMap[key];
+        if (!current) return path;
+
+        path.unshift(current);
+        key = current.parent?.id;
+        return path;
+      }, []);
+  };
+
+  const hierarchy = buildHierarchyPath(currentCategoryKey);
 
   return (
     <nav className="text-coffeeBrown text-lg font-medium flex items-center gap-1">

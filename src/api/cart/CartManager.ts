@@ -219,7 +219,6 @@ export default class CartManager {
     if (!this.cart) throw new Error('Cart not initialized');
 
     const appliedCode = this.cart.discountCodes?.find((d) => d.discountCode.typeId === 'discount-code');
-    console.log('applied code', this.cart);
     if (!appliedCode) return null;
 
     const cartUpdate: MyCartUpdate = {

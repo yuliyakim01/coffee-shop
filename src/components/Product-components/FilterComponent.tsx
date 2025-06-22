@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { categoryService } from '@/api/category/CategoryService';
+import { transformCategoryResults } from '@/utils/transformCategoryResults';
+import type { PriceRange } from '@/data/constants';
+import { PRICE_RANGE_VALUES } from '@/data/constants';
 
 interface FilterComponentProps {
   onFilterChange: (filters: { isSale?: boolean; category?: string; priceMin?: number; priceMax?: number }) => void;
@@ -20,27 +23,11 @@ const FilterComponent: React.FC<FilterComponentProps> = ({ onFilterChange }) => 
     setSelectedCategory('');
     setPriceRange('');
   };
+
   useEffect(() => {
     const fetchCategories = async () => {
       const results = await categoryService.getSubcategoriesByParentKey('coffee');
-
-      const simplified: SimpleCategory[] = results
-        .map((cat) => {
-          const key = cat.key || cat.slug?.['en-US'];
-          const nameObject = cat.name;
-          const label = nameObject && typeof nameObject === 'object' ? Object.values(nameObject)[0] : '';
-
-          if (!key || !label) {
-            console.warn('⚠️ Skipping category due to missing key or name', cat);
-          }
-
-          return {
-            key: key || '',
-            label: label || key || 'Unnamed Category',
-          };
-        })
-        .filter((cat): cat is SimpleCategory => !!cat.key && !!cat.label);
-
+      const simplified: SimpleCategory[] = transformCategoryResults(results);
       setCategories(simplified);
     };
 
@@ -51,13 +38,10 @@ const FilterComponent: React.FC<FilterComponentProps> = ({ onFilterChange }) => 
     let min: number | undefined;
     let max: number | undefined;
 
-    if (priceRange === 'under-5') {
-      max = 5;
-    } else if (priceRange === '5-15') {
-      min = 5;
-      max = 15;
-    } else if (priceRange === 'over-15') {
-      min = 15.01;
+    const range = PRICE_RANGE_VALUES[priceRange as PriceRange];
+    if (range) {
+      min = range.min ?? min;
+      max = range.max ?? max;
     }
 
     onFilterChange({

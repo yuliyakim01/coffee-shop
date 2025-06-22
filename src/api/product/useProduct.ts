@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { productService } from './ProductService';
 import type { ProductInteface } from '@/data/interfaces';
+import { subscriptionManager } from '@/api/product/SubscriptionManager';
 
 export function useProducts() {
   const [products, setProducts] = useState<ProductInteface[]>([]);
@@ -8,22 +9,24 @@ export function useProducts() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const update = () => {
+    const totalCount = productService.getTotalCount();
+    setTotal(totalCount);
+
+    const handleProductUpdate = () => {
       setProducts(productService.getProducts());
-      setTotal(productService.getTotalCount());
       setLoading(false);
     };
 
-    productService.subscribe(update);
+    subscriptionManager.subscribe(handleProductUpdate);
 
-    if (productService.getTotalCount() === 0) {
+    if (total === 0) {
       setLoading(true);
       productService.loadProducts();
     } else {
-      update();
+      handleProductUpdate();
     }
 
-    return () => productService.unsubscribe(update);
+    return () => subscriptionManager.unsubscribe(handleProductUpdate);
   }, []);
 
   const setSearchTerm = useMemo(() => productService.setSearchTerm.bind(productService), []);

@@ -26,7 +26,7 @@ const CountryInput = forwardRef<InputHandle, CountryInputProps>(
       countries = allowedCountries,
       placeholder = 'Select a country',
       readOnly = false,
-      initialValue, // Ensure initialValue is passed
+      initialValue,
     }: CountryInputProps,
     ref: RefPropType
   ): ReactElement => {
@@ -50,7 +50,7 @@ const CountryInput = forwardRef<InputHandle, CountryInputProps>(
     useImperativeHandle(ref, () => ({
       getValue: () => value,
       getError: () => {
-        const validationError = validate?.(value) ?? null;
+        const validationError = validate?.(value);
         setError(validationError ?? '');
         return validationError ?? '';
       },
