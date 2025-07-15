@@ -16,15 +16,13 @@ function OpeningHours() {
 
       <div className="flex justify-center items-center gap-[80px] max-xl:gap-[60px] max-lg:gap-[40px] max-md:gap-[30px] max-sm:flex-col max-sm:gap-[40px]">
         <div className="flex flex-col gap-[30px] max-lg:gap-[15px] max-sm:items-center max-sm:text-center">
-          <OppeningHoursCards day="Mon-Thu" date="Mon-Thu" />
+          <OppeningHoursCards day="Mon-Thu" date="07:00-20:00" />
 
           <OppeningHoursCards day="Fri" date="08:00-19:00" />
         </div>
 
         <div className="flex flex-col gap-[30px] max-lg:gap-[20px] max-sm:items-center max-sm:text-center">
-          <OppeningHoursCards day="Sun" date="9:00-18:00" />
-
-          <OppeningHoursCards day="Sat" date="9:00-18:00" />
+          <OppeningHoursCards day="Sun & Sat" date="09:00-18:00" />
         </div>
       </div>
     </div>

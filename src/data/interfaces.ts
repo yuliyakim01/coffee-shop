@@ -2,7 +2,7 @@ import type { Cart } from '@commercetools/platform-sdk/dist/declarations/src/gen
 import type { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import type { ChangeEvent, ForwardRefExoticComponent, PropsWithoutRef, RefAttributes, RefObject } from 'react';
 import type React from 'react';
-import type { CustomFields } from '@commercetools/platform-sdk';
+import type { CartUpdate, CustomFields, ProductProjection } from '@commercetools/platform-sdk';
 
 export interface Country {
   code: string;
@@ -141,6 +141,7 @@ export interface InputHandle {
   initialValue?: StringOrNull;
   setErrorExternally?: (error?: string) => void;
 }
+
 export interface InputProps {
   label: string;
   type?: string;
@@ -152,6 +153,7 @@ export interface InputProps {
   initialValue?: string | CustomFields | undefined;
   readOnly?: boolean;
 }
+
 export type RefInputType = ForwardRefExoticComponent<PropsWithoutRef<InputProps> & RefAttributes<InputHandle>>;
 export type HandleInputType = (e: ChangeEvent<HTMLInputElement>) => void;
 export type RefPropType = ((instance: InputHandle | null) => void) | RefObject<InputHandle | null> | null;
@@ -167,6 +169,7 @@ export type RefPasswordInputType = ForwardRefExoticComponent<
   PropsWithoutRef<PasswordInputProps> & RefAttributes<InputHandle>
 >;
 export type FormRefItem = RefObject<InputHandle | null>;
+
 export interface RegistrationFormOutputItems {
   firstName: string;
   lastName: string;
@@ -179,6 +182,7 @@ export interface RegistrationFormOutputItems {
   password: string;
   useAsDefaultAddress: boolean;
 }
+
 export interface RegistrationFormItems {
   firstName: string;
   lastName: string;
@@ -202,6 +206,7 @@ export interface SessionUser {
   customerId: string;
   customerVersion: string;
 }
+
 export interface ProductCategory {
   key: string;
   name: {
@@ -209,6 +214,7 @@ export interface ProductCategory {
     [locale: string]: string | undefined;
   };
 }
+
 export interface SimpleCategory {
   key: string;
   label: string;
@@ -227,12 +233,17 @@ export interface ProductInteface {
   images: string[];
   sku: string;
   key: string;
+  variantId: number;
+  discountedPrice: number | undefined;
 }
+
 export interface ProductSliderProps {
   product: ProductInteface;
 }
+
 export type SortField = 'name' | 'price';
 export type SortOrder = 'asc' | 'desc';
+
 export interface Pagination {
   offset: number;
   limit: number;
@@ -255,6 +266,7 @@ export interface ProductFilter {
 
 export type Subscriber = VoidFunction;
 export type SortValues = 1 | -1;
+
 export interface PaginationHandle {
   goToPage: (page: number) => void;
   nextPage: () => void;
@@ -267,8 +279,8 @@ export interface PaginationHandle {
 
 export interface PaginationProps {
   totalPages: number;
-  initialPage?: number;
-  initialPageSize?: number;
+  currentPage: number;
+  pageSize: number;
   onPageChange?: (page: number) => void;
   onPageSizeChange?: (size: number) => void;
   className?: string;
@@ -286,11 +298,13 @@ export interface SearchComponentProps {
   className?: string;
   style?: React.CSSProperties;
 }
+
 export interface SortingComponentProps {
   initialField?: SortField;
   initialOrder?: SortOrder;
   onSortChange?: (field: SortField | null, order: SortOrder | null) => void;
 }
+
 export interface PersonalInfoProps {
   customerInputRefs: RefObject<Record<string, HTMLInputElement | HTMLSelectElement | null>>;
   customer: Customer;
@@ -330,10 +344,13 @@ export interface AddressRefs {
   streetName?: HTMLInputElement;
   countryName?: HTMLSelectElement;
 }
+
 export type CustomerPersonalFields = 'firstName' | 'lastName' | 'dateOfBirth' | 'email';
+
 export interface CustomInput extends HTMLInputElement {
   getValue: () => string;
 }
+
 export type addAddressType = {
   streetName: string;
   city: string;
@@ -342,7 +359,28 @@ export type addAddressType = {
   isDefaultBilling: boolean;
   isDefaultShipping: boolean;
 };
+
 export interface HandleSaveEditOptions {
   isBillingDefault?: boolean;
   isShippingDefault?: boolean;
+}
+
+export interface CartProduct {
+  id: string;
+  variantId: number;
+  quantity?: number;
+}
+
+export interface AddToCartButtonProps {
+  product: ProductProjection | ProductInteface;
+  className?: string;
+}
+
+export type MergeCartType = {
+  primaryCart: Cart;
+  cartUpdate: CartUpdate;
+};
+export interface PromoCode {
+  name: string;
+  description: string;
 }

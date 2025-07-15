@@ -1,6 +1,7 @@
 import React from 'react';
 import type { ProductInteface } from '@/data/interfaces';
 import { Link } from 'react-router-dom';
+import CartButton from '@/components/Cart-components/CartButton';
 
 interface Props {
   product: ProductInteface;
@@ -13,7 +14,7 @@ const ProductComponent: React.FC<Props> = ({ product }) => {
   };
 
   const originalPrice = product.price.toFixed(2);
-  const discountPrice = calculateDiscountPrice().toFixed(2);
+  const discountPrice = product.discountedPrice ?? calculateDiscountPrice();
   const isOnSale = product.is_sale && product.sale_percent;
 
   const productName =
@@ -24,7 +25,7 @@ const ProductComponent: React.FC<Props> = ({ product }) => {
   return (
     <div
       className="bg-coffeeBrown rounded-[20px] p-[15px] w-[260px] h-[444px] relative transition-transform transition-shadow
-     transition-colors duration-500 ease-in-out transform shadow-md hover:shadow-2xl 
+     transition-colors duration-500 ease-in-out transform shadow-md hover:shadow-2xl
      hover:scale-[1.03] hover:bg-coffeeDark/80 flex flex-col"
     >
       <div className="mb-2 h-[148px] bg-coffeeDark rounded-[20px] overflow-hidden flex items-center justify-center">
@@ -65,7 +66,9 @@ const ProductComponent: React.FC<Props> = ({ product }) => {
           )}
         </div>
       </div>
-
+      <div className="w-full mb-1">
+        <CartButton product={product} />
+      </div>
       <div className="w-full">
         <Link
           to={`/products/${product.id}`}

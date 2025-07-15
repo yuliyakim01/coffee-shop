@@ -13,6 +13,11 @@ jest.mock('@/assets/login.png', () => 'login.png');
 jest.mock('@/utils/customerUtils', () => ({
   getIsAuthorizedFromSessionStorage: jest.fn(),
 }));
+jest.mock('@/utils/customerUtils', () => ({
+  getLoggedInUserFromSessionStorage: jest.fn(),
+}));
+jest.mock('@/assets/footer.png', () => 'mocked-footer.png');
+jest.mock('@/assets/register-icon.svg', () => 'mocked-register-icon.svg');
 
 describe('Header Component', () => {
   it('renders logo and navigation items', () => {

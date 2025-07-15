@@ -36,7 +36,7 @@ export const categoryService = {
       const parent = await categoryService.getCategoryByKey(parentKey);
 
       if (!parent) {
-        console.warn(`Parent category with key "${parentKey}" not found.`);
+        // console.warn(`Parent category with key "${parentKey}" not found.`);
         return [];
       }
 

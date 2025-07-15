@@ -1,5 +1,5 @@
 import type { RegistrationFormItems } from '@/data/interfaces';
-import { countries, currencies, languages, ValidCustomerAction } from '@/data/interfaces';
+import { countries, currencies, languages } from '@/data/interfaces';
 
 describe('Constants and Interfaces', () => {
   test('Countries list should contain expected entries', () => {

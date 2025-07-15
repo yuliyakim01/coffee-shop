@@ -151,7 +151,7 @@ const ProfileComponent: React.FC = () => {
 
     const errors = validateCustomer(customer);
     if (Object.keys(errors).length > 0) {
-      console.warn(AppMessages.validationFailed, errors);
+      // console.warn(AppMessages.validationFailed, errors);
       showToast(AppMessages.validationFixRequest, StatusType.error);
       setErrorMessage(AppMessages.validationFixRequest);
       setLoading(false);

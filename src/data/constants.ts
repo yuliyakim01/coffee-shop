@@ -114,6 +114,7 @@ export const AppMessages = {
   passwordChangeSuccess: 'Password successfully changed!',
   passwordsDoNotMatch: 'Passwords do not match',
   notLoggedIn: 'Not logged in',
+  addToCartSuccess: 'Product added to cart!',
 };
 export const StatusType: { success: 'success'; error: 'error' } = {
   success: 'success',
@@ -144,4 +145,67 @@ export const ButtonText = {
   saveChanges: 'Save Changes',
   addNewAddress: 'Add New Address',
   changePassword: 'Change Password',
+};
+export const CartFields = {
+  addToCart: 'Add to Cart',
+  removeFromCart: 'Remove from Cart',
+  usd: 'USD',
+  anonymousId: 'anonymousId',
+};
+export const CartUpdateActions = {
+  // Line item actions
+  addLineItem: 'addLineItem',
+  changeLineItemQuantity: 'changeLineItemQuantity',
+  removeLineItem: 'removeLineItem',
+  setLineItemCustomField: 'setLineItemCustomField',
+  setLineItemCustomType: 'setLineItemCustomType',
+  setLineItemDistributionChannel: 'setLineItemDistributionChannel',
+  setLineItemPrice: 'setLineItemPrice',
+  setLineItemShippingDetails: 'setLineItemShippingDetails',
+
+  // Discount and price actions
+  addDiscountCode: 'addDiscountCode',
+  removeDiscountCode: 'removeDiscountCode',
+  recalculate: 'recalculate',
+  setCustomLineItemTaxAmount: 'setCustomLineItemTaxAmount',
+  setLineItemTaxAmount: 'setLineItemTaxAmount',
+
+  // Shipping address and methods
+  addItemShippingAddress: 'addItemShippingAddress',
+  removeItemShippingAddress: 'removeItemShippingAddress',
+  updateItemShippingAddress: 'updateItemShippingAddress',
+  setShippingAddress: 'setShippingAddress',
+  setShippingMethod: 'setShippingMethod',
+  setCustomShippingMethod: 'setCustomShippingMethod',
+
+  // Custom fields
+  setCustomField: 'setCustomField',
+  setCustomType: 'setCustomType',
+
+  // Customer and billing info
+  setBillingAddress: 'setBillingAddress',
+  setCustomerEmail: 'setCustomerEmail',
+  setCustomerGroup: 'setCustomerGroup',
+  setCustomerId: 'setCustomerId',
+
+  // Locale and currency
+  setCountry: 'setCountry',
+  setLocale: 'setLocale',
+  setCurrency: 'setCurrency',
+
+  // Others
+  setAnonymousId: 'setAnonymousId',
+  setDeleteDaysAfterLastModification: 'setDeleteDaysAfterLastModification',
+} as const;
+
+export enum PriceRange {
+  UNDER_5 = 'under-5',
+  BETWEEN_5_AND_15 = '5-15',
+  OVER_15 = 'over-15',
+}
+
+export const PRICE_RANGE_VALUES: Record<PriceRange, { min?: number; max?: number }> = {
+  [PriceRange.UNDER_5]: { max: 5 },
+  [PriceRange.BETWEEN_5_AND_15]: { min: 5, max: 15 },
+  [PriceRange.OVER_15]: { min: 15.01 },
 };

@@ -5,12 +5,14 @@ import OpeningHours from '@/components/homePage-components/OpeningHours';
 import OurMenu from '@/components/homePage-components/OurMenu';
 import Review from '@/components/homePage-components/Review';
 import React from 'react';
+import PromoCodeList from '@/components/Cart-components/PromoCodeList';
 
 function HomePage() {
   return (
     <div className="w-full h-full flex-1 flex flex-col ">
       <HomePageHero />
       <Bartons />
+      <PromoCodeList />
       <OpeningHours />
       <OurMenu />
       <Review />

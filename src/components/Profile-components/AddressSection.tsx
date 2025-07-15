@@ -56,7 +56,7 @@ const AddressSection: React.FC<AddressSectionProps> = ({
     const errors = validateAddressEntry(addressToEdit);
 
     if (errors) {
-      console.warn(AppMessages.validationFailed, errors);
+      // console.warn(AppMessages.validationFailed, errors);
       showToast(AppMessages.validationFixRequest, 'error');
       return;
     }

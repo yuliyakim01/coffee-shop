@@ -1,29 +1,21 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { BeatLoader } from 'react-spinners';
 import { useProducts } from '@/api/product/useProduct';
 import ProductComponent from '@/components/Product-components/ProductComponent';
 import SortingComponent from '@/components/Product-components/SortingComponent';
 import Breadcrumb from '@/components/Product-components/Breadcrumb';
-import {
-  PaginationHandle,
-  ProductFilter,
-  ProductInteface,
-  SearchComponentHandle,
-  SortField,
-  SortOrder,
-} from '@/data/interfaces';
+import { ProductFilter, ProductInteface, SearchComponentHandle, SortField, SortOrder } from '@/data/interfaces';
 import SearchComponent from '@/components/Product-components/SearchComponent';
 import PaginationComponent from '@/components/Product-components/PaginationComponent';
 import FilterComponent from '@/components/Product-components/FilterComponent';
 
 const ProductPage: React.FC = () => {
-  const { products, total, setSearchTerm, setFilter, setPagination, setSort } = useProducts();
-
+  const { products, total, loading, setSearchTerm, setFilter, setPagination, setSort } = useProducts();
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages: number = Math.ceil(total / pageSize);
 
   const searchRef = useRef<SearchComponentHandle | null>(null);
-  const paginationRef = useRef<PaginationHandle | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   const handleSearchChange = useCallback(
@@ -31,7 +23,7 @@ const ProductPage: React.FC = () => {
       setSearchTerm(value);
       setCurrentPage(1);
       setPagination(0, pageSize);
-      paginationRef.current?.reset();
+      setPagination(0, pageSize);
     },
     [setSearchTerm, setPagination, pageSize]
   );
@@ -41,7 +33,7 @@ const ProductPage: React.FC = () => {
       setCurrentPage(newPage);
       setPagination((newPage - 1) * pageSize, pageSize);
     },
-    [pageSize]
+    [pageSize, setPagination]
   );
 
   const handlePageSizeChange = useCallback(
@@ -81,6 +73,14 @@ const ProductPage: React.FC = () => {
     [setFilter, setPagination, pageSize]
   );
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-lightCream">
+        <BeatLoader color="#6F4E37" size={20} />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full bg-lightCream py-[100px]">
       <div className="px-4 mb-4">
@@ -104,19 +104,21 @@ const ProductPage: React.FC = () => {
 
       <div className="w-full flex flex-wrap gap-4 justify-center">
         {products.length === 0 ? (
-          <p>No products match your search.</p>
+          <p className="text-coffeeBrown text-lg">No products match your search.</p>
         ) : (
           products.map((product: ProductInteface) => <ProductComponent key={product.id} product={product} />)
         )}
       </div>
 
-      <PaginationComponent
-        totalPages={totalPages}
-        initialPage={currentPage}
-        initialPageSize={pageSize}
-        onPageChange={handlePageChange}
-        onPageSizeChange={handlePageSizeChange}
-      />
+      {!loading && totalPages > 1 && (
+        <PaginationComponent
+          totalPages={totalPages}
+          currentPage={currentPage}
+          pageSize={pageSize}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+        />
+      )}
     </div>
   );
 };

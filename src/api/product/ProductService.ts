@@ -13,6 +13,7 @@ import { fetchProductById } from '@/api/products';
 import type { ProductProjection } from '@commercetools/platform-sdk';
 import type { Category } from '@commercetools/platform-sdk';
 import { categoryService } from '@/api/category/CategoryService';
+import { subscriptionManager } from '@/api/product/SubscriptionManager';
 
 class ProductService {
   private static instance: ProductService;
@@ -25,8 +26,6 @@ class ProductService {
   private sortOrder: SortOrder = 'asc';
   private filters: Filter = {};
   private pagination: Pagination = { offset: 0, limit: 10 };
-
-  private subscribers: Set<Subscriber> = new Set();
 
   private constructor() {}
 
@@ -58,18 +57,18 @@ class ProductService {
 
   private applyAll() {
     this.filteredProducts = this.products
-      .filter((p): boolean => this.applySearch(p))
-      .filter((p): boolean => this.applyFilters(p))
-      .sort((a, b): number => this.applySort(a, b));
-    this.notifySubscribers();
+      .filter((p): boolean => this.matchesSearchTerm(p))
+      .filter((p): boolean => this.matchesFilters(p))
+      .sort((a, b): number => this.compareBySortField(a, b));
+    subscriptionManager.notify();
   }
 
-  private applySearch(product: ProductInteface): boolean {
+  private matchesSearchTerm(product: ProductInteface): boolean {
     const term: string = this.searchTerm.toLowerCase();
     return product.name.toLowerCase().includes(term) || product.description.toLowerCase().includes(term);
   }
 
-  private applyFilters(product: ProductInteface): boolean {
+  private matchesFilters(product: ProductInteface): boolean {
     const { category, isSale, type, priceMin, priceMax } = this.filters;
 
     const matchesCategory = category ? product.category?.key === category : true;
@@ -81,18 +80,18 @@ class ProductService {
     return matchesCategory && matchesSale && matchesType && matchesPriceMin && matchesPriceMax;
   }
 
-  private applySort(a: ProductInteface, b: ProductInteface): number {
+  private compareBySortField(a: ProductInteface, b: ProductInteface): number {
     if (!this.sortField) return 0;
     const order: SortValues = this.sortOrder === 'asc' ? 1 : -1;
 
-    let aValue: string | number = a[this.sortField];
-    let bValue: string | number = b[this.sortField];
+    let prevProduct: string | number = a[this.sortField];
+    let nextProduct: string | number = b[this.sortField];
 
-    if (typeof aValue === 'string' && typeof bValue === 'string') {
-      return aValue.localeCompare(bValue) * order;
+    if (typeof prevProduct === 'string' && typeof nextProduct === 'string') {
+      return prevProduct.localeCompare(nextProduct) * order;
     }
 
-    return (aValue < bValue ? -1 : aValue > bValue ? 1 : 0) * order;
+    return (prevProduct < nextProduct ? -1 : prevProduct > nextProduct ? 1 : 0) * order;
   }
 
   public setSearchTerm(term: string) {
@@ -103,7 +102,6 @@ class ProductService {
 
   public setFilter(filters: Partial<Filter>) {
     this.filters = { ...this.filters, ...filters };
-    console.log('[ProductService] Updated filters:', this.filters);
     this.resetPagination();
     this.applyAll();
   }
@@ -117,7 +115,7 @@ class ProductService {
 
   public setPagination(offset: number, limit: number) {
     this.pagination = { offset, limit };
-    this.notifySubscribers();
+    subscriptionManager.notify();
   }
 
   public getProducts(): ProductInteface[] {
@@ -127,18 +125,6 @@ class ProductService {
 
   public getTotalCount(): number {
     return this.filteredProducts.length;
-  }
-
-  public subscribe(callback: Subscriber) {
-    this.subscribers.add(callback);
-  }
-
-  public unsubscribe(callback: Subscriber) {
-    this.subscribers.delete(callback);
-  }
-
-  private notifySubscribers() {
-    this.subscribers.forEach((callback) => callback());
   }
 
   private resetPagination() {

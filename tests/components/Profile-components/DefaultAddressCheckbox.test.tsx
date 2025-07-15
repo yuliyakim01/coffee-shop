@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import DefaultAddressCheckbox from '@/components/Profile-components/DefaultAddressCheckbox';
-import { FormElements, sameAddressCheckboxMessage } from '@/data/constants';
+import { FormElements } from '@/data/constants';
 
 describe('DefaultAddressCheckbox', () => {
   it('renders checkbox with label', () => {
